@@ -190,10 +190,10 @@ const createMap = () => {
   map = new BMap.Map("map");
   const point = new BMap.Point(112.8835, 22.9082);
   map.centerAndZoom(point, 19);
-  // map.enableScrollWheelZoom(true);
+  map.enableScrollWheelZoom(true);
+  // map.disableScrollWheelZoom(true);
   map.disableDoubleClickZoom(true);
   map.addControl(new BMap.ScaleControl());
-  map.disableScrollWheelZoom(true)
   const defaultMapType = map.getMapType();
   const defaultTileLayer = defaultMapType.getTileLayer();
   const newMapType = new BMap.MapType('新地图', defaultTileLayer, { minZoom: 18, maxZoom: 21 });
