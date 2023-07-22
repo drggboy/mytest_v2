@@ -261,6 +261,7 @@ function handleDatasetButtonClick(name: string) {
       })
     });
   Dataset_dialogVisible.value = false;
+  AboutDatasetdialogVisible.value = false;
 }
 
 const handleSwitchChange = () => {
@@ -539,10 +540,10 @@ const saveData = () => {
     background: 'rgba(255, 255, 255, 0.5)',
   })
   axios.post('hhquicksaveNew', quickSaveData)
-    .then((response: { data: any; }) => {
+    .then(() => {
       loading.close();
       // 请求成功时的处理
-      console.log(response.data);
+      // console.log(response.data);
       ElMessage({
         message: 'Success!',
         type: 'success',
@@ -552,7 +553,7 @@ const saveData = () => {
     .catch((error: any) => {
       loading.close();
       // 请求失败时的处理
-      console.error(error);
+      // console.error(error);
       ElMessage({
         message: error,
         type: 'error',
@@ -955,7 +956,7 @@ const crossingupload = () => {
     })
     .catch((error: any) => {
       loading.close();
-      console.error(error);
+      // console.error(error);
       ElMessage({
         message: error,
         type: 'error',
@@ -1009,6 +1010,7 @@ const sensorupload = () => {
   axios.post('sup')
     .then((response: { data: { data: any; }; }) => {
       var sensors = response.data.data; // 拿到的sensor列表
+      all_sensor = [];
       // 在地图上标记
       for (var i = 0; i < sensors.length; i++) {
         var point1 = new BMap.Point(sensors[i][3], sensors[i][4]);
