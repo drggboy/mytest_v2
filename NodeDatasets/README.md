@@ -12,12 +12,12 @@ You are free to utilize this dataset for academic, research, or commercial purpo
 ## Dataset Details
 | Dataset Name   | Sensor Nodes | Relay Nodes | Data Format | Sensor File         | Relay File          | Coordinate System |
 |----------------|--------------|-------------|-------------|---------------------|---------------------|-------------------|
-| #208 Dataset   | 208          | xxx          | CSV         | sensor_208.xls   | relay_208.xls    | WGS 84            |
-| #456 Dataset   | 456          | xxx          | CSV         | sensor_456.xls      | relay_456.xls       | WGS 84            |
-| #648 Dataset   | 648          | xxx          | CSV         | sensor_648.xls   | relay_648.xls    | WGS 84            |
-| #848 Dataset   | 848          | xxx         | CSV         | sensor_848.xls   | relay_848.xls    | WGS 84            |
-| #1136 Dataset   | 1136          | xxx         | CSV         | sensor_1136.xls      | relay_1136.xls       | WGS 84            |
-| #1500 Dataset   | 1500          | xxx         | CSV         | sensor_1500.xls   | relay_1500.xls    | WGS 84            |
+| #208 Dataset   | 208          | 70          | CSV         | sensor_208.xls   | relay_208.xls    | WGS 84            |
+| #456 Dataset   | 456          | 148          | CSV         | sensor_456.xls      | relay_456.xls       | WGS 84            |
+| #648 Dataset   | 648          | 223          | CSV         | sensor_648.xls   | relay_648.xls    | WGS 84            |
+| #848 Dataset   | 848          | 290         | CSV         | sensor_848.xls   | relay_848.xls    | WGS 84            |
+| #1136 Dataset   | 1136          | 366         | CSV         | sensor_1136.xls      | relay_1136.xls       | WGS 84            |
+| #1500 Dataset   | 1500          | 497         | CSV         | sensor_1500.xls   | relay_1500.xls    | WGS 84            |
 
 ### #208 Dataset
 - Number of sensor nodes: 208
