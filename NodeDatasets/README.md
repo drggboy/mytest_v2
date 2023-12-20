@@ -27,17 +27,8 @@ You are free to utilize this dataset for academic, research, or commercial purpo
   - `sensor_208.xls`: Contains sensor node information with columns "id", "Lng" (longitude), and "Lat" (latitude).
   - `relay_208.xls`: Contains relay node information with columns "id", "Lng" (longitude), and "Lat" (latitude).
 - Coordinate System: WGS 84 (World Geodetic System 1984)
-<!-- - 显示节点分布图像 -->
-<div style="display: flex; justify-content: space-between;">
-    <figure style="width: 49%; margin-right: 10px;">
-        <img src="../images/sensor208.png" style="width: 100%; height: auto;" alt="Sensor_208 distribution">
-        <figcaption style="text-align: center;">#208 Sensor Distribution</figcaption>
-    </figure>
-    <figure style="width: 49%;">
-        <img src="../images/gateway208.png" style="width: 100%; height: auto;" alt="Gateway_208 distribution">
-        <figcaption style="text-align: center;">#208 Gateway Distribution</figcaption>
-    </figure>
-</div>
+  
+![RN208](../images/RN208.png)
 
 
 ### #456 Dataset
@@ -49,17 +40,7 @@ You are free to utilize this dataset for academic, research, or commercial purpo
   - `relay_456.xls`: Contains relay node information with columns "id", "Lng" (longitude), and "Lat" (latitude).
 - Coordinate System: WGS 84 (World Geodetic System 1984)
 
-<!-- - 显示节点分布图像 -->
-<div style="display: flex; justify-content: space-between;">
-    <figure style="width: 49%; margin-right: 10px;">
-        <img src="../images/sensor456.png" style="width: 100%; height: auto;" alt="Sensor_456 distribution">
-        <figcaption style="text-align: center;">#456 Sensor Distribution</figcaption>
-    </figure>
-    <figure style="width: 49%;">
-        <img src="../images/gateway456.png" style="width: 100%; height: auto;" alt="Gateway_456 distribution">
-        <figcaption style="text-align: center;">#456 Gateway Distribution</figcaption>
-    </figure>
-</div>
+![RN456](../images/RN456.png)
 
 ### #648 Dataset
 - Number of sensor nodes: 648
@@ -70,18 +51,7 @@ You are free to utilize this dataset for academic, research, or commercial purpo
   - `relay_648.xls`: Contains relay node information with columns "id", "Lng" (longitude), and "Lat" (latitude).
 - Coordinate System: WGS 84 (World Geodetic System 1984)
 
-<!-- - 显示节点分布图像 -->
-<div style="display: flex; justify-content: space-between;">
-    <figure style="width: 49%; margin-right: 10px;">
-        <img src="../images/sensor648.png" style="width: 100%; height: auto;" alt="Sensor_648 distribution">
-        <figcaption style="text-align: center;">#648 Sensor Distribution</figcaption>
-    </figure>
-    <figure style="width: 49%;">
-        <img src="../images/gateway648.png" style="width: 100%; height: auto;" alt="Gateway_648 distribution">
-        <figcaption style="text-align: center;">#648 Gateway Distribution</figcaption>
-    </figure>
-</div>
-
+![RN648](../images/RN648.png)
 
 ### #848 Dataset
 - Number of sensor nodes: 848
@@ -92,19 +62,7 @@ You are free to utilize this dataset for academic, research, or commercial purpo
   - `relay_848.xls`: Contains relay node information with columns "id", "Lng" (longitude), and "Lat" (latitude).
 - Coordinate System: WGS 84 (World Geodetic System 1984)
 
-<!-- - 显示节点分布图像 -->
-<div style="display: flex; justify-content: space-between;">
-    <figure style="width: 49%; margin-right: 10px;">
-        <img src="../images/sensor848.png" style="width: 100%; height: auto;" alt="Sensor_848 distribution">
-        <figcaption style="text-align: center;">#848 Sensor Distribution</figcaption>
-    </figure>
-    <figure style="width: 49%;">
-        <img src="../images/gateway848.png" style="width: 100%; height: auto;" alt="Gateway_848 distribution">
-        <figcaption style="text-align: center;">#848 Gateway Distribution</figcaption>
-    </figure>
-</div>
-
-
+![RN848](../images/RN848.png)
 
 ### #1136 Dataset
 - Number of sensor nodes: 1136
@@ -115,18 +73,8 @@ You are free to utilize this dataset for academic, research, or commercial purpo
   - `relay_1136.xls`: Contains relay node information with columns "id", "Lng" (longitude), and "Lat" (latitude).
 - Coordinate System: WGS 84 (World Geodetic System 1984)
 
+![RN1136](../images/RN1136.png)
 
-<!-- - 显示节点分布图像 -->
-<div style="display: flex; justify-content: space-between;">
-    <figure style="width: 49%; margin-right: 10px;">
-        <img src="../images/sensor1136.png" style="width: 100%; height: auto;" alt="Sensor_1136 distribution">
-        <figcaption style="text-align: center;">#1136 Sensor Distribution</figcaption>
-    </figure>
-    <figure style="width: 49%;">
-        <img src="../images/gateway1136.png" style="width: 100%; height: auto;" alt="Gateway_1136 distribution">
-        <figcaption style="text-align: center;">#1136 Gateway Distribution</figcaption>
-    </figure>
-</div>
 
 
 ### #1500 Dataset
@@ -138,17 +86,7 @@ You are free to utilize this dataset for academic, research, or commercial purpo
   - `relay_1500.xls`: Contains relay node information with columns "id", "Lng" (longitude), and "Lat" (latitude).
 - Coordinate System: WGS 84 (World Geodetic System 1984)
 
-<!-- - 显示节点分布图像 -->
-<div style="display: flex; justify-content: space-between;">
-    <figure style="width: 49%; margin-right: 10px;">
-        <img src="../images/sensor1500.png" style="width: 100%; height: auto;" alt="Sensor_1500 distribution">
-        <figcaption style="text-align: center;">#1500 Sensor Distribution</figcaption>
-    </figure>
-    <figure style="width: 49%;">
-        <img src="../images/gateway1500.png" style="width: 100%; height: auto;" alt="Gateway_1500 distribution">
-        <figcaption style="text-align: center;">#1500 Gateway Distribution</figcaption>
-    </figure>
-</div>
+![RN1500](../images/RN1500.png)
 
 
 ## Data License
