@@ -7,62 +7,68 @@
         <div id="map"></div>
       </el-main>
       <el-footer>
-        <!-- <div style="display: flex; justify-content: center;">
+        <!-- 非标注视图 -->
+        <div style="display: flex; justify-content: center;" v-if="!ifmark">
           <el-form :inline="true" class="demo-form-inline">
             <el-form-item label="Mark Mode">
               <el-switch v-model="ifmark" @change="handleSwitchChange"></el-switch>
             </el-form-item>
-            <el-form-item label="NodeType">
-              <el-select v-model="nodeType" value-key="id" placeholder="Select" placement="top-start"
-                :popper-append-to-body="false" :teleported="false" popper-class="custom-popper"
-                :disabled="nodeTypeIsDisabled">
-                <el-option v-for="item in options" :key="item.id" :label="item.label" :value="item" />
-              </el-select>
-            </el-form-item>
-          </el-form>
-          <el-button type="primary" @click="saveData" :disabled="saveDataIsDisabled">Save Data</el-button>
-          <el-button type="success" @click="handleDataset" class="green-color">Dataset</el-button>
-          <el-button type="success" @click="formatting" class="green-color">Formatting</el-button>
-          <el-button type="warning" @click="handleCalculation" class="yellow-color">Calculation</el-button>
-          <el-button type="warning" @click="handleFilesUpload" class="yellow-color">Files Upload</el-button>
-          <el-button type="success" @click="handleTestUpload" class="green-color">TestData Load</el-button>
-        </div> -->
-        <div style="display: flex; justify-content: center;">
-          <el-form :inline="true" class="demo-form-inline">
-            <el-form-item label="Mark Mode">
-              <el-switch v-model="ifmark" @change="handleSwitchChange"></el-switch>
-            </el-form-item>
-            <el-form-item label="NodeType">
-              <el-select v-model="nodeType" value-key="id" placeholder="Select" placement="top-start"
-                :popper-append-to-body="false" :teleported="false" popper-class="custom-popper"
-                :disabled="nodeTypeIsDisabled">
-                <el-option v-for="item in options" :key="item.id" :label="item.label" :value="item" />
-              </el-select>
-            </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="saveData" :disabled="saveDataIsDisabled">Save Data</el-button>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="success" @click="handleDataset" class="green-color">Dataset</el-button>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="warning" @click="handleCalculation" class="yellow-color">Calculation</el-button>
-            </el-form-item>
-            <el-form-item>
-              <!-- <el-button type="success" @click="formatting" class="green-color">Formatting</el-button> -->
               <el-button type="danger" @click="formatting">Formatting</el-button>
             </el-form-item>
             <!-- <el-form-item>
-            <el-button type="success" @click="onSubmit" class="green-color">Clear Database</el-button>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="success" @click="onSubmit" class="green-color">Sort</el-button>
-          </el-form-item> -->
+              <el-button type="success" @click="handleDataset" class="green-color">Dataset</el-button>
+            </el-form-item> -->
+            <el-form-item>
+              <el-button type="warning" @click="handleCalculation" class="yellow-color">Calculation</el-button>
+            </el-form-item>
+            <!-- <el-form-item>
+              <el-button type="danger" @click="deleteDataset">Delete Dataset</el-button>
+            </el-form-item> -->
             <el-form-item>
               <el-button type="warning" @click="handleFilesUpload" class="yellow-color">Files Upload</el-button>
             </el-form-item>
             <el-form-item>
+              <el-button type="success" @click="handleDatasetLoad" class="green-color">Dataset</el-button>
+            </el-form-item>
+            <el-form-item>
               <el-button type="success" @click="handleTestUpload" class="green-color">TestData Load</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+        <!-- 标注视图 -->
+        <div style="display: flex; justify-content: center;" v-if="ifmark">
+          <el-form :inline="true" class="demo-form-inline">
+            <el-form-item label="Sensors">
+              {{ sensorsValue }}
+            </el-form-item>
+            <el-form-item label="Gateways">
+              {{ gatewaysValue }}
+            </el-form-item>
+            <el-form-item label="Mark Mode">
+              <el-switch v-model="ifmark" @change="handleSwitchChange"></el-switch>
+            </el-form-item>
+            <el-form-item label="NodeType">
+              <el-select v-model="nodeType" value-key="id" placeholder="Select" placement="top-start"
+                :popper-append-to-body="false" :teleported="false" popper-class="custom-popper"
+                :disabled="nodeTypeIsDisabled">
+                <el-option v-for="item in options" :key="item.id" :label="item.label" :value="item" />
+              </el-select>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="warning" @click="undo" class="yellow-color">Undo</el-button>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="danger" @click="formatting">Formatting</el-button>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="saveData">Save Data</el-button>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="saveDataset" :disabled="saveDatasetIsDisabled">Save Dataset</el-button>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="success" @click="handleDatasetLoad" class="green-color">Dataset</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -94,15 +100,9 @@
     <!-- upload部分 -->
     <el-dialog title="Upload" v-model="upload_dialogVisible" width="30%">
       <div style="display: flex; justify-content: center;">
-        <el-tooltip class="box-item" effect="dark" content="Sensor Upload" placement="top">
-          <el-button @click="sensorupload">Sensor Upload</el-button>
-        </el-tooltip>
-        <el-tooltip class="box-item" effect="dark" content="Gateway Upload" placement="top">
-          <el-button @click="gatewayupload">Gateway Upload</el-button>
-        </el-tooltip>
-        <el-tooltip class="box-item" effect="dark" content="Crossing Upload" placement="top">
-          <el-button @click="crossingupload">Crossing Upload</el-button>
-        </el-tooltip>
+        <el-button @click="sensorupload">Sensor Upload</el-button>
+        <el-button @click="gatewayupload">Gateway Upload</el-button>
+        <el-button @click="crossingupload">Crossing Upload</el-button>
       </div>
     </el-dialog>
     <!-- Testdata Upload部分 -->
@@ -120,15 +120,29 @@
     </el-dialog>
     <!-- Dataset Upload部分 -->
     <el-dialog title="Which dataset would you like to upload?" v-model="Dataset_dialogVisible" width="45%">
-      <div style="display: flex; justify-content: center;">
-        <el-button v-for="name in setNames" :key="name" type="primary" @click="handleDatasetButtonClick(name)">{{ name
-        }}</el-button>
-      </div>
+      <!-- <div style="display: flex; justify-content: center;">
+        <el-tooltip v-for="dataset in setNames" :key="dataset.name" class="box-item" effect="dark" :content="getTooltipContent(dataset)" placement="top">
+        <el-button type="primary" @click="handleDatasetButtonClick(dataset.name)">
+          {{ dataset.name }}
+        </el-button>
+      </el-tooltip>
+      </div> -->
+      <el-table :data="setNames" height="250" style="width: 100%">
+        <el-table-column type="index" width="50" />
+        <el-table-column label="Name" width="150" prop="name" />
+        <el-table-column label="Sensor Size" width="100" prop="sensorSize" />
+        <el-table-column label="Gateway Size" width="130" prop="gatewaySize" />
+        <el-table-column label="Operations">
+          <template #default="scope">
+            <el-button size="small" @click="handleLoad(scope.row.name)">Load</el-button>
+            <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row.name)">Delete</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
     </el-dialog>
     <!-- Dataset 部分 -->
     <el-dialog title="Select the data set operation you want to perform" v-model="AboutDatasetdialogVisible" width="45%">
       <div style="display: flex; justify-content: center;">
-        <el-button type="primary" @click="saveDataset" :disabled="saveDatasetIsDisabled">Save Dataset</el-button>
         <el-button type="success" @click="handleDatasetLoad" class="green-color">Dataset Load</el-button>
         <el-button type="danger" @click="deleteDataset">Delete Dataset</el-button>
       </div>
@@ -151,12 +165,14 @@ let sIcon: any;
 let cIcon: any;
 
 // 自定义变量
-let all_sensor: any[][] = [];    //存放地图上所有的传感器节点
-let all_gateway: any[][] = [];   //存放地图上所有的网关节点
+// 使用 ref 声明响应式数据
+const all_sensor = ref<any[][]>([]);    // 存放地图上所有的传感器节点
+const all_gateway = ref<any[][]>([]);   // 存放地图上所有的网关节点
+
+
 let cross: any[] = [];         //存放地图上所有的交叉路口
 let pointArr: any[] = [];      //存放一条路的起点与终点
 let pts: any[] = [];           //存放一条路所有的传感器节点或者网关节点
-// let str = [];
 let pointIndex = 0;     //初始化节点之间的距离
 
 const ifmark = ref(false);
@@ -165,10 +181,29 @@ const upload_dialogVisible = ref(false);
 const TestData_dialogVisible = ref(false);
 const Dataset_dialogVisible = ref(false);
 const AboutDatasetdialogVisible = ref(false);
-const setNames = ref<string[]>([]);
+// 存放数据集信息
+const setNames = ref<Array<{ name: string; sensorSize: number; gatewaySize: number }>>([]);
 const nodeTypeIsDisabled = computed(() => !ifmark.value);
-const saveDataIsDisabled = computed(() => !ifmark.value);
 const saveDatasetIsDisabled = computed(() => !ifmark.value);
+//const saveDataIsDisabled = computed(() => !ifmark.value);
+
+// 计算所有传感器节点的个数并累加
+const sensorsValue = computed(() => {
+  let totalSensors = 0;
+  for (const row of all_sensor.value) {
+    totalSensors += row.length;
+  }
+  return totalSensors;
+});
+
+// 计算所有网关节点的个数并累加
+const gatewaysValue = computed(() => {
+  let totalGateways = 0;
+  for (const row of all_gateway.value) {
+    totalGateways += row.length;
+  }
+  return totalGateways;
+});
 
 type Option = {
   id: number
@@ -238,7 +273,7 @@ const createMap = () => {
 
 };
 
-function handleDatasetButtonClick(name: string) {
+const handleLoad = (name: string) => {
   // 在这里处理按钮点击逻辑
   axios.post('datasetLoad', null, {
     params: {
@@ -253,6 +288,7 @@ function handleDatasetButtonClick(name: string) {
       var data_point = new BMap.Point(location_lng, location_lat);// lyj标注位置
       map.centerAndZoom(data_point, 19);
       sensorupload();
+      Dataset_dialogVisible.value = false;
     })
     .catch(function (error: any) {
       ElMessage({
@@ -260,9 +296,116 @@ function handleDatasetButtonClick(name: string) {
         type: 'error',
       })
     });
-  Dataset_dialogVisible.value = false;
-  AboutDatasetdialogVisible.value = false;
 }
+
+const handleDelete = (index: number, name: string) => {
+  ElMessageBox.confirm(
+    'Are you sure you want to delete the dataset?',
+    'Warning',
+    {
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancel',
+      type: 'warning',
+      center: true,
+      lockScroll: false
+    }
+  )
+    .then(() => {
+      const loading = ElLoading.service({
+        lock: true,
+        text: 'Loading',
+        background: 'rgba(255, 255, 255, 0.5)',
+      })
+      // 发送网络请求
+      axios.post('deleteDataset', null, {
+        params: {
+          datasetName: name
+        }
+      })
+        .then(() => {
+          if (index >= 0 && index < setNames.value.length) {
+            setNames.value.splice(index, 1);
+          }
+          loading.close();
+          ElMessage({
+            message: 'Dataset deleted successfully',
+            type: 'success',
+          })
+        })
+        .catch((error: { response: { data: { message: any; }; }; }) => {
+          loading.close();
+          const mess = error.response.data.message;
+          if (mess != null)
+            ElMessage.error(mess)
+          else
+            ElMessage.error('请求失败')
+        });
+      // ElMessage({
+      //   type: 'success',
+      //   message: 'Delete completed',
+      // })
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: 'Delete canceled',
+      })
+    })
+}
+
+// 处理撤销
+let guard_undo: string;
+const undo = () => {
+  if (guard_undo === "sensor") {
+    all_sensor.value.pop();
+  }
+  if (guard_undo === "cross") {
+    cross.pop();
+  }
+  if (guard_undo === "gateway") {
+    all_gateway.value.pop();
+  }
+  if (guard_undo === "pointArr_first") {
+    pointArr.pop();
+  }
+  drawAllMarked();
+};
+
+// 方法：缩小地图一级
+const zoomOut = () => {
+  map.value.zoomOut();
+};
+
+// 方法：放大地图一级
+const zoomIn = () => {
+  map.value.zoomIn();
+};
+
+// function handleDatasetButtonClick(name: string) {
+//   // 在这里处理按钮点击逻辑
+//   axios.post('datasetLoad', null, {
+//     params: {
+//       datasetName: name
+//     }
+//   })
+//     .then((response) => {
+//       let location_lng = response.data.data[0]
+//       let location_lat = response.data.data[1]
+//       // 清除地图上已经标记的点
+//       map.clearOverlays();
+//       var data_point = new BMap.Point(location_lng, location_lat);// lyj标注位置
+//       map.centerAndZoom(data_point, 19);
+//       sensorupload();
+//     })
+//     .catch(function (error: any) {
+//       ElMessage({
+//         message: error,
+//         type: 'error',
+//       })
+//     });
+//   Dataset_dialogVisible.value = false;
+//   AboutDatasetdialogVisible.value = false;
+// }
 
 const handleSwitchChange = () => {
   if (ifmark.value) {
@@ -276,44 +419,54 @@ const handleSwitchChange = () => {
   }
 };
 
-function handleClick(e: { point: any; }) {
+function handleClick(e) {
   var the_nodetype = nodeType.value?.label
   if (the_nodetype === "cross") {
     cross.push(e.point);
+    guard_undo = 'cross';
     var markerCros = new BMap.Marker(e.point, {
       icon: cIcon
     });
     map.addOverlay(markerCros);
+    //绘制所有标注节点
+    drawAllMarked();
   } else if (the_nodetype === "sensor_single") {
-    let tmp = []
+    let tmp: any = []
     tmp.push(e.point)
-    all_sensor.push(tmp)
+    all_sensor.value.push(tmp)
+    guard_undo = 'sensor';
     var markerSingleSessor = new BMap.Marker(e.point, {
       icon: sIcon
     });
     map.addOverlay(markerSingleSessor);
+    //绘制所有标注节点
+    drawAllMarked();
   } else if (the_nodetype === "gateway_single") {
-    let tmp2 = []
+    let tmp2: any = []
     tmp2.push(e.point)
-    all_gateway.push(tmp2)
+    all_gateway.value.push(tmp2)
+    guard_undo = 'gateway';
     var markerSingleGateway = new BMap.Marker(e.point, {
       icon: gIcon
     });
+    map.addOverlay(markerSingleGateway);
     let offset = new BMap.Size(0, -15)       // 向上移，使图标点对准指定点
     markerSingleGateway.setOffset(offset)
-    map.addOverlay(markerSingleGateway);
+    //绘制所有标注节点
+    drawAllMarked();
   } else {
     pointArr.push(e.point);         // 存放起点与终点
     if (pointArr.length === 1) {
       var start = new BMap.Point(pointArr[0].lng, pointArr[0].lat);
       map.addOverlay(new BMap.Marker(start));
+      guard_undo = 'pointArr_first';
     }
     if (pointArr.length === 2) {
       var start = new BMap.Point(pointArr[0].lng, pointArr[0].lat);
-      // map.addOverlay(new BMap.Marker(start));
+      // map.addOverlay(new GL.Marker(start));
       // pts.push(start);   //有bug
       var end = new BMap.Point(pointArr[1].lng, pointArr[1].lat);
-      // map.addOverlay(new BMap.Marker(end));
+      // map.addOverlay(new GL.Marker(end));
       // pts.push(end);
       pointArr = []
 
@@ -323,9 +476,9 @@ function handleClick(e: { point: any; }) {
       var y2 = end.lat;
 
       if (the_nodetype == "sensor") {     // 如果标注的是sensor节点，则点距为5
-        pointIndex = 5;
+        pointIndex = 6;
       } else {
-        pointIndex = 15;
+        pointIndex = 20;
       }
       //利用相似三角形求出等距离的点的坐标
       // var chang = map.getDistance(start, end).toFixed(2);
@@ -340,11 +493,13 @@ function handleClick(e: { point: any; }) {
       }
       //二维数组，存放多条街道的坐标点
       if (the_nodetype == "sensor") {
-        all_sensor.push(pts)
+        all_sensor.value.push(pts)
+        guard_undo = 'sensor';
         pts = []
         // console.log(all_sensor[0][0].lng, all_sensor[0][0].lat);
       } else {
-        all_gateway.push(pts)
+        all_gateway.value.push(pts)
+        guard_undo = 'gateway';
         pts = []
         // console.log(all_sensor[0][0].lng, all_sensor[0][0].lat);
       }
@@ -354,6 +509,7 @@ function handleClick(e: { point: any; }) {
     }
   }
 }
+
 
 //绘制所有标注节点
 function drawAllMarked() {
@@ -369,32 +525,37 @@ function drawAllMarked() {
     map.addOverlay(marker1)
   }
   // 在地图上标注网关节点
-  for (let j = 0; j < all_gateway.length; j++) {
-    for (let k = 0; k < all_gateway[j].length; k++) {
-      let point1 = new BMap.Point(all_gateway[j][k].lng, all_gateway[j][k].lat);
+  for (let j = 0; j < all_gateway.value.length; j++) {
+    for (let k = 0; k < all_gateway.value[j].length; k++) {
+      let point1 = new BMap.Point(all_gateway.value[j][k].lng, all_gateway.value[j][k].lat);
       marker1 = new BMap.Marker(point1, {
         icon: gIcon
       })
-      // var offset = new BMap.Size(-10,-10) // 向左向上移
-      var offset = new BMap.Size(0, -15)       // 向上移，使图标点对准指定点
-      marker1.setOffset(offset)
+      // var offset = new GL.Size(-10,-10) // 向左向上移
       // console.log(marker1.getOffset())
       map.addOverlay(marker1)
+      var offset = new BMap.Size(0, -15)       // 向上移，使图标点对准指定点
+      marker1.setOffset(offset)
     }
   }
   // 在地图上标注传感器节点
-  for (var j = 0; j < all_sensor.length; j++) {
-    if (all_sensor[j].length === 1) {
-      let the_point = new BMap.Point(all_sensor[j][0].lng, all_sensor[j][0].lat);
+  for (var j = 0; j < all_sensor.value.length; j++) {
+    if (all_sensor.value[j].length === 1) {
+      let the_point = new BMap.Point(all_sensor.value[j][0].lng, all_sensor.value[j][0].lat);
       let markerSsessor = new BMap.Marker(the_point, {
         icon: sIcon
       });
       map.addOverlay(markerSsessor)
-    } else if (all_sensor[j].length !== 0) {
-      var xx1 = all_sensor[j][0].lng;
-      var yy1 = all_sensor[j][0].lat;
-      var xx2 = all_sensor[j][all_sensor[j].length - 1].lng;
-      var yy2 = all_sensor[j][all_sensor[j].length - 1].lat;
+      // markerSsessor.addEventListener('click', (e) => {
+      //   let lat = e.currentTarget.latLng.lat
+      //   let lng = e.currentTarget.latLng.lng
+      //   alert(lat + '  ' + lng);
+      // });
+    } else if (all_sensor.value[j].length !== 0) {
+      var xx1 = all_sensor.value[j][0].lng;
+      var yy1 = all_sensor.value[j][0].lat;
+      var xx2 = all_sensor.value[j][all_sensor.value[j].length - 1].lng;
+      var yy2 = all_sensor.value[j][all_sensor.value[j].length - 1].lat;
       var rad = Math.atan2((yy2 - yy1), (xx2 - xx1))  //弧度  0.6435011087932844
       // var theta = rad * (180 / Math.PI);  //角度  36.86989764584402
       var width = 0.000044
@@ -404,11 +565,11 @@ function drawAllMarked() {
       var distance = Math.sqrt(Math.pow(half_width, 2) + Math.pow(half_height, 2))
       var the_alpha = Math.atan2(half_height, half_width)
 
-      for (var k = 0; k < all_sensor[j].length; k++) {
-        var point1 = new BMap.Point(all_sensor[j][k].lng, all_sensor[j][k].lat);
+      for (var k = 0; k < all_sensor.value[j].length; k++) {
+        var point1 = new BMap.Point(all_sensor.value[j][k].lng, all_sensor.value[j][k].lat);
         // 绘制车框
         var ros_point = point1
-        var vertex_points = [];
+        var vertex_points: any = [];
 
         var vertex_1 = new BMap.Point(ros_point.lng + distance * Math.cos(rad + the_alpha), ros_point.lat + distance * Math.sin(rad + the_alpha));
         vertex_points.push(vertex_1);
@@ -430,14 +591,14 @@ function drawAllMarked() {
         poly_test.setStrokeWeight(3);
         map.addOverlay(poly_test);
         // 车框
-        // var marker0 = new BMap.Marker(point1, {
+        // var marker0 = new GL.Marker(point1, {
         //     icon: rIcon
         // });
         // marker0.setRotation(theta)
         // map.addOverlay(marker0)
         // 车中心红点、表示传感器
         // 使用api绘制红点
-        // var circle_marker1 = new BMap.Circle(point1, 0.1, {
+        // var circle_marker1 = new GL.Circle(point1, 0.1, {
         //     strokeColor: 'red',
         //     strokeWeight: 2,
         //     strokeOpacity: 0.1, //圆形的边线透明度
@@ -473,8 +634,8 @@ const formatting = () => {
   )
     .then(() => {
       //清空所有存放数据的数组
-      all_sensor = [];
-      all_gateway = [];
+      all_sensor.value = [];
+      all_gateway.value = [];
       cross = [];
       pointArr = [];
       pts = [];
@@ -493,36 +654,36 @@ const formatting = () => {
     })
 };
 
+
 const saveData = () => {
-  ifmark.value = !ifmark.value;
   // 交叉路口节点数据
-  var cross_points = [];
+  var cross_points: any = [];
   for (var i = 0; i < cross.length; i++) {
-    var a = [];
+    var a: any = [];
     a.push(cross[i].lng);
     a.push(cross[i].lat);
     cross_points.push(a);
   }
   // sensor节点数据
-  var sensor_array = [];
-  for (var i = 0; i < all_sensor.length; i++) {
+  var sensor_array: any = [];
+  for (var i = 0; i < all_sensor.value.length; i++) {
     let sensor_points = [];
-    for (var j = 0; j < all_sensor[i].length; j++) {
-      let a = [];
-      a.push(all_sensor[i][j].lng);
-      a.push(all_sensor[i][j].lat);
+    for (var j = 0; j < all_sensor.value[i].length; j++) {
+      let a: any = [];
+      a.push(all_sensor.value[i][j].lng);
+      a.push(all_sensor.value[i][j].lat);
       sensor_points.push(a);
     }
     sensor_array.push(sensor_points);
   }
   // 网关节点数据
-  var gateway_array = [];
-  for (var i = 0; i < all_gateway.length; i++) {
+  var gateway_array: any = [];
+  for (var i = 0; i < all_gateway.value.length; i++) {
     let gateway_points = [];
-    for (var j = 0; j < all_gateway[i].length; j++) {
-      let a = [];
-      a.push(all_gateway[i][j].lng);
-      a.push(all_gateway[i][j].lat);
+    for (var j = 0; j < all_gateway.value[i].length; j++) {
+      let a: any = [];
+      a.push(all_gateway.value[i][j].lng);
+      a.push(all_gateway.value[i][j].lat);
       gateway_points.push(a);
     }
     gateway_array.push(gateway_points);
@@ -540,7 +701,7 @@ const saveData = () => {
     background: 'rgba(255, 255, 255, 0.5)',
   })
   axios.post('hhquicksaveNew', quickSaveData)
-    .then(() => {
+    .then((response: { data: any; }) => {
       loading.close();
       // 请求成功时的处理
       // console.log(response.data);
@@ -553,7 +714,7 @@ const saveData = () => {
     .catch((error: any) => {
       loading.close();
       // 请求失败时的处理
-      // console.error(error);
+      console.error(error);
       ElMessage({
         message: error,
         type: 'error',
@@ -609,7 +770,6 @@ const handleDataset = () => {
 }
 
 const saveDataset = () => {
-  ifmark.value = !ifmark.value;
   ElMessageBox.prompt('Please set dataset name', 'Tip', {
     confirmButtonText: 'OK',
     cancelButtonText: 'Cancel',
@@ -622,7 +782,7 @@ const saveDataset = () => {
         text: 'Loading',
         background: 'rgba(255, 255, 255, 0.5)',
       })
-      let current_location = [];
+      let current_location: any = [];
       current_location.push(map.getCenter().lng);
       current_location.push(map.getCenter().lat);
       // 构建请求体数据
@@ -667,9 +827,9 @@ function drawPoints(response: { data: { gatewayList: any; sensorList: any; }; })
     var marker1 = new BMap.Marker(point1, {
       icon: gIcon
     });
+    map.addOverlay(marker1);
     let offset = new BMap.Size(0, -15)       // 向上移，使图标点对准指定点
     marker1.setOffset(offset)
-    map.addOverlay(marker1);
     marker1.setTop(true);
     // 绘制圆
     // var colors = ['blue','red','green','black','blue'];
@@ -679,7 +839,7 @@ function drawPoints(response: { data: { gatewayList: any; sensorList: any; }; })
       strokeOpacity: 0.4, //圆形的边线透明度
       // strokeStyle: 'solid'
       strokeStyle: 'dashed',  // 边线虚线样式
-      fillOpacity: 0.5    //填充透明度
+      fillOpacity: 0.7    //填充透明度
     });
     map.addOverlay(circle);
   }
@@ -689,7 +849,7 @@ function drawPoints(response: { data: { gatewayList: any; sensorList: any; }; })
   for (var i = 0; i < sensors.length; i++) {
     var sensor_point = new BMap.Point(sensors[i][3], sensors[i][4]);
     var sensor_marker = new BMap.Marker(sensor_point, { icon: sIcon });
-    // var marker0 = new BMap.Marker(point1, {icon: rIcon});
+    // var marker0 = new GL.Marker(point1, {icon: rIcon});
     // map.addOverlay(marker0);
     map.addOverlay(sensor_marker);
   }
@@ -709,19 +869,28 @@ const handleTestUpload = () => {
 
 const handleDatasetLoad = () => {
   // 发送网络请求
-  axios.post('searchSetnames')
-    .then((response: { data: any; }) => {
-      setNames.value = response.data.data;
+  axios.post('searchDatasetInfo')
+    .then((response: { data: { data: Array<any> } }) => {
+      const datasetInfoList = response.data.data;
+      const setNamesData = datasetInfoList.map((datasetInfo: any) => {
+        return {
+          name: datasetInfo.name,
+          sensorSize: datasetInfo.sensorSize,
+          gatewaySize: datasetInfo.gatewaySize
+        };
+      });
+
+      // 更新 setNames 的值
+      setNames.value = setNamesData;
       Dataset_dialogVisible.value = true;
     })
-    .catch((error: { response: { data: { message: any; }; }; }) => {
+    .catch((error: { response: { data: { message: any } } }) => {
       const mess = error.response.data.message;
       if (mess != null)
-        ElMessage.error(mess)
+        ElMessage.error(mess);
       else
-        ElMessage.error('请求失败')
+        ElMessage.error('请求失败');
     });
-  Dataset_dialogVisible.value = true;
 };
 
 const calByGA = () => {
@@ -956,7 +1125,7 @@ const crossingupload = () => {
     })
     .catch((error: any) => {
       loading.close();
-      // console.error(error);
+      console.error(error);
       ElMessage({
         message: error,
         type: 'error',
@@ -973,16 +1142,16 @@ const gatewayupload = () => {
   axios.post('gup')
     .then((response: { data: { data: any; }; }) => {
       var gateways = response.data.data; // 拿到的gateway列表
-      all_gateway = [];
+      all_gateway.value = [];
       // 在地图上标记
       for (var i = 0; i < gateways.length; i++) {
         var point2 = new BMap.Point(gateways[i][3], gateways[i][4]);
         let tmp = [];
         tmp.push(point2);
-        all_gateway.push(tmp);
-        // var marker2 = new BMap.Marker(point2, {icon: gIcon});
-        var marker2 = new BMap.Marker(point2, { icon: gIcon_rec32 });
-        // var marker2 = new BMap.Marker(point2, {icon: gIcon_rec16});
+        all_gateway.value.push(tmp);
+        // var marker2 = new BMap.Marker(point2, { icon: gIcon_rec32 });
+        var marker2 = new BMap.Marker(point2, { icon: gIcon });
+        // var marker2 = new GL.Marker(point2, {icon: gIcon_rec16});
         map.addOverlay(marker2);
         marker2.setTop(true);
       }
@@ -1010,13 +1179,13 @@ const sensorupload = () => {
   axios.post('sup')
     .then((response: { data: { data: any; }; }) => {
       var sensors = response.data.data; // 拿到的sensor列表
-      all_sensor = [];
+      all_sensor.value = [];
       // 在地图上标记
       for (var i = 0; i < sensors.length; i++) {
         var point1 = new BMap.Point(sensors[i][3], sensors[i][4]);
         let tmp = [];
         tmp.push(point1);
-        all_sensor.push(tmp);
+        all_sensor.value.push(tmp);
         var marker1 = new BMap.Marker(point1, { icon: sIcon });
         map.addOverlay(marker1);
       }
