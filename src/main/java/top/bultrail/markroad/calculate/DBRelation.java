@@ -10,6 +10,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.springframework.stereotype.Component;
+import top.bultrail.markroad.pojo.DatasetInfo;
 
 @Component
 public class DBRelation {
@@ -325,6 +326,34 @@ public class DBRelation {
             e.printStackTrace();
         }
         return setNames;
+    }
+
+    public List<DatasetInfo> searchDatasetInfo() {
+        List<DatasetInfo> datasetInfoList = new ArrayList<>();
+        Connection conn = setConnection();
+        String sql = "SELECT name, sensor_size, gateway_size FROM dataset_name";
+        try {
+            Statement statement = conn.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                String name = resultSet.getString("name");
+                int sensorSize = resultSet.getInt("sensor_size");
+                int gatewaySize = resultSet.getInt("gateway_size");
+
+                DatasetInfo datasetInfo = new DatasetInfo(name, sensorSize, gatewaySize);
+                datasetInfoList.add(datasetInfo);
+            }
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return datasetInfoList;
     }
 
 

@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import top.bultrail.markroad.pojo.DatasetInfo;
+
+
 
 @Controller
 public class MessageHandler {
@@ -69,6 +72,22 @@ public class MessageHandler {
             return new ResponseEntity<>(ResultEntity.failedWithMessage(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    // 获取数据集信息
+    @ResponseBody
+    @RequestMapping(value = {"/api/searchDatasetInfo"}, method = RequestMethod.POST)
+    public ResponseEntity<ResultEntity<List<DatasetInfo>>> searchDatasetInfo() {
+        try {
+            List<DatasetInfo> datasetInfos;
+            datasetInfos = transformService.searchDatasetInfo();
+            System.out.println("Success");
+            return ResponseEntity.ok(ResultEntity.successWithDatasetInfo(datasetInfos,null));
+        } catch (Exception e) {
+            ResultEntity<List<DatasetInfo>> errorResponse = ResultEntity.failedWithMessage(e.getMessage());
+            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     // 获取数据集名称列表
     @ResponseBody

@@ -10,6 +10,7 @@ import top.bultrail.markroad.config.RelatedProperties;
 import top.bultrail.markroad.calculate.CountSet;
 import top.bultrail.markroad.pojo.Coordinates;
 import top.bultrail.markroad.pojo.Point;
+import top.bultrail.markroad.pojo.DatasetInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -68,6 +69,12 @@ public class TransformService {
         List<String> setNames;
         setNames = dbRelation.searchSetnames();
         return  setNames;
+    }
+
+    public List<DatasetInfo> searchDatasetInfo() {
+        List<DatasetInfo> datasetInfos;
+        datasetInfos = dbRelation.searchDatasetInfo();
+        return  datasetInfos;
     }
 
     //清空数据库 新增

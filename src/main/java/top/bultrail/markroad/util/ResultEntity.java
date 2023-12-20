@@ -1,5 +1,7 @@
 package top.bultrail.markroad.util;
 
+import top.bultrail.markroad.pojo.DatasetInfo;
+
 import java.util.List;
 
 /**
@@ -79,6 +81,10 @@ public class ResultEntity<T> {
 
     public static ResultEntity<List<Double>> successWithDataDouble(List<Double> listDouble,String message) {
         return new ResultEntity<List<Double>>(SUCCESS, message, listDouble);
+    }
+
+    public static ResultEntity<List<DatasetInfo>> successWithDatasetInfo(List<DatasetInfo> datasetInfos, String message) {
+        return new ResultEntity<List<DatasetInfo>>(SUCCESS, message, datasetInfos);
     }
 
 }
