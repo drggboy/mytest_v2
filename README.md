@@ -1,4 +1,4 @@
-# 交通网关部署系统
+# Transportation Gateway Deployment System
 <!-- Add banner here -->
 ![Banner](./images/1.png)
 
@@ -15,13 +15,19 @@
     <img alt="jdk release" src="https://img.shields.io/badge/jdk-1.8-blue">
   </a>
   <a href="" target="_blank">
+    <img alt="Nodejs" src="https://img.shields.io/badge/Nodejs-v16.5.1-blue">
+  </a>
+  <a href="" target="_blank">
+    <img alt="npm" src="https://img.shields.io/badge/npm-9.6.5-blue">
+  </a>
+  <a href="" target="_blank">
     <img alt="matlab release" src="https://img.shields.io/badge/matlab-R2016b-blue">
   </a>
   </br>
   <a href="https://github.com/drggboy/mytest_v2/releases" target="_blank">
     <img alt="GitHub release" src="https://img.shields.io/github/v/release/drggboy/mytest_v2?include_prereleases&style=flat-square">
   </a>
-  
+
   <a href="https://github.com/drggboy/mytest_v2/commits/master" target="_blank">
     <img src="https://img.shields.io/github/last-commit/drggboy/mytest_v2?style=flat-square" alt="GitHub last commit">
   </a>
@@ -48,117 +54,84 @@
 <!-- Remove this note if you plan to copy this README -->
 
 
-# 目录
-- [交通网关部署系统](#交通网关部署系统)
-- [目录](#目录)
-- [演示预览](#演示预览)
+# Table of Contents
+- [Transportation Gateway Deployment System](#transportation-gateway-deployment-system)
+- [Table of Contents](#table-of-contents)
+- [Demo](#demo)
 - [Usage](#usage)
-- [环境依赖](#环境依赖)
-- [部署步骤](#部署步骤)
-- [目录结构描述](#目录结构描述)
-  - [xxx](#xxx)
+- [Environment Configuration](#environment-configuration)
+    - [runtime environment](#runtime-environment)
+    - [development environment](#development-environment)
+- [Deployment steps](#deployment-steps)
+- [Directory Structure Description](#directory-structure-description)
 - [Contributors](#contributors)
 - [License](#license)
 
-# 演示预览
+# Demo
 
 <!-- Add a demo for your project -->
 
-I believe that you should bring value to the reader as soon as possible. You should be able to get the user up and running with your project with minimal friction.
+This system is an experimental platform for simulating and analyzing roadside traffic. It uses the data resources and traffic information provided by Baidu Maps API to simulate the roadside traffic environment and collect relevant data. It can be used to evaluate the implementation effect of the relay node deployment algorithm in actual traffic scenarios.
 
 ![Banner](./images/test.gif)
 
-If you have a quickstart guide, this is where it should be.
+Gateway deployment planning consists of two key steps: roadside sensor node coordinate collection and relay node optimal deployment location calculation. This system provides 8 test [datasets](https://github.com/drggboy/mytest_v2/tree/master/Datasets) that can be used for testing. You can also use the mark mode in the system to mark node coordinates for relay node calculations.
 
-Alternatively, you can add a demo to show what your project can do.
 
 # Usage
-Next, you have to explain how to use your project. You can create subsections under here to explain more clearly.
-
-
-# 环境依赖
-* 自行编译
-  * JDK v1.8
-  * MATLAB R2016b (9.1)
-
-* 运行环境
-  * JRE v1.8
-  * MATLAB Runtime R2016b (9.1)
-
-
-
-# 部署步骤
-
-> **Note**: For longer README files, I usually add a "Back to top" buttton as shown above. It makes it easy to navigate.
-
-Clone this repository and navigate inside the project folder and install the dependencies by running:
-
+If you only need to run this project for traffic gateway deployment, then only need to configure [runtime environment](#runtime-environment)。You can download the version that does not include the matlab algorithm in the release. After downloading, execute the following code to deploy the gateway by accessing `localhost:8081`.
 ```sh
-npm ci
+java xxx.jar -ak xxxxx
 ```
 
-After installing the dependencies, build the project by executing:
+This project supports calling matlab algorithm for calculation, but needs to configure the [matlab runtime environment]().
 
+
+# Environment Configuration
+## runtime environment
+* JRE 1.8
+* MATLAB Runtime R2016b (9.1)
+
+## development environment
+If you need to modify the back-end code or modify the front-end page, you need to configure the following environment
+* Java Version: Temurin JDK 1.8
+* Node.js Version：v16.15.1
+* npm Version：9.6.5
+* vite Version: 4.4.4
+
+# Deployment steps
+
+Clone this repository and navigate inside the project root folder.
+
+If you want to modify the style of the front end, please enter the project root directory, and then execute the following code.
+```sh
+cd ./vue
+npm install
+```
+After installing the dependencies, you can modify the front-end related code in `mytestv2/vue/src/App.vue`, and then execute the following command to view the front-end interface.
+```sh
+npm run dev
+```
+After the front-end interface is modified, you can compile the static file.
 ```sh
 npm run build
 ```
-
-You can use the code snippets here as well:
-
-```shell
-command to clone your project
-command to build your project
-command to run your project in development mode
+Then a static file will be generated in the dist directory, and the spring boot project can be started after moving it to the`mytest_v2/src/main/resources/static `directory, which can be moved directly through the script
+```python
+python .\move_build_output.py
 ```
-# 目录结构描述
+
+# Directory Structure Description
 ```sh
-├── Readme.md                   // help
-├── app                         // 应用
-├── config                      // 配置
-│   ├── default.json
-│   ├── dev.json                // 开发环境
-│   ├── experiment.json         // 实验
-│   ├── index.js                // 配置控制
-│   ├── local.json              // 本地
-│   ├── production.json         // 生产环境
-│   └── test.json               // 测试环境
-├── data
-├── doc                         // 文档
-├── environment
-├── gulpfile.js
-├── locales
-├── logger-service.js           // 启动日志配置
-├── node_modules
-├── package.json
-├── app-service.js              // 启动应用配置
-├── static                      // web静态资源加载
-│   └── initjson
-│       └── config.js         // 提供给前端的配置
-├── test
-├── test-service.js
-└── tools
+|-- README.md     // help
+|-- src           // Backend processing related
+|-- vue           // Front-end vue code
+|-- images
+|-- mvnw
+|-- mvnw.cmd
+|-- pom.xml
+|-- LICENSE
 ```
-## xxx
-
-To install the developer version follow the steps below. To just use the extension download from [**chrome.google.com/webstore/nsfw-filter**](https://chrome.google.com/webstore/detail/nsfw-filter/kmgagnlkckiamnenbpigfaljmanlbbhh).
-
-To run development version in clean environment use command:
-
-```sh
-npm run dev:chrome
-```
-
-1. 添加系统环境变量
-    export $PORTAL_VERSION="production" // production, test, dev
-
-
-2. npm install  //安装node运行环境
-
-3. gulp build   //前端编译
-
-4. 启动两个配置(已forever为例)
-    eg: forever start app-service.js
-        forever start logger-service.js
 
 # Contributors
 
@@ -194,6 +167,8 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 
 # License
-[(Back to top)](#目录)
+> **Note**: For longer README files, I usually add a "Back to top" buttton as shown above. It makes it easy to navigate.
+
+<!-- [(Back to top)](#目录) -->
 
 [MIT](./LICENSE) license.
