@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.bultrail.markroad.mapper.PointMapper">
+  <resultMap id="BaseResultMap" type="top.bultrail.markroad.pojo.Point2">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="roadName" jdbcType="VARCHAR" property="roadname" />
+    <result column="numberInRoad" jdbcType="INTEGER" property="numberinroad" />
+    <result column="Lng" jdbcType="VARCHAR" property="lng" />
+    <result column="Lat" jdbcType="VARCHAR" property="lat" />
+    <result column="road_id" jdbcType="INTEGER" property="roadId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, roadName, numberInRoad, Lng, Lat, road_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from gateway
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from gateway
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="top.bultrail.markroad.pojo.Point2" useGeneratedKeys="true">
+    insert into gateway (roadName, numberInRoad, Lng, 
+      Lat, road_id)
+    values (#{roadname,jdbcType=VARCHAR}, #{numberinroad,jdbcType=INTEGER}, #{lng,jdbcType=VARCHAR}, 
+      #{lat,jdbcType=VARCHAR}, #{roadId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="top.bultrail.markroad.pojo.Point2" useGeneratedKeys="true">
+    insert into gateway
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roadname != null">
+        roadName,
+      </if>
+      <if test="numberinroad != null">
+        numberInRoad,
+      </if>
+      <if test="lng != null">
+        Lng,
+      </if>
+      <if test="lat != null">
+        Lat,
+      </if>
+      <if test="roadId != null">
+        road_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roadname != null">
+        #{roadname,jdbcType=VARCHAR},
+      </if>
+      <if test="numberinroad != null">
+        #{numberinroad,jdbcType=INTEGER},
+      </if>
+      <if test="lng != null">
+        #{lng,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null">
+        #{lat,jdbcType=VARCHAR},
+      </if>
+      <if test="roadId != null">
+        #{roadId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="top.bultrail.markroad.pojo.Point2">
+    update gateway
+    <set>
+      <if test="roadname != null">
+        roadName = #{roadname,jdbcType=VARCHAR},
+      </if>
+      <if test="numberinroad != null">
+        numberInRoad = #{numberinroad,jdbcType=INTEGER},
+      </if>
+      <if test="lng != null">
+        Lng = #{lng,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null">
+        Lat = #{lat,jdbcType=VARCHAR},
+      </if>
+      <if test="roadId != null">
+        road_id = #{roadId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="top.bultrail.markroad.pojo.Point2">
+    update gateway
+    set roadName = #{roadname,jdbcType=VARCHAR},
+      numberInRoad = #{numberinroad,jdbcType=INTEGER},
+      Lng = #{lng,jdbcType=VARCHAR},
+      Lat = #{lat,jdbcType=VARCHAR},
+      road_id = #{roadId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
