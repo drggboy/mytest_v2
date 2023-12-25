@@ -65,6 +65,12 @@
       </if>
     </trim>
   </insert>
+
+  <insert id="insertDynamic" parameterType="map">
+    INSERT INTO ${tableName} (Lat, Lng)
+    VALUES (#{lat}, #{lng})
+  </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="top.bultrail.markroad.pojo.Point2">
     update gateway
     <set>
@@ -95,4 +101,15 @@
       road_id = #{roadId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="truncateSensor">
+    TRUNCATE TABLE sensor
+  </update>
+  <update id="truncateGateway">
+    TRUNCATE TABLE gateway
+  </update>
+  <update id="truncateCross">
+    TRUNCATE TABLE crossing
+  </update>
+
+
 </mapper>

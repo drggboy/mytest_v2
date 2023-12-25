@@ -5,12 +5,16 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import top.bultrail.markroad.bean.Point;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.springframework.stereotype.Component;
+import top.bultrail.markroad.mapper.PointMapper;
 import top.bultrail.markroad.pojo.DatasetInfo;
+
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class DBRelation {
@@ -187,6 +191,36 @@ public class DBRelation {
         }
     }
 
+    @Autowired
+    private PointMapper pointMapper;
+    public void quick_write_new2(String[][] cross_points, String[][][] gateway_array, String[][][] sensor_array) {
+        // 处理 sensor_array
+        String tableName = "sensor";
+        for (int i = 0; i < sensor_array.length; i++) {
+            for (int j = 0; j < sensor_array[i].length; j++) {
+                String lng = sensor_array[i][j][0];
+                String lat = sensor_array[i][j][1];
+                pointMapper.insertDynamic(tableName, lng, lat);
+            }
+        }
+
+        tableName = "gateway";
+        for (int i = 0; i < gateway_array.length; i++) {
+            for (int j = 0; j < gateway_array[i].length; j++) {
+                String lng = gateway_array[i][j][0];
+                String lat = gateway_array[i][j][1];
+                pointMapper.insertDynamic(tableName, lng, lat);
+            }
+        }
+
+        tableName = "crossing";
+        for (int i = 0; i < cross_points.length; i++) {
+            String lng = cross_points[i][0];
+            String lat = cross_points[i][1];
+            pointMapper.insertDynamic(tableName, lng, lat);
+        }
+    }
+
 
     //清空数据表 新增
     public void clear() {
@@ -201,7 +235,13 @@ public class DBRelation {
         }
     }
 
-    //排序 新增
+    public void clear2() {
+        pointMapper.truncateSensor();
+        pointMapper.truncateGateway();
+        pointMapper.truncateCross();
+    }
+
+    //排序
     public void sort() {
         Connection conn = null;
         String[] keys = new String[]{"sensor", "gateway", "crossing"};
