@@ -53,7 +53,7 @@ public class MessageHandler {
         List<Double> currentLocation = (List<Double>) requestBody.get("current_location");
         try {
             transformService.saveDataset(setName, currentLocation);
-            System.out.println("Success");
+            System.out.println("Dataset saved success");
         } catch (Exception e) {
             return new ResponseEntity<>(ResultEntity.failed(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }

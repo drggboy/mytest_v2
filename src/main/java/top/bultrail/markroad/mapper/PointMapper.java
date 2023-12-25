@@ -24,4 +24,7 @@ public interface PointMapper {
 
     void truncateGateway();
     void truncateCross();
+    void createTableLike(String newTableName, String originalTableName);
+    void copyDataToNewTable(String newTableName, String originalTableName);
+    void insertDatasetInfo(String setName, Double locationLng, Double locationLat);
 }

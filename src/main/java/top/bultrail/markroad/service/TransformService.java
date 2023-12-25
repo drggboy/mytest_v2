@@ -59,7 +59,7 @@ public class TransformService {
     }
 
     public void saveDataset(String datasetName, List<Double> currentLocation) {
-        dbRelation.saveDataset(datasetName, currentLocation);
+        dbRelation.saveDataset2(datasetName, currentLocation);
     }
 
     public void deleteDataset(String datasetName) {

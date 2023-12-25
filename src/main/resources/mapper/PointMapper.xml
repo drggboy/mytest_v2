@@ -70,6 +70,17 @@
     INSERT INTO ${tableName} (Lat, Lng)
     VALUES (#{lat}, #{lng})
   </insert>
+  <insert id="insertDatasetInfo">
+    INSERT INTO dataset_name (name, sensor_size, gateway_size, crossing_size, location_lng, location_lat)
+    VALUES (
+             #{setName},
+             (SELECT COUNT(*) FROM sensor),
+             (SELECT COUNT(*) FROM gateway),
+             (SELECT COUNT(*) FROM crossing),
+             #{locationLng},
+             #{locationLat}
+           )
+  </insert>
 
   <update id="updateByPrimaryKeySelective" parameterType="top.bultrail.markroad.pojo.Point2">
     update gateway
@@ -109,6 +120,12 @@
   </update>
   <update id="truncateCross">
     TRUNCATE TABLE crossing
+  </update>
+  <update id="createTableLike">
+    CREATE TABLE ${newTableName} LIKE ${originalTableName}
+  </update>
+  <update id="copyDataToNewTable">
+    INSERT INTO ${newTableName} SELECT * FROM ${originalTableName}
   </update>
 
 

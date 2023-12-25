@@ -269,44 +269,73 @@ public class DBRelation {
 //        }
 //    }
 
+//    //保存数据集
+//    public void saveDataset(String setName, List<Double> currentLocation) {
+//        Connection conn = setConnection();
+//        String[] keys = new String[]{"sensor", "gateway", "crossing"};
+//        for (String key : keys) {
+//            String newTableName = key + "_" + setName;
+//            String sql = "CREATE TABLE " + newTableName + " LIKE " + key + ";";
+//            try {
+//                qr.update(conn, sql);
+//                sql = "INSERT INTO " + newTableName + " SELECT * FROM " + key + ";";
+//                qr.update(conn, sql);
+//            } catch (SQLException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
+//
+//        // Insert into dataset_name table
+//        String datasetNameTable = "dataset_name";
+//        String sensorSize = "SELECT COUNT(*) FROM sensor_" + setName;
+//        String gatewaySize = "SELECT COUNT(*) FROM gateway_" + setName;
+//        String crossingSize = "SELECT COUNT(*) FROM crossing_" + setName;
+//        String insertSql = "INSERT INTO " + datasetNameTable + " (name, sensor_size, gateway_size, crossing_size, location_lng, location_lat) " +
+//                "VALUES (?, (" + sensorSize + "), (" + gatewaySize + "), (" + crossingSize + "), (" + currentLocation.get(0) + "), (" + currentLocation.get(1) + "))";
+//        try {
+//            PreparedStatement statement = conn.prepareStatement(insertSql);
+//            statement.setString(1, setName);
+//            statement.executeUpdate();
+//            statement.close();
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        try {
+//            conn.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
     //保存数据集
-    public void saveDataset(String setName, List<Double> currentLocation) {
-        Connection conn = setConnection();
-        String[] keys = new String[]{"sensor", "gateway", "crossing"};
-        for (String key : keys) {
-            String newTableName = key + "_" + setName;
-            String sql = "CREATE TABLE " + newTableName + " LIKE " + key + ";";
-            try {
-                qr.update(conn, sql);
-                sql = "INSERT INTO " + newTableName + " SELECT * FROM " + key + ";";
-                qr.update(conn, sql);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+//    @Transactional
+//    public void saveDataset2(String setName, List<Double> currentLocation) {
+//        String[] keys = new String[]{"sensor", "gateway", "crossing"};
+//        for (String key : keys) {
+//            String newTableName = key + "_" + setName;
+//            pointMapper.createTableLike(newTableName, key);
+//            pointMapper.copyDataToNewTable(newTableName, key);
+//        }
+//        pointMapper.insertDatasetInfo(setName, currentLocation.get(0), currentLocation.get(1));
+//    }
+    @Transactional
+    public void saveDataset2(String setName, List<Double> currentLocation) {
+        try {
+            pointMapper.insertDatasetInfo(setName, currentLocation.get(0), currentLocation.get(1));
+            String[] keys = new String[]{"sensor", "gateway", "crossing"};
+            for (String key : keys) {
+                String newTableName = key + "_" + setName;
+                pointMapper.createTableLike(newTableName, key);
+                pointMapper.copyDataToNewTable(newTableName, key);
             }
-        }
-
-        // Insert into dataset_name table
-        String datasetNameTable = "dataset_name";
-        String sensorSize = "SELECT COUNT(*) FROM sensor_" + setName;
-        String gatewaySize = "SELECT COUNT(*) FROM gateway_" + setName;
-        String crossingSize = "SELECT COUNT(*) FROM crossing_" + setName;
-        String insertSql = "INSERT INTO " + datasetNameTable + " (name, sensor_size, gateway_size, crossing_size, location_lng, location_lat) " +
-                "VALUES (?, (" + sensorSize + "), (" + gatewaySize + "), (" + crossingSize + "), (" + currentLocation.get(0) + "), (" + currentLocation.get(1) + "))";
-        try {
-            PreparedStatement statement = conn.prepareStatement(insertSql);
-            statement.setString(1, setName);
-            statement.executeUpdate();
-            statement.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace(); // 打印异常信息到控制台
+            throw e; // 重新抛出异常，以便进行进一步处理
         }
     }
+
+
 
     //删除数据集
     public void deleteDataset(String setName) {
