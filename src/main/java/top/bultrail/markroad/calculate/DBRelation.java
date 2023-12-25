@@ -143,53 +143,53 @@ public class DBRelation {
 //        }
 //    }
 
-    public void quick_write_new(String[][] cross_points, String[][][] gateway_array, String[][][] sensor_array) {
-        Connection conn = setConnection();
-        for (int i = 0; i < sensor_array.length; i++) {
-            for(int j=0; j< sensor_array[i].length; j++){
-                try {
-                    //准备SQL语句
-                    String sql = "INSERT INTO sensor(Lng,Lat) VALUES (?, ?)";
-//                    System.out.println(sql);
-                    Object[] obj = {sensor_array[i][j][0], sensor_array[i][j][1]};
-                    //执行，抛出异常
-                    qr.update(conn, sql, obj);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        for (int i = 0; i < gateway_array.length; i++) {
-            for(int j=0; j< gateway_array[i].length; j++){
-                try {
-                    //准备SQL语句
-                    String sql = "INSERT INTO gateway(Lng,Lat) VALUES (?, ?)";
-//                    System.out.println(sql);
-                    Object[] obj = {gateway_array[i][j][0], gateway_array[i][j][1]};
-                    //执行，抛出异常
-                    qr.update(conn, sql, obj);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        for (int i = 0; i < cross_points.length; i++) {
-            try {
-                String sql = "INSERT INTO crossing(Lng,Lat) VALUES (?, ?)";
-//                    System.out.println(sql);
-                Object[] obj = {cross_points[i][0], cross_points[i][1]};
-                //执行，抛出异常
-                qr.update(conn, sql, obj);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        try {
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void quick_write_new(String[][] cross_points, String[][][] gateway_array, String[][][] sensor_array) {
+//        Connection conn = setConnection();
+//        for (int i = 0; i < sensor_array.length; i++) {
+//            for(int j=0; j< sensor_array[i].length; j++){
+//                try {
+//                    //准备SQL语句
+//                    String sql = "INSERT INTO sensor(Lng,Lat) VALUES (?, ?)";
+////                    System.out.println(sql);
+//                    Object[] obj = {sensor_array[i][j][0], sensor_array[i][j][1]};
+//                    //执行，抛出异常
+//                    qr.update(conn, sql, obj);
+//                } catch (SQLException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        for (int i = 0; i < gateway_array.length; i++) {
+//            for(int j=0; j< gateway_array[i].length; j++){
+//                try {
+//                    //准备SQL语句
+//                    String sql = "INSERT INTO gateway(Lng,Lat) VALUES (?, ?)";
+////                    System.out.println(sql);
+//                    Object[] obj = {gateway_array[i][j][0], gateway_array[i][j][1]};
+//                    //执行，抛出异常
+//                    qr.update(conn, sql, obj);
+//                } catch (SQLException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        for (int i = 0; i < cross_points.length; i++) {
+//            try {
+//                String sql = "INSERT INTO crossing(Lng,Lat) VALUES (?, ?)";
+////                    System.out.println(sql);
+//                Object[] obj = {cross_points[i][0], cross_points[i][1]};
+//                //执行，抛出异常
+//                qr.update(conn, sql, obj);
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        try {
+//            conn.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @Autowired
     private PointMapper pointMapper;
@@ -223,17 +223,17 @@ public class DBRelation {
 
 
     //清空数据表 新增
-    public void clear() {
-        Connection conn = setConnection();
-        try {
-            qr.update(conn, "TRUNCATE TABLE sensor");
-            qr.update(conn, "TRUNCATE TABLE gateway");
-            qr.update(conn, "TRUNCATE TABLE crossing");
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void clear() {
+//        Connection conn = setConnection();
+//        try {
+//            qr.update(conn, "TRUNCATE TABLE sensor");
+//            qr.update(conn, "TRUNCATE TABLE gateway");
+//            qr.update(conn, "TRUNCATE TABLE crossing");
+//            conn.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public void clear2() {
         pointMapper.truncateSensor();

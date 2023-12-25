@@ -53,7 +53,7 @@ public class TransformService {
         String[][] cross_points = quickSave.getCross_points();
         String[][][] sensor_array = quickSave.getSensor_array();
         String[][][] gateway_array = quickSave.getGateway_array();
-        dbRelation.clear();
+        dbRelation.clear2();
 //        dbRelation.quick_write_new(cross_points, gateway_array, sensor_array);
         dbRelation.quick_write_new2(cross_points, gateway_array, sensor_array);
     }
@@ -80,7 +80,7 @@ public class TransformService {
 
     //清空数据库 新增
     public void clearDB() {
-        dbRelation.clear();
+        dbRelation.clear2();
     }
 
     //排序 新增
@@ -95,41 +95,41 @@ public class TransformService {
 
     //162 新增
     public void td207() {
-        dbRelation.clear();
+        dbRelation.clear2();
         dbRelation.tdata("207");
     }
 
     //461 新增
     public void td461() {
-        dbRelation.clear();
+        dbRelation.clear2();
         dbRelation.tdata("461");
     }
 
     //518 新增
     public void td1052() {
-        dbRelation.clear();
+        dbRelation.clear2();
         dbRelation.tdata("1052");
     }
 
     public void td1361() {
-        dbRelation.clear();
+        dbRelation.clear2();
         dbRelation.tdata("1361");
     }
 
     public List<Double> datasetLoad(String setName) {
-        dbRelation.clear();
+        dbRelation.clear2();
         List<Double> location = dbRelation.datasetLoad(setName);
         return location;
     }
 
     public void tdGuo(int num) {
-        dbRelation.clear();
+        dbRelation.clear2();
         dbRelation.tdataG(num + "");
     }
 
     //还原 新增
     public void resDB() {
-        dbRelation.clear();
+        dbRelation.clear2();
         dbRelation.res();
     }
 
