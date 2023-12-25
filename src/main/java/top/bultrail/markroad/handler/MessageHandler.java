@@ -126,21 +126,21 @@ public class MessageHandler {
 
 
     //保存数据
-    @ResponseBody
-    @RequestMapping(value ={"/hha","/api/hha"},  method = RequestMethod.POST)
-    public ResultEntity<String> save02(Point point) {
-        // 将数据保存在数据库
-        try {
-            if (point.getPoints() == null) {
-                return ResultEntity.failed("You haven't set marks yet！");
-            } else {
-                transformService.saveDB(point);
-                return ResultEntity.successWithoutData();
-            }
-        } catch (Exception e) {
-            return ResultEntity.failed(e.getMessage());
-        }
-    }
+//    @ResponseBody
+//    @RequestMapping(value ={"/hha","/api/hha"},  method = RequestMethod.POST)
+//    public ResultEntity<String> save02(Point point) {
+//        // 将数据保存在数据库
+//        try {
+//            if (point.getPoints() == null) {
+//                return ResultEntity.failed("You haven't set marks yet！");
+//            } else {
+//                transformService.saveDB(point);
+//                return ResultEntity.successWithoutData();
+//            }
+//        } catch (Exception e) {
+//            return ResultEntity.failed(e.getMessage());
+//        }
+//    }
 
     //清空数据库 新增
     @ResponseBody
@@ -152,12 +152,12 @@ public class MessageHandler {
     }
 
     //排序 新增
-    @ResponseBody
-    @RequestMapping(value = {"/hhst","/api/hhst"}, method = RequestMethod.POST)
-    public ResultEntity<String> sort() {
-        transformService.sortDB();
-        return ResultEntity.successWithoutData();
-    }
+//    @ResponseBody
+//    @RequestMapping(value = {"/hhst","/api/hhst"}, method = RequestMethod.POST)
+//    public ResultEntity<String> sort() {
+//        transformService.sortDB();
+//        return ResultEntity.successWithoutData();
+//    }
 
     //备份
     @ResponseBody

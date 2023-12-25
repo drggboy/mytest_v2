@@ -41,20 +41,21 @@ public class TransformService {
 
 
     //保存文件数据到数据库 新增
-    public void saveDB(Point points) {
-        String roadName = points.getRoadName();
-        String pointType = points.getPointType();
-        String[][] points1 = points.getPoints();
-        List<String[]> strings = Arrays.asList(points1);
-        dbRelation.write_new(roadName, strings, pointType);
-    }
+//    public void saveDB(Point points) {
+//        String roadName = points.getRoadName();
+//        String pointType = points.getPointType();
+//        String[][] points1 = points.getPoints();
+//        List<String[]> strings = Arrays.asList(points1);
+//        dbRelation.write_new(roadName, strings, pointType);
+//    }
 
     public void quicksaveDB(QuickSave quickSave) {
         String[][] cross_points = quickSave.getCross_points();
         String[][][] sensor_array = quickSave.getSensor_array();
         String[][][] gateway_array = quickSave.getGateway_array();
         dbRelation.clear();
-        dbRelation.quick_write_new(cross_points, gateway_array, sensor_array);
+//        dbRelation.quick_write_new(cross_points, gateway_array, sensor_array);
+        dbRelation.quick_write_new2(cross_points, gateway_array, sensor_array);
     }
 
     public void saveDataset(String datasetName, List<Double> currentLocation) {
@@ -83,9 +84,9 @@ public class TransformService {
     }
 
     //排序 新增
-    public void sortDB() {
-        dbRelation.sort();
-    }
+//    public void sortDB() {
+//        dbRelation.sort();
+//    }
 
     //备份 新增
     public void bkDB() {

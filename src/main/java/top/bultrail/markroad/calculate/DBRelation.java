@@ -42,101 +42,102 @@ public class DBRelation {
         }
         return conn;
     }
-    // 一键保存
-    public void write_all(String roadName, List<String[]> strList1, String pointType) {
-        Connection conn = setConnection();
-        if ("sensor".equals(pointType)) {
-            for (int i = 0; i < strList1.size(); i++) {
-                try {
-                    //准备SQL语句
-                    String sql = "INSERT INTO sensor(roadName,numberInRoad,Lng,Lat) VALUES (?, ?, ?, ?)";
-//                    System.out.println(sql);
-                    Object[] obj = {roadName, i, strList1.get(i)[0], strList1.get(i)[1]};
-                    //执行，抛出异常
-                    qr.update(conn, sql, obj);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        } else if ("gateway".equals(pointType)) {
-            for (int i = 0; i < strList1.size(); i++) {
-                try {
-                    String sql = "INSERT INTO gateway(roadName,numberInRoad,Lng,Lat) VALUES (?, ?, ?, ?)";
-//                    System.out.println(sql);
-                    Object[] obj = {roadName, i, strList1.get(i)[0], strList1.get(i)[1]};
-                    //执行，抛出异常
-                    qr.update(conn, sql, obj);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        } else if ("cros".equals(pointType)) {
-            for (int i = 0; i < strList1.size(); i++) {
-                try {
-                    String sql = "INSERT INTO crossing(roadName,numberInRoad,Lng,Lat) VALUES (?, ?, ?, ?)";
-//                    System.out.println(sql);
-                    Object[] obj = {roadName, i, strList1.get(i)[0], strList1.get(i)[1]};
-                    //执行，抛出异常
-                    qr.update(conn, sql, obj);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        try {
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
-    //写入数据
-    public void write_new(String roadName, List<String[]> strList1, String pointType) {
-        Connection conn = setConnection();
-        if ("sensor".equals(pointType)) {
-            for (int i = 0; i < strList1.size(); i++) {
-                try {
-                    //准备SQL语句
-                    String sql = "INSERT INTO sensor(roadName,numberInRoad,Lng,Lat) VALUES (?, ?, ?, ?)";
-//                    System.out.println(sql);
-                    Object[] obj = {roadName, i, strList1.get(i)[0], strList1.get(i)[1]};
-                    //执行，抛出异常
-                    qr.update(conn, sql, obj);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        } else if ("gateway".equals(pointType)) {
-            for (int i = 0; i < strList1.size(); i++) {
-                try {
-                    String sql = "INSERT INTO gateway(roadName,numberInRoad,Lng,Lat) VALUES (?, ?, ?, ?)";
-//                    System.out.println(sql);
-                    Object[] obj = {roadName, i, strList1.get(i)[0], strList1.get(i)[1]};
-                    //执行，抛出异常
-                    qr.update(conn, sql, obj);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        } else if ("cros".equals(pointType)) {
-            for (int i = 0; i < strList1.size(); i++) {
-                try {
-                    String sql = "INSERT INTO crossing(roadName,numberInRoad,Lng,Lat) VALUES (?, ?, ?, ?)";
-//                    System.out.println(sql);
-                    Object[] obj = {roadName, i, strList1.get(i)[0], strList1.get(i)[1]};
-                    //执行，抛出异常
-                    qr.update(conn, sql, obj);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        try {
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+//    // 一键保存
+//    public void write_all(String roadName, List<String[]> strList1, String pointType) {
+//        Connection conn = setConnection();
+//        if ("sensor".equals(pointType)) {
+//            for (int i = 0; i < strList1.size(); i++) {
+//                try {
+//                    //准备SQL语句
+//                    String sql = "INSERT INTO sensor(roadName,numberInRoad,Lng,Lat) VALUES (?, ?, ?, ?)";
+////                    System.out.println(sql);
+//                    Object[] obj = {roadName, i, strList1.get(i)[0], strList1.get(i)[1]};
+//                    //执行，抛出异常
+//                    qr.update(conn, sql, obj);
+//                } catch (SQLException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        } else if ("gateway".equals(pointType)) {
+//            for (int i = 0; i < strList1.size(); i++) {
+//                try {
+//                    String sql = "INSERT INTO gateway(roadName,numberInRoad,Lng,Lat) VALUES (?, ?, ?, ?)";
+////                    System.out.println(sql);
+//                    Object[] obj = {roadName, i, strList1.get(i)[0], strList1.get(i)[1]};
+//                    //执行，抛出异常
+//                    qr.update(conn, sql, obj);
+//                } catch (SQLException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        } else if ("cros".equals(pointType)) {
+//            for (int i = 0; i < strList1.size(); i++) {
+//                try {
+//                    String sql = "INSERT INTO crossing(roadName,numberInRoad,Lng,Lat) VALUES (?, ?, ?, ?)";
+////                    System.out.println(sql);
+//                    Object[] obj = {roadName, i, strList1.get(i)[0], strList1.get(i)[1]};
+//                    //执行，抛出异常
+//                    qr.update(conn, sql, obj);
+//                } catch (SQLException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        try {
+//            conn.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+//    //写入数据
+//    public void write_new(String roadName, List<String[]> strList1, String pointType) {
+//        Connection conn = setConnection();
+//        if ("sensor".equals(pointType)) {
+//            for (int i = 0; i < strList1.size(); i++) {
+//                try {
+//                    //准备SQL语句
+//                    String sql = "INSERT INTO sensor(roadName,numberInRoad,Lng,Lat) VALUES (?, ?, ?, ?)";
+////                    System.out.println(sql);
+//                    Object[] obj = {roadName, i, strList1.get(i)[0], strList1.get(i)[1]};
+//                    //执行，抛出异常
+//                    qr.update(conn, sql, obj);
+//                } catch (SQLException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        } else if ("gateway".equals(pointType)) {
+//            for (int i = 0; i < strList1.size(); i++) {
+//                try {
+//                    String sql = "INSERT INTO gateway(roadName,numberInRoad,Lng,Lat) VALUES (?, ?, ?, ?)";
+////                    System.out.println(sql);
+//                    Object[] obj = {roadName, i, strList1.get(i)[0], strList1.get(i)[1]};
+//                    //执行，抛出异常
+//                    qr.update(conn, sql, obj);
+//                } catch (SQLException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        } else if ("cros".equals(pointType)) {
+//            for (int i = 0; i < strList1.size(); i++) {
+//                try {
+//                    String sql = "INSERT INTO crossing(roadName,numberInRoad,Lng,Lat) VALUES (?, ?, ?, ?)";
+////                    System.out.println(sql);
+//                    Object[] obj = {roadName, i, strList1.get(i)[0], strList1.get(i)[1]};
+//                    //执行，抛出异常
+//                    qr.update(conn, sql, obj);
+//                } catch (SQLException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        try {
+//            conn.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public void quick_write_new(String[][] cross_points, String[][][] gateway_array, String[][][] sensor_array) {
         Connection conn = setConnection();
