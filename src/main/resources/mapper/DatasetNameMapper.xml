@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.bultrail.markroad.mapper.DatasetNameMapper">
+  <resultMap id="BaseResultMap" type="top.bultrail.markroad.pojo.DatasetName">
+    <id column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sensor_size" jdbcType="INTEGER" property="sensorSize" />
+    <result column="gateway_size" jdbcType="INTEGER" property="gatewaySize" />
+    <result column="crossing_size" jdbcType="INTEGER" property="crossingSize" />
+    <result column="location_lng" jdbcType="DOUBLE" property="locationLng" />
+    <result column="location_lat" jdbcType="DOUBLE" property="locationLat" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    `name`, sensor_size, gateway_size, crossing_size, location_lng, location_lat
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dataset_name
+    where `name` = #{name,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from dataset_name
+    where `name` = #{name,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="name" keyProperty="name" parameterType="top.bultrail.markroad.pojo.DatasetName" useGeneratedKeys="true">
+    insert into dataset_name (sensor_size, gateway_size, crossing_size, 
+      location_lng, location_lat)
+    values (#{sensorSize,jdbcType=INTEGER}, #{gatewaySize,jdbcType=INTEGER}, #{crossingSize,jdbcType=INTEGER}, 
+      #{locationLng,jdbcType=DOUBLE}, #{locationLat,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" keyColumn="name" keyProperty="name" parameterType="top.bultrail.markroad.pojo.DatasetName" useGeneratedKeys="true">
+    insert into dataset_name
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sensorSize != null">
+        sensor_size,
+      </if>
+      <if test="gatewaySize != null">
+        gateway_size,
+      </if>
+      <if test="crossingSize != null">
+        crossing_size,
+      </if>
+      <if test="locationLng != null">
+        location_lng,
+      </if>
+      <if test="locationLat != null">
+        location_lat,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sensorSize != null">
+        #{sensorSize,jdbcType=INTEGER},
+      </if>
+      <if test="gatewaySize != null">
+        #{gatewaySize,jdbcType=INTEGER},
+      </if>
+      <if test="crossingSize != null">
+        #{crossingSize,jdbcType=INTEGER},
+      </if>
+      <if test="locationLng != null">
+        #{locationLng,jdbcType=DOUBLE},
+      </if>
+      <if test="locationLat != null">
+        #{locationLat,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertDatasetInfo">
+    INSERT INTO dataset_name (name, sensor_size, gateway_size, crossing_size, location_lng, location_lat)
+    VALUES (
+             #{setName},
+             (SELECT COUNT(*) FROM sensor),
+             (SELECT COUNT(*) FROM gateway),
+             (SELECT COUNT(*) FROM crossing),
+             #{locationLng},
+             #{locationLat}
+           )
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="top.bultrail.markroad.pojo.DatasetName">
+    update dataset_name
+    <set>
+      <if test="sensorSize != null">
+        sensor_size = #{sensorSize,jdbcType=INTEGER},
+      </if>
+      <if test="gatewaySize != null">
+        gateway_size = #{gatewaySize,jdbcType=INTEGER},
+      </if>
+      <if test="crossingSize != null">
+        crossing_size = #{crossingSize,jdbcType=INTEGER},
+      </if>
+      <if test="locationLng != null">
+        location_lng = #{locationLng,jdbcType=DOUBLE},
+      </if>
+      <if test="locationLat != null">
+        location_lat = #{locationLat,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where `name` = #{name,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="top.bultrail.markroad.pojo.DatasetName">
+    update dataset_name
+    set sensor_size = #{sensorSize,jdbcType=INTEGER},
+      gateway_size = #{gatewaySize,jdbcType=INTEGER},
+      crossing_size = #{crossingSize,jdbcType=INTEGER},
+      location_lng = #{locationLng,jdbcType=DOUBLE},
+      location_lat = #{locationLat,jdbcType=DOUBLE}
+    where `name` = #{name,jdbcType=VARCHAR}
+  </update>
+</mapper>

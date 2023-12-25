@@ -11,10 +11,12 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.springframework.stereotype.Component;
+import top.bultrail.markroad.mapper.DatasetNameMapper;
 import top.bultrail.markroad.mapper.PointMapper;
 import top.bultrail.markroad.pojo.DatasetInfo;
 
 import org.springframework.transaction.annotation.Transactional;
+import top.bultrail.markroad.pojo.DatasetName;
 
 @Component
 public class DBRelation {
@@ -193,6 +195,8 @@ public class DBRelation {
 
     @Autowired
     private PointMapper pointMapper;
+    @Autowired
+    private DatasetNameMapper datasetNameMapper;
     public void quick_write_new2(String[][] cross_points, String[][][] gateway_array, String[][][] sensor_array) {
         // 处理 sensor_array
         String tableName = "sensor";
@@ -319,10 +323,11 @@ public class DBRelation {
 //        }
 //        pointMapper.insertDatasetInfo(setName, currentLocation.get(0), currentLocation.get(1));
 //    }
+
     @Transactional
     public void saveDataset2(String setName, List<Double> currentLocation) {
         try {
-            pointMapper.insertDatasetInfo(setName, currentLocation.get(0), currentLocation.get(1));
+            datasetNameMapper.insertDatasetInfo(setName, currentLocation.get(0), currentLocation.get(1));
             String[] keys = new String[]{"sensor", "gateway", "crossing"};
             for (String key : keys) {
                 String newTableName = key + "_" + setName;
