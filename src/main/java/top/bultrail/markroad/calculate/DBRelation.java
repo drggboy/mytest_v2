@@ -242,32 +242,32 @@ public class DBRelation {
     }
 
     //排序
-    public void sort() {
-        Connection conn = null;
-        String[] keys = new String[]{"sensor", "gateway", "crossing"};
-        for (String key : keys) {
-            String sql = "SELECT * FROM " + key + " ORDER BY numberInRoad, " + key + "_id";
-            try {
-                conn = setConnection();
-                List<Point> rs = qr.query(conn, sql, new BeanListHandler<>(Point.class));
-                qr.update(conn, "TRUNCATE TABLE " + key);
-//                System.out.println(rs.size());
-                for(Point p : rs) {
-//                    System.out.println(p);
-                    String sql2 = "INSERT INTO " + key +"(roadName,numberInRoad,Lng,Lat) VALUES (?, ?, ?, ?)";
-                    Object[] obj = {p.getRoadName(), p.getNumberInRoad(), p.getLng(), p.getLat()};
-                    qr.update(conn, sql2, obj);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        try {
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void sort() {
+//        Connection conn = null;
+//        String[] keys = new String[]{"sensor", "gateway", "crossing"};
+//        for (String key : keys) {
+//            String sql = "SELECT * FROM " + key + " ORDER BY numberInRoad, " + key + "_id";
+//            try {
+//                conn = setConnection();
+//                List<Point> rs = qr.query(conn, sql, new BeanListHandler<>(Point.class));
+//                qr.update(conn, "TRUNCATE TABLE " + key);
+////                System.out.println(rs.size());
+//                for(Point p : rs) {
+////                    System.out.println(p);
+//                    String sql2 = "INSERT INTO " + key +"(roadName,numberInRoad,Lng,Lat) VALUES (?, ?, ?, ?)";
+//                    Object[] obj = {p.getRoadName(), p.getNumberInRoad(), p.getLng(), p.getLat()};
+//                    qr.update(conn, sql2, obj);
+//                }
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        try {
+//            conn.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     //保存数据集
     public void saveDataset(String setName, List<Double> currentLocation) {
