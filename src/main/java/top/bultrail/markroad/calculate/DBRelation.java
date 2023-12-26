@@ -550,26 +550,26 @@ public class DBRelation {
         }
     }
 
-    public void res() {
-
-        Connection conn = setConnection();
-        String[] keys = new String[]{"sensor", "gateway", "crossing"};
-        for (String key : keys) {
-
-            String sql = "INSERT INTO " + key + " SELECT * FROM " + key + "_backup";
-            try {
-                qr.update(conn, sql);
-            }
-            catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        try {
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void res() {
+//
+//        Connection conn = setConnection();
+//        String[] keys = new String[]{"sensor", "gateway", "crossing"};
+//        for (String key : keys) {
+//
+//            String sql = "INSERT INTO " + key + " SELECT * FROM " + key + "_backup";
+//            try {
+//                qr.update(conn, sql);
+//            }
+//            catch (SQLException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
+//        try {
+//            conn.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     // 读取senor
     public List<List<String>> readSensor() {

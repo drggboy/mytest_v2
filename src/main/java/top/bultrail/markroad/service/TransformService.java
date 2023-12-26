@@ -127,11 +127,11 @@ public class TransformService {
         dbRelation.tdataG(num + "");
     }
 
-    //还原 新增
-    public void resDB() {
-        dbRelation.clear2();
-        dbRelation.res();
-    }
+//    //还原 新增
+//    public void resDB() {
+//        dbRelation.clear2();
+//        dbRelation.res();
+//    }
 
     /**
      * 使用各种算法计算
