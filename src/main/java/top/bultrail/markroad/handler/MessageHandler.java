@@ -244,13 +244,13 @@ public class MessageHandler {
         return ResultEntity.successWithoutData();
     }
 
-    //还原 新增
-    @ResponseBody
-    @RequestMapping(value = {"/hhres","/api/hhres"}, method = RequestMethod.POST)
-    public ResultEntity<String> restore() {
-        transformService.resDB();
-        return ResultEntity.successWithoutData();
-    }
+//    //还原 新增
+//    @ResponseBody
+//    @RequestMapping(value = {"/hhres","/api/hhres"}, method = RequestMethod.POST)
+//    public ResultEntity<String> restore() {
+//        transformService.resDB();
+//        return ResultEntity.successWithoutData();
+//    }
 
     //用贪心算法计算，数据保存在txt 实现
     @ResponseBody
