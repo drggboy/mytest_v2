@@ -90,14 +90,6 @@ public class DBRelation {
     }
 
     @Transactional
-    public void tdata2(String name) {
-        String[] keys = new String[]{"sensor", "gateway", "crossing"};
-        for (String key : keys) {
-            pointMapper.transferData(key, name);
-        }
-    }
-
-    @Transactional
     public List<Double> datasetLoad2(String setName) {
         String[] keys = new String[]{"sensor", "gateway", "crossing"};
         for (String key : keys) {
@@ -110,14 +102,6 @@ public class DBRelation {
             locationList.add(location.getLocationLat());
         }
         return locationList;
-    }
-
-    @Transactional
-    public void tdataG(String num) {
-        String[] keys = new String[]{"sensor", "gateway", "crossing"};
-        for (String key : keys) {
-            pointMapper.transferData(key, "guo" + num);
-        }
     }
 
     // 读取senor

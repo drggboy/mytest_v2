@@ -108,14 +108,14 @@
     <!-- Testdata Upload部分 -->
     <el-dialog title="Which test data would you like to upload?" v-model="TestData_dialogVisible" width="45%">
       <div style="display: flex; justify-content: center;">
-        <el-button type="primary" @click="tdata207">207</el-button>
-        <el-button type="primary" @click="tdata461">461</el-button>
-        <el-button type="primary" @click="tdata1052">1052</el-button>
-        <el-button type="primary" @click="tdata1361">1361</el-button>
-        <el-button type="primary" @click="tdatag114">G114</el-button>
-        <el-button type="primary" @click="tdatag228">G228</el-button>
-        <el-button type="primary" @click="tdatag354">G354</el-button>
-        <el-button type="primary" @click="tdatag484">G484</el-button>
+        <el-button type="primary" @click="handleLoad('207')">207</el-button>
+        <el-button type="primary" @click="handleLoad('461')">461</el-button>
+        <el-button type="primary" @click="handleLoad('1052')">1052</el-button>
+        <el-button type="primary" @click="handleLoad('')">1361</el-button>
+        <el-button type="primary" @click="handleLoad('guo114')">G114</el-button>
+        <el-button type="primary" @click="handleLoad('guo228')">G228</el-button>
+        <el-button type="primary" @click="handleLoad('guo354')">G354</el-button>
+        <el-button type="primary" @click="handleLoad('guo484')">G484</el-button>
       </div>
     </el-dialog>
     <!-- Dataset Upload部分 -->
@@ -281,11 +281,18 @@ const handleLoad = (name: string) => {
     }
   })
     .then((response) => {
-      let location_lng = response.data.data[0]
-      let location_lat = response.data.data[1]
+      //清空所有存放数据的数组
+      all_sensor.value = [];
+      all_gateway.value = [];
+      cross = [];
+      pointArr = [];
+      pts = [];
       // 清除地图上已经标记的点
       map.clearOverlays();
-      var data_point = new BMap.Point(location_lng, location_lat);// lyj标注位置
+
+      let location_lng = response.data.data[0]
+      let location_lat = response.data.data[1]
+      var data_point = new BMap.Point(location_lng, location_lat);// 标注位置
       map.centerAndZoom(data_point, 19);
       sensorupload();
       Dataset_dialogVisible.value = false;
@@ -1210,202 +1217,6 @@ onMounted(() => {
   createMap();
 });
 
-
-
-const tdata207 = () => {
-  axios.post("hh207")
-    .then(function () {
-      //清空所有存放数据的数组
-      all_sensor.value = [];
-      all_gateway.value = [];
-      cross = [];
-      pointArr = [];
-      pts = [];
-      // 清除地图上已经标记的点
-      map.clearOverlays();
-      var data_point = new BMap.Point(113.80634855083106, 22.816818813420948);// lyj标注位置
-      map.centerAndZoom(data_point, 19);
-      sensorupload();
-    })
-    .catch(function (error: any) {
-      ElMessage({
-        message: error,
-        type: 'error',
-      })
-    });
-};
-
-const tdata461 = () => {
-  axios.post("hh461")
-    .then(function () {
-      //清空所有存放数据的数组
-      all_sensor.value = [];
-      all_gateway.value = [];
-      cross = [];
-      pointArr = [];
-      pts = [];
-      // 清除地图上已经标记的点
-      map.clearOverlays();
-      // layer.msg("The data is loaded in the database successfully!");
-      var data_point = new BMap.Point(113.80612846598119, 22.817647453549856);
-      map.centerAndZoom(data_point, 19);
-      sensorupload();
-    })
-    .catch(function (error: any) {
-      ElMessage({
-        message: error,
-        type: 'error',
-      })
-    });
-};
-
-const tdata1052 = () => {
-  axios.post("hh1052")
-    .then(function () {
-      //清空所有存放数据的数组
-      all_sensor.value = [];
-      all_gateway.value = [];
-      cross = [];
-      pointArr = [];
-      pts = [];
-
-      // 清除地图上已经标记的点
-      map.clearOverlays();
-      // layer.msg("The data is loaded in the database successfully!");
-      var data_point = new BMap.Point(113.8062048219495, 22.816673072167394);
-      map.centerAndZoom(data_point, 19);
-      sensorupload();
-    })
-    .catch(function (error: any) {
-      ElMessage({
-        message: error,
-        type: 'error',
-      })
-    });
-};
-
-const tdata1361 = () => {
-  axios.post("hh1361")
-    .then(function () {
-      //清空所有存放数据的数组
-      all_sensor.value = [];
-      all_gateway.value = [];
-      cross = [];
-      pointArr = [];
-      pts = [];
-      // 清除地图上已经标记的点
-      map.clearOverlays();
-      // layer.msg("The data is loaded in the database successfully!");
-      var data_point = new BMap.Point(113.80726931397848, 22.816231683408517);
-      map.centerAndZoom(data_point, 19);
-      sensorupload();
-    })
-    .catch(function (error: any) {
-      ElMessage({
-        message: error,
-        type: 'error',
-      })
-    });
-};
-
-const tdatag114 = () => {
-  axios.post("hhg114")
-    .then(function () {
-      //清空所有存放数据的数组
-      all_sensor.value = [];
-      all_gateway.value = [];
-      cross = [];
-      pointArr = [];
-      pts = [];
-      // 清除地图上已经标记的点
-      map.clearOverlays();
-      // layer.msg("The data is loaded in the database successfully!");
-      var data_point = new BMap.Point(112.8835, 22.9082);
-      map.centerAndZoom(data_point, 19);
-      sensorupload();
-    })
-    .catch(function (error: any) {
-      ElMessage({
-        message: error,
-        type: 'error',
-      })
-    });
-};
-
-const tdatag228 = () => {
-  axios.post("hhg228")
-    .then(function () {
-      //清空所有存放数据的数组
-      all_sensor.value = [];
-      all_gateway.value = [];
-      cross = [];
-      pointArr = [];
-      pts = [];
-
-      // 清除地图上已经标记的点
-      map.clearOverlays();
-      // layer.msg("The data is loaded in the database successfully!");
-      var data_point = new BMap.Point(112.8835, 22.9082);
-      map.centerAndZoom(data_point, 19);
-      sensorupload();
-    })
-    .catch(function (error: any) {
-      ElMessage({
-        message: error,
-        type: 'error',
-      })
-    });
-};
-
-const tdatag354 = () => {
-  axios.post("hhg354")
-    .then(function () {
-      //清空所有存放数据的数组
-      all_sensor.value = [];
-      all_gateway.value = [];
-      cross = [];
-      pointArr = [];
-      pts = [];
-
-      // 清除地图上已经标记的点
-      map.clearOverlays();
-      // layer.msg("The data is loaded in the database successfully!");
-      var data_point = new BMap.Point(112.8835, 22.9082);
-      map.centerAndZoom(data_point, 19);
-      sensorupload();
-    })
-    .catch(function (error: any) {
-      ElMessage({
-        message: error,
-        type: 'error',
-      })
-    });
-};
-
-const tdatag484 = () => {
-  axios.post("hhg484")
-    .then(function () {
-      //清空所有存放数据的数组
-      all_sensor.value = [];
-      all_gateway.value = [];
-      cross = [];
-      pointArr = [];
-      pts = [];
-
-      // 清除地图上已经标记的点
-      map.clearOverlays();
-      // layer.msg("The data is loaded in the database successfully!");
-      var data_point = new BMap.Point(112.8835, 22.9082);
-      map.centerAndZoom(data_point, 19);
-      sensorupload();
-    })
-    .catch(function (error: any) {
-      ElMessage({
-        message: error,
-        type: 'error',
-      })
-    });
-};
 </script>
  
 <style scoped>

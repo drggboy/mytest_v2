@@ -40,15 +40,6 @@ public class TransformService {
     RedisTemplate redisTemplate;
 
 
-    //保存文件数据到数据库 新增
-//    public void saveDB(Point points) {
-//        String roadName = points.getRoadName();
-//        String pointType = points.getPointType();
-//        String[][] points1 = points.getPoints();
-//        List<String[]> strings = Arrays.asList(points1);
-//        dbRelation.write_new(roadName, strings, pointType);
-//    }
-
     public void quicksaveDB(QuickSave quickSave) {
         String[][] cross_points = quickSave.getCross_points();
         String[][][] sensor_array = quickSave.getSensor_array();
@@ -66,11 +57,6 @@ public class TransformService {
         dbRelation.deleteDataset2(datasetName);
     }
 
-//    public List<String> searchSetnames() {
-//        List<String> setNames;
-//        setNames = dbRelation.searchSetnames();
-//        return  setNames;
-//    }
 
     public List<DatasetInfo> searchDatasetInfo() {
         List<DatasetInfo> datasetInfos;
@@ -83,38 +69,6 @@ public class TransformService {
         dbRelation.clear2();
     }
 
-    //排序 新增
-//    public void sortDB() {
-//        dbRelation.sort();
-//    }
-
-    //备份 新增
-//    public void bkDB() {
-//        dbRelation.bkup();
-//    }
-
-    //162 新增
-    public void td207() {
-        dbRelation.clear2();
-        dbRelation.tdata2("207");
-    }
-
-    //461 新增
-    public void td461() {
-        dbRelation.clear2();
-        dbRelation.tdata2("461");
-    }
-
-    //518 新增
-    public void td1052() {
-        dbRelation.clear2();
-        dbRelation.tdata2("1052");
-    }
-
-    public void td1361() {
-        dbRelation.clear2();
-        dbRelation.tdata2("1361");
-    }
 
     public List<Double> datasetLoad(String setName) {
         dbRelation.clear2();
@@ -122,16 +76,6 @@ public class TransformService {
         return location;
     }
 
-    public void tdGuo(int num) {
-        dbRelation.clear2();
-        dbRelation.tdataG(num + "");
-    }
-
-//    //还原 新增
-//    public void resDB() {
-//        dbRelation.clear2();
-//        dbRelation.res();
-//    }
 
     /**
      * 使用各种算法计算
