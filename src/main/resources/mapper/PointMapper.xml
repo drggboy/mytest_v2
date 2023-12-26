@@ -24,6 +24,9 @@
   <select id="selectAllGateways" resultType="top.bultrail.markroad.bean.Point">
     SELECT * FROM gateway
   </select>
+  <select id="selectAllCrossings" resultType="top.bultrail.markroad.bean.Point">
+    SELECT * FROM crossing
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from gateway
     where id = #{id,jdbcType=INTEGER}

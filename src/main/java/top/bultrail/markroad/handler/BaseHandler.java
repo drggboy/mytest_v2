@@ -33,7 +33,7 @@ public class BaseHandler {
     @RequestMapping(value={"/cup","/api/cup"})
     @ResponseBody
     public ResultEntity<List<List<String>>> crossingUpload() {
-        List<List<String>> crossingList = dbRelation.readCrossing();
+        List<List<String>> crossingList = dbRelation.readCrossing2();
         return ResultEntity.sucessWithData(crossingList);
     }
 
