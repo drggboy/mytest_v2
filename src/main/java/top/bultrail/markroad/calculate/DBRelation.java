@@ -389,30 +389,30 @@ public class DBRelation {
     }
 
 
-    // 获取数据集列表
-    public List<String> searchSetnames() {
-        List<String> setNames = new ArrayList<>();
-        Connection conn = setConnection();
-        String sql = "SELECT name FROM dataset_name";
-        try {
-            Statement statement = conn.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-            while (resultSet.next()) {
-                String setName = resultSet.getString("name");
-                setNames.add(setName);
-            }
-            resultSet.close();
-            statement.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return setNames;
-    }
+//    // 获取数据集列表
+//    public List<String> searchSetnames() {
+//        List<String> setNames = new ArrayList<>();
+//        Connection conn = setConnection();
+//        String sql = "SELECT name FROM dataset_name";
+//        try {
+//            Statement statement = conn.createStatement();
+//            ResultSet resultSet = statement.executeQuery(sql);
+//            while (resultSet.next()) {
+//                String setName = resultSet.getString("name");
+//                setNames.add(setName);
+//            }
+//            resultSet.close();
+//            statement.close();
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//        try {
+//            conn.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return setNames;
+//    }
 
     public List<DatasetInfo> searchDatasetInfo() {
         List<DatasetInfo> datasetInfoList = new ArrayList<>();
@@ -443,7 +443,7 @@ public class DBRelation {
     }
 
 
-    //备份 新增
+    //备份
     public void bkup() {
 
         Connection conn = setConnection();

@@ -66,11 +66,11 @@ public class TransformService {
         dbRelation.deleteDataset2(datasetName);
     }
 
-    public List<String> searchSetnames() {
-        List<String> setNames;
-        setNames = dbRelation.searchSetnames();
-        return  setNames;
-    }
+//    public List<String> searchSetnames() {
+//        List<String> setNames;
+//        setNames = dbRelation.searchSetnames();
+//        return  setNames;
+//    }
 
     public List<DatasetInfo> searchDatasetInfo() {
         List<DatasetInfo> datasetInfos;

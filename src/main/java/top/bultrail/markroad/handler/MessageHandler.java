@@ -89,21 +89,21 @@ public class MessageHandler {
     }
 
 
-    // 获取数据集名称列表
-    @ResponseBody
-    @RequestMapping(value = {"/api/searchSetnames"}, method = RequestMethod.POST)
-    public ResponseEntity<ResultEntity<List<String>>> searchSetnames() {
-        try {
-            List<String> setNames;
-            setNames = transformService.searchSetnames();
-            System.out.println("Success");
-            return ResponseEntity.ok(ResultEntity.successWithData(setNames,null));
-        } catch (Exception e) {
-            List<String> tmp = new ArrayList<>();
-            tmp.add(e.getMessage());
-            return new ResponseEntity<>(ResultEntity.failed(tmp), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+//    // 获取数据集名称列表
+//    @ResponseBody
+//    @RequestMapping(value = {"/api/searchSetnames"}, method = RequestMethod.POST)
+//    public ResponseEntity<ResultEntity<List<String>>> searchSetnames() {
+//        try {
+//            List<String> setNames;
+//            setNames = transformService.searchSetnames();
+//            System.out.println("Success");
+//            return ResponseEntity.ok(ResultEntity.successWithData(setNames,null));
+//        } catch (Exception e) {
+//            List<String> tmp = new ArrayList<>();
+//            tmp.add(e.getMessage());
+//            return new ResponseEntity<>(ResultEntity.failed(tmp), HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 
     // 一键保存
     @ResponseBody
