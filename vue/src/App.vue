@@ -1215,6 +1215,12 @@ onMounted(() => {
 const tdata207 = () => {
   axios.post("hh207")
     .then(function () {
+      //清空所有存放数据的数组
+      all_sensor.value = [];
+      all_gateway.value = [];
+      cross = [];
+      pointArr = [];
+      pts = [];
       // 清除地图上已经标记的点
       map.clearOverlays();
       var data_point = new BMap.Point(113.80634855083106, 22.816818813420948);// lyj标注位置
@@ -1232,6 +1238,12 @@ const tdata207 = () => {
 const tdata461 = () => {
   axios.post("hh461")
     .then(function () {
+      //清空所有存放数据的数组
+      all_sensor.value = [];
+      all_gateway.value = [];
+      cross = [];
+      pointArr = [];
+      pts = [];
       // 清除地图上已经标记的点
       map.clearOverlays();
       // layer.msg("The data is loaded in the database successfully!");
@@ -1250,6 +1262,13 @@ const tdata461 = () => {
 const tdata1052 = () => {
   axios.post("hh1052")
     .then(function () {
+      //清空所有存放数据的数组
+      all_sensor.value = [];
+      all_gateway.value = [];
+      cross = [];
+      pointArr = [];
+      pts = [];
+
       // 清除地图上已经标记的点
       map.clearOverlays();
       // layer.msg("The data is loaded in the database successfully!");
@@ -1268,6 +1287,12 @@ const tdata1052 = () => {
 const tdata1361 = () => {
   axios.post("hh1361")
     .then(function () {
+      //清空所有存放数据的数组
+      all_sensor.value = [];
+      all_gateway.value = [];
+      cross = [];
+      pointArr = [];
+      pts = [];
       // 清除地图上已经标记的点
       map.clearOverlays();
       // layer.msg("The data is loaded in the database successfully!");
@@ -1286,6 +1311,12 @@ const tdata1361 = () => {
 const tdatag114 = () => {
   axios.post("hhg114")
     .then(function () {
+      //清空所有存放数据的数组
+      all_sensor.value = [];
+      all_gateway.value = [];
+      cross = [];
+      pointArr = [];
+      pts = [];
       // 清除地图上已经标记的点
       map.clearOverlays();
       // layer.msg("The data is loaded in the database successfully!");
@@ -1304,6 +1335,13 @@ const tdatag114 = () => {
 const tdatag228 = () => {
   axios.post("hhg228")
     .then(function () {
+      //清空所有存放数据的数组
+      all_sensor.value = [];
+      all_gateway.value = [];
+      cross = [];
+      pointArr = [];
+      pts = [];
+
       // 清除地图上已经标记的点
       map.clearOverlays();
       // layer.msg("The data is loaded in the database successfully!");
@@ -1322,6 +1360,13 @@ const tdatag228 = () => {
 const tdatag354 = () => {
   axios.post("hhg354")
     .then(function () {
+      //清空所有存放数据的数组
+      all_sensor.value = [];
+      all_gateway.value = [];
+      cross = [];
+      pointArr = [];
+      pts = [];
+
       // 清除地图上已经标记的点
       map.clearOverlays();
       // layer.msg("The data is loaded in the database successfully!");
@@ -1340,6 +1385,13 @@ const tdatag354 = () => {
 const tdatag484 = () => {
   axios.post("hhg484")
     .then(function () {
+      //清空所有存放数据的数组
+      all_sensor.value = [];
+      all_gateway.value = [];
+      cross = [];
+      pointArr = [];
+      pts = [];
+
       // 清除地图上已经标记的点
       map.clearOverlays();
       // layer.msg("The data is loaded in the database successfully!");
