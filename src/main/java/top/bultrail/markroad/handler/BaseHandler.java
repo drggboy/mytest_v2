@@ -26,7 +26,7 @@ public class BaseHandler {
     @RequestMapping(value={"/gup","/api/gup"})
     @ResponseBody
     public ResultEntity<List<List<String>>> gatewayUpload() {
-        List<List<String>> gatewayList = dbRelation.readGateway();
+        List<List<String>> gatewayList = dbRelation.readGateway2();
         return ResultEntity.sucessWithData(gatewayList);
     }
 

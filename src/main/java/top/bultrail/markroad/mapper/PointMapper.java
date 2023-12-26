@@ -30,4 +30,5 @@ public interface PointMapper {
     void dropTable(String tableName);
     void transferData(String tableName, String name);
     List<Point> selectAllSensors();
+    List<Point> selectAllGateways();
 }

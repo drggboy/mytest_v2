@@ -633,27 +633,42 @@ public class DBRelation {
         return bk;
     }
 
-    public List<List<String>> readGateway() {
+//    public List<List<String>> readGateway() {
+//
+//        String sql = "SELECT * FROM gateway";
+//        List<String> lis;
+//        List<List<String>> bk = new ArrayList();
+//        try {
+//            Connection conn = setConnection();
+//            List<Point> rs = qr.query(conn, sql, new BeanListHandler<>(Point.class));
+//            for(Point p : rs) {
+//                lis = new ArrayList();
+////                lis.add(p.getId());
+//                lis.add(Integer.toString(p.getId()));
+//                lis.add(p.getRoadName());
+//                lis.add(p.getNumberInRoad());
+//                lis.add(p.getLng());
+//                lis.add(p.getLat());
+//                bk.add(lis);
+//            }
+//            conn.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return bk;
+//    }
 
-        String sql = "SELECT * FROM gateway";
-        List<String> lis;
-        List<List<String>> bk = new ArrayList();
-        try {
-            Connection conn = setConnection();
-            List<Point> rs = qr.query(conn, sql, new BeanListHandler<>(Point.class));
-            for(Point p : rs) {
-                lis = new ArrayList();
-//                lis.add(p.getId());
-                lis.add(Integer.toString(p.getId()));
-                lis.add(p.getRoadName());
-                lis.add(p.getNumberInRoad());
-                lis.add(p.getLng());
-                lis.add(p.getLat());
-                bk.add(lis);
-            }
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public List<List<String>> readGateway2() {
+        List<Point> points = pointMapper.selectAllGateways();
+        List<List<String>> bk = new ArrayList<>();
+        for (Point p : points) {
+            List<String> lis = new ArrayList<>();
+            lis.add(Integer.toString(p.getId()));
+            lis.add(p.getRoadName());
+            lis.add(p.getNumberInRoad());
+            lis.add(p.getLng());
+            lis.add(p.getLat());
+            bk.add(lis);
         }
         return bk;
     }
