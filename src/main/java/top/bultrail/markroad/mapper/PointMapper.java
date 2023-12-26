@@ -19,13 +19,11 @@ public interface PointMapper {
     int updateByPrimaryKey(Point2 record);
 
     int insertDynamic(@Param("tableName") String tableName, @Param("lng") String lng, @Param("lat") String lat);
-
     void truncateSensor();
-
     void truncateGateway();
     void truncateCross();
     void createTableLike(String newTableName, String originalTableName);
     void copyDataToNewTable(String newTableName, String originalTableName);
-    void insertDatasetInfo(String setName, Double locationLng, Double locationLat);
     void dropTable(String tableName);
+    
 }

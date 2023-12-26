@@ -467,12 +467,11 @@ public class DBRelation {
 //        }
 //    }
 
-    public void tdata(String num) {
-
+    public void tdata(String name) {
         Connection conn = setConnection();
         String[] keys = new String[]{"sensor", "gateway", "crossing"};
         for (String key : keys) {
-            String sql = "INSERT INTO " + key + " SELECT * FROM " + key + "_" + num;
+            String sql = "INSERT INTO " + key + " SELECT * FROM " + key + "_" + name;
             try {
                 qr.update(conn, sql);
             }
