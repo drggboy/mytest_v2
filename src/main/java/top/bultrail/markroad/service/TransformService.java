@@ -141,7 +141,7 @@ public class TransformService {
     public HashMap<String,List<List<String>>> calAlgorithm(String algorithm) throws Exception {
 
         // 从数据库读出的sensor、gateway数据
-        List<List<String>> sensor = dbRelation.readSensor();
+        List<List<String>> sensor = dbRelation.readSensor2();
         List<List<String>> gateway = dbRelation.readGateway();
         // 进行处理，在属性间添加逗号形成字符串
         List<String> all_sensor = new ArrayList<String>();
@@ -228,7 +228,7 @@ public class TransformService {
      */
     public HashMap<String,List<List<String>>> calByLinner_upload(String flag) throws Exception {
         // 从数据库读出的sensor、gateway数据
-        List<List<String>> sensor = dbRelation.readSensor();
+        List<List<String>> sensor = dbRelation.readSensor2();
         List<List<String>> gateway = dbRelation.readGateway();
         // 进行处理，在属性间添加逗号形成字符串
         List<String> all_sensor = new ArrayList<String>();

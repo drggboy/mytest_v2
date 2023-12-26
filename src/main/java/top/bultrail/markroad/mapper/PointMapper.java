@@ -2,7 +2,10 @@ package top.bultrail.markroad.mapper;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+import top.bultrail.markroad.bean.Point;
 import top.bultrail.markroad.pojo.Point2;
+
+import java.util.List;
 
 @Repository
 public interface PointMapper {
@@ -26,4 +29,5 @@ public interface PointMapper {
     void copyDataToNewTable(String newTableName, String originalTableName);
     void dropTable(String tableName);
     void transferData(String tableName, String name);
+    List<Point> selectAllSensors();
 }

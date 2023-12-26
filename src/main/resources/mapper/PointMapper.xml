@@ -18,6 +18,9 @@
     from gateway
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectAllSensors" resultType="top.bultrail.markroad.bean.Point">
+    SELECT * FROM sensor
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from gateway
     where id = #{id,jdbcType=INTEGER}

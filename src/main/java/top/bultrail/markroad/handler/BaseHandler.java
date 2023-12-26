@@ -19,7 +19,7 @@ public class BaseHandler {
     @RequestMapping(value={"/sup","/api/sup"})
     @ResponseBody
     public ResultEntity<List<List<String>>> sensorUpload() {
-        List<List<String>> sensorList = dbRelation.readSensor();
+        List<List<String>> sensorList = dbRelation.readSensor2();
         return ResultEntity.sucessWithData(sensorList);
     }
 
