@@ -9,6 +9,11 @@
     <result column="location_lng" jdbcType="DOUBLE" property="locationLng" />
     <result column="location_lat" jdbcType="DOUBLE" property="locationLat" />
   </resultMap>
+  <resultMap id="datasetLocationMap" type="top.bultrail.markroad.pojo.DatasetLocation">
+    <result column="location_lng" jdbcType="DOUBLE" property="locationLng" />
+    <result column="location_lat" jdbcType="DOUBLE" property="locationLat" />
+  </resultMap>
+
   <sql id="Base_Column_List">
     `name`, sensor_size, gateway_size, crossing_size, location_lng, location_lat
   </sql>
@@ -21,9 +26,10 @@
   <select id="selectDatasetInfo" resultType="top.bultrail.markroad.pojo.DatasetInfo">
     SELECT name, sensor_size, gateway_size FROM dataset_name
   </select>
-  <select id="selectDatasetLocation" resultType="top.bultrail.markroad.pojo.DatasetLocation">
+  <select id="selectDatasetLocation" resultMap="datasetLocationMap">
     SELECT location_lng, location_lat FROM dataset_name WHERE name = #{setName}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from dataset_name
     where `name` = #{name,jdbcType=VARCHAR}

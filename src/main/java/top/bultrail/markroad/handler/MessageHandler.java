@@ -173,7 +173,7 @@ public class MessageHandler {
     public ResponseEntity<ResultEntity<List<Double>>> datasetLoad(@RequestParam(value = "datasetName") String setName) {
         try {
             List<Double> location = transformService.datasetLoad(setName);
-            System.out.println("Success");
+            System.out.println("Dataset Load Success");
             return ResponseEntity.ok(ResultEntity.successWithDataDouble(location, null));
         } catch (Exception e) {
             return new ResponseEntity<>(ResultEntity.failedWithMessage(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
