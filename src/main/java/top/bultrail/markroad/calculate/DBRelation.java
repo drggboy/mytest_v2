@@ -414,55 +414,58 @@ public class DBRelation {
 //        return setNames;
 //    }
 
-    public List<DatasetInfo> searchDatasetInfo() {
-        List<DatasetInfo> datasetInfoList = new ArrayList<>();
-        Connection conn = setConnection();
-        String sql = "SELECT name, sensor_size, gateway_size FROM dataset_name";
-        try {
-            Statement statement = conn.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-            while (resultSet.next()) {
-                String name = resultSet.getString("name");
-                int sensorSize = resultSet.getInt("sensor_size");
-                int gatewaySize = resultSet.getInt("gateway_size");
+//    public List<DatasetInfo> searchDatasetInfo() {
+//        List<DatasetInfo> datasetInfoList = new ArrayList<>();
+//        Connection conn = setConnection();
+//        String sql = "SELECT name, sensor_size, gateway_size FROM dataset_name";
+//        try {
+//            Statement statement = conn.createStatement();
+//            ResultSet resultSet = statement.executeQuery(sql);
+//            while (resultSet.next()) {
+//                String name = resultSet.getString("name");
+//                int sensorSize = resultSet.getInt("sensor_size");
+//                int gatewaySize = resultSet.getInt("gateway_size");
+//
+//                DatasetInfo datasetInfo = new DatasetInfo(name, sensorSize, gatewaySize);
+//                datasetInfoList.add(datasetInfo);
+//            }
+//            resultSet.close();
+//            statement.close();
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//        try {
+//            conn.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return datasetInfoList;
+//    }
 
-                DatasetInfo datasetInfo = new DatasetInfo(name, sensorSize, gatewaySize);
-                datasetInfoList.add(datasetInfo);
-            }
-            resultSet.close();
-            statement.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return datasetInfoList;
+    public List<DatasetInfo> searchDatasetInfo2() {
+        return datasetNameMapper.selectDatasetInfo();
     }
 
-
-    //备份
-    public void bkup() {
-
-        Connection conn = setConnection();
-        String[] keys = new String[]{"sensor", "gateway", "crossing"};
-        for (String key : keys) {
-            String sql = "INSERT INTO " + key + "_backup(roadName, numberInRoad, Lng, Lat, road_id) SELECT roadName, numberInRoad, Lng, Lat, road_id FROM " + key;
-            try {
-                qr.update(conn, sql);
-                }
-            catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        try {
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+//    //备份
+//    public void bkup() {
+//
+//        Connection conn = setConnection();
+//        String[] keys = new String[]{"sensor", "gateway", "crossing"};
+//        for (String key : keys) {
+//            String sql = "INSERT INTO " + key + "_backup(roadName, numberInRoad, Lng, Lat, road_id) SELECT roadName, numberInRoad, Lng, Lat, road_id FROM " + key;
+//            try {
+//                qr.update(conn, sql);
+//                }
+//            catch (SQLException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
+//        try {
+//            conn.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public void tdata(String num) {
 

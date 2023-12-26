@@ -18,6 +18,9 @@
     from dataset_name
     where `name` = #{name,jdbcType=VARCHAR}
   </select>
+  <select id="selectDatasetInfo" resultType="top.bultrail.markroad.pojo.DatasetInfo">
+    SELECT name, sensor_size, gateway_size FROM dataset_name
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from dataset_name
     where `name` = #{name,jdbcType=VARCHAR}

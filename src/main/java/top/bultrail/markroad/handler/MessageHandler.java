@@ -80,7 +80,7 @@ public class MessageHandler {
         try {
             List<DatasetInfo> datasetInfos;
             datasetInfos = transformService.searchDatasetInfo();
-            System.out.println("Success");
+            System.out.println("Search Datasets Information Successfully");
             return ResponseEntity.ok(ResultEntity.successWithDatasetInfo(datasetInfos,null));
         } catch (Exception e) {
             ResultEntity<List<DatasetInfo>> errorResponse = ResultEntity.failedWithMessage(e.getMessage());
@@ -159,13 +159,13 @@ public class MessageHandler {
 //        return ResultEntity.successWithoutData();
 //    }
 
-    //备份
-    @ResponseBody
-    @RequestMapping(value ={"/hhback","/api/hhback"}, method = RequestMethod.POST)
-    public ResultEntity<String> backup() {
-        transformService.bkDB();
-        return ResultEntity.successWithoutData();
-    }
+//    //备份
+//    @ResponseBody
+//    @RequestMapping(value ={"/hhback","/api/hhback"}, method = RequestMethod.POST)
+//    public ResultEntity<String> backup() {
+//        transformService.bkDB();
+//        return ResultEntity.successWithoutData();
+//    }
 
     //数据集加载
     @ResponseBody

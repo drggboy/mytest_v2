@@ -74,7 +74,7 @@ public class TransformService {
 
     public List<DatasetInfo> searchDatasetInfo() {
         List<DatasetInfo> datasetInfos;
-        datasetInfos = dbRelation.searchDatasetInfo();
+        datasetInfos = dbRelation.searchDatasetInfo2();
         return  datasetInfos;
     }
 
@@ -89,9 +89,9 @@ public class TransformService {
 //    }
 
     //备份 新增
-    public void bkDB() {
-        dbRelation.bkup();
-    }
+//    public void bkDB() {
+//        dbRelation.bkup();
+//    }
 
     //162 新增
     public void td207() {

@@ -1,7 +1,10 @@
 package top.bultrail.markroad.mapper;
 
 import org.springframework.stereotype.Repository;
+import top.bultrail.markroad.pojo.DatasetInfo;
 import top.bultrail.markroad.pojo.DatasetName;
+
+import java.util.List;
 
 @Repository
 public interface DatasetNameMapper {
@@ -17,4 +20,5 @@ public interface DatasetNameMapper {
     int updateByPrimaryKeySelective(DatasetName record);
 
     int updateByPrimaryKey(DatasetName record);
+    List<DatasetInfo> selectDatasetInfo();
 }
