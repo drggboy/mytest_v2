@@ -96,29 +96,29 @@ public class TransformService {
     //162 新增
     public void td207() {
         dbRelation.clear2();
-        dbRelation.tdata("207");
+        dbRelation.tdata2("207");
     }
 
     //461 新增
     public void td461() {
         dbRelation.clear2();
-        dbRelation.tdata("461");
+        dbRelation.tdata2("461");
     }
 
     //518 新增
     public void td1052() {
         dbRelation.clear2();
-        dbRelation.tdata("1052");
+        dbRelation.tdata2("1052");
     }
 
     public void td1361() {
         dbRelation.clear2();
-        dbRelation.tdata("1361");
+        dbRelation.tdata2("1361");
     }
 
     public List<Double> datasetLoad(String setName) {
         dbRelation.clear2();
-        List<Double> location = dbRelation.datasetLoad(setName);
+        List<Double> location = dbRelation.datasetLoad2(setName);
         return location;
     }
 

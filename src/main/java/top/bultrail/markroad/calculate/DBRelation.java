@@ -16,6 +16,7 @@ import top.bultrail.markroad.mapper.PointMapper;
 import top.bultrail.markroad.pojo.DatasetInfo;
 
 import org.springframework.transaction.annotation.Transactional;
+import top.bultrail.markroad.pojo.DatasetLocation;
 import top.bultrail.markroad.pojo.DatasetName;
 
 @Component
@@ -467,64 +468,84 @@ public class DBRelation {
 //        }
 //    }
 
-    public void tdata(String name) {
-        Connection conn = setConnection();
+//    public void tdata(String name) {
+//        Connection conn = setConnection();
+//        String[] keys = new String[]{"sensor", "gateway", "crossing"};
+//        for (String key : keys) {
+//            String sql = "INSERT INTO " + key + " SELECT * FROM " + key + "_" + name;
+//            try {
+//                qr.update(conn, sql);
+//            }
+//            catch (SQLException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
+//        try {
+//            conn.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+    public void tdata2(String name) {
         String[] keys = new String[]{"sensor", "gateway", "crossing"};
         for (String key : keys) {
-            String sql = "INSERT INTO " + key + " SELECT * FROM " + key + "_" + name;
-            try {
-                qr.update(conn, sql);
-            }
-            catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        try {
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+            pointMapper.transferData(key, name);
         }
     }
 
-    public List<Double> datasetLoad(String setName) {
-        Connection conn = setConnection();
-        // 加载数据集
+//    public List<Double> datasetLoad(String setName) {
+//        Connection conn = setConnection();
+//        // 加载数据集
+//        String[] keys = new String[]{"sensor", "gateway", "crossing"};
+//        for (String key : keys) {
+//            String sql = "INSERT INTO " + key + " SELECT * FROM " + key + "_" + setName;
+//            try {
+//                qr.update(conn, sql);
+//            }
+//            catch (SQLException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
+//
+//        // 获取数据集位置
+//        List<Double> locationList = new ArrayList<>();
+//        try {
+//            String sql = "SELECT location_lng, location_lat FROM dataset_name WHERE name = ?";
+//            PreparedStatement statement = conn.prepareStatement(sql);
+//            statement.setString(1, setName);
+//            ResultSet resultSet = statement.executeQuery();
+//
+//            if (resultSet.next()) {
+//                double locationLng = resultSet.getDouble("location_lng");
+//                double locationLat = resultSet.getDouble("location_lat");
+//                locationList.add(locationLng);
+//                locationList.add(locationLat);
+//            }
+//
+//            resultSet.close();
+//            statement.close();
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        try {
+//            conn.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return locationList;
+//    }
+    public List<Double> datasetLoad2(String setName) {
         String[] keys = new String[]{"sensor", "gateway", "crossing"};
         for (String key : keys) {
-            String sql = "INSERT INTO " + key + " SELECT * FROM " + key + "_" + setName;
-            try {
-                qr.update(conn, sql);
-            }
-            catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+            pointMapper.transferData(key, setName);
         }
-
-        // 获取数据集位置
+        DatasetLocation location = datasetNameMapper.selectDatasetLocation(setName);
         List<Double> locationList = new ArrayList<>();
-        try {
-            String sql = "SELECT location_lng, location_lat FROM dataset_name WHERE name = ?";
-            PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setString(1, setName);
-            ResultSet resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-                double locationLng = resultSet.getDouble("location_lng");
-                double locationLat = resultSet.getDouble("location_lat");
-                locationList.add(locationLng);
-                locationList.add(locationLat);
-            }
-
-            resultSet.close();
-            statement.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (location != null) {
+            locationList.add(location.getLocationLng());
+            locationList.add(location.getLocationLat());
         }
         return locationList;
     }

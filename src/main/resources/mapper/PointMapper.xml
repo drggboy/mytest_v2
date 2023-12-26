@@ -118,6 +118,9 @@
   <update id="dropTable">
     DROP TABLE IF EXISTS ${tableName}
   </update>
+  <update id="transferData">
+    INSERT INTO ${tableName} SELECT * FROM ${tableName}_${name}
+  </update>
 
 
 </mapper>

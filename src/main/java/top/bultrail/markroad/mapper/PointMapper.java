@@ -25,5 +25,5 @@ public interface PointMapper {
     void createTableLike(String newTableName, String originalTableName);
     void copyDataToNewTable(String newTableName, String originalTableName);
     void dropTable(String tableName);
-    
+    void transferData(String tableName, String name);
 }

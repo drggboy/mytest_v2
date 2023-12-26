@@ -21,6 +21,9 @@
   <select id="selectDatasetInfo" resultType="top.bultrail.markroad.pojo.DatasetInfo">
     SELECT name, sensor_size, gateway_size FROM dataset_name
   </select>
+  <select id="selectDatasetLocation" resultType="top.bultrail.markroad.pojo.DatasetLocation">
+    SELECT location_lng, location_lat FROM dataset_name WHERE name = #{setName}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from dataset_name
     where `name` = #{name,jdbcType=VARCHAR}
