@@ -27,4 +27,5 @@ public interface PointMapper {
     void createTableLike(String newTableName, String originalTableName);
     void copyDataToNewTable(String newTableName, String originalTableName);
     void insertDatasetInfo(String setName, Double locationLng, Double locationLat);
+    void dropTable(String tableName);
 }

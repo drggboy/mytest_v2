@@ -53,7 +53,7 @@ public class MessageHandler {
         List<Double> currentLocation = (List<Double>) requestBody.get("current_location");
         try {
             transformService.saveDataset(setName, currentLocation);
-            System.out.println("Dataset saved success");
+            System.out.println("Dataset saved successfully");
         } catch (Exception e) {
             return new ResponseEntity<>(ResultEntity.failed(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -66,7 +66,7 @@ public class MessageHandler {
     public ResponseEntity<ResultEntity<String>> deleteDataset(@RequestParam(value = "datasetName") String setName) {
         try {
             transformService.deleteDataset(setName);
-            System.out.println("Success");
+            System.out.println("Dataset deleted successfully");
             return ResponseEntity.ok(ResultEntity.successWithoutData());
         } catch (Exception e) {
             return new ResponseEntity<>(ResultEntity.failedWithMessage(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);

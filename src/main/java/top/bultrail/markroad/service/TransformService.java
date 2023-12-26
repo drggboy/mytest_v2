@@ -63,7 +63,7 @@ public class TransformService {
     }
 
     public void deleteDataset(String datasetName) {
-        dbRelation.deleteDataset(datasetName);
+        dbRelation.deleteDataset2(datasetName);
     }
 
     public List<String> searchSetnames() {

@@ -341,40 +341,51 @@ public class DBRelation {
     }
 
 
+    //删除数据集
+//    public void deleteDataset(String setName) {
+//        Connection conn = setConnection();
+//        String[] keys = new String[]{"sensor", "gateway", "crossing"};
+//
+//        // 删除三个数据表
+//        for (String key : keys) {
+//            String tableName = key + "_" + setName;
+//            String sql = "DROP TABLE IF EXISTS " + tableName;
+//            try {
+//                qr.update(conn, sql);
+//            } catch (SQLException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
+//
+//        // 删除 dataset_name 表中对应的条目
+//        String datasetNameTable = "dataset_name";
+//        String deleteSql = "DELETE FROM " + datasetNameTable + " WHERE name = ?";
+//        try {
+//            PreparedStatement statement = conn.prepareStatement(deleteSql);
+//            statement.setString(1, setName);
+//            statement.executeUpdate();
+//            statement.close();
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        try {
+//            conn.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     //删除数据集
-    public void deleteDataset(String setName) {
-        Connection conn = setConnection();
+    @Transactional
+    public void deleteDataset2(String setName) {
         String[] keys = new String[]{"sensor", "gateway", "crossing"};
-
         // 删除三个数据表
         for (String key : keys) {
             String tableName = key + "_" + setName;
-            String sql = "DROP TABLE IF EXISTS " + tableName;
-            try {
-                qr.update(conn, sql);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+            pointMapper.dropTable(tableName);
         }
-
-        // 删除 dataset_name 表中对应的条目
-        String datasetNameTable = "dataset_name";
-        String deleteSql = "DELETE FROM " + datasetNameTable + " WHERE name = ?";
-        try {
-            PreparedStatement statement = conn.prepareStatement(deleteSql);
-            statement.setString(1, setName);
-            statement.executeUpdate();
-            statement.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        datasetNameMapper.deleteByPrimaryKey(setName);
     }
 
 

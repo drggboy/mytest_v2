@@ -127,6 +127,9 @@
   <update id="copyDataToNewTable">
     INSERT INTO ${newTableName} SELECT * FROM ${originalTableName}
   </update>
+  <update id="dropTable">
+    DROP TABLE IF EXISTS ${tableName}
+  </update>
 
 
 </mapper>
