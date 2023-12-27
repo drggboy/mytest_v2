@@ -34,6 +34,9 @@
             <el-form-item>
               <el-button type="success" @click="handleTestUpload" class="green-color">TestData Load</el-button>
             </el-form-item>
+            <el-form-item label="Chosen Number">
+              {{ chosenNumberStr }}
+            </el-form-item>
           </el-form>
         </div>
         <!-- 标注视图 -->
@@ -48,10 +51,17 @@
             <el-form-item label="Mark Mode">
               <el-switch v-model="ifmark" @change="handleSwitchChange"></el-switch>
             </el-form-item>
+            <!-- <el-form-item label="NodeType">
+              <el-select v-model="nodeType" value-key="id" placeholder="Select" placement="top-start"
+                :popper-append-to-body="false" :teleported="false" popper-class="custom-popper"
+                :disabled="nodeTypeIsDisabled @change="handleNodeTypeChange">
+                <el-option v-for="item in options" :key="item.id" :label="item.label" :value="item" />
+              </el-select>
+            </el-form-item> -->
             <el-form-item label="NodeType">
               <el-select v-model="nodeType" value-key="id" placeholder="Select" placement="top-start"
                 :popper-append-to-body="false" :teleported="false" popper-class="custom-popper"
-                :disabled="nodeTypeIsDisabled">
+                :disabled="nodeTypeIsDisabled" @change="handleNodeTypeChange">
                 <el-option v-for="item in options" :key="item.id" :label="item.label" :value="item" />
               </el-select>
             </el-form-item>
@@ -111,7 +121,7 @@
         <el-button type="primary" @click="handleLoad('207')">207</el-button>
         <el-button type="primary" @click="handleLoad('461')">461</el-button>
         <el-button type="primary" @click="handleLoad('1052')">1052</el-button>
-        <el-button type="primary" @click="handleLoad('')">1361</el-button>
+        <el-button type="primary" @click="handleLoad('1361')">1361</el-button>
         <el-button type="primary" @click="handleLoad('guo114')">G114</el-button>
         <el-button type="primary" @click="handleLoad('guo228')">G228</el-button>
         <el-button type="primary" @click="handleLoad('guo354')">G354</el-button>
@@ -135,7 +145,8 @@
         <el-table-column label="Operations">
           <template #default="scope">
             <el-button size="small" @click="handleLoad(scope.row.name)">Load</el-button>
-            <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row.name)">Delete</el-button>
+            <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row.name)" :disabled="isRestrictedDataset(scope.row.name)">Delete</el-button>
+            <el-button size="small" @click="renameDataset(scope.row, scope.$index)" :disabled="isRestrictedDataset(scope.row.name)">Rename</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -154,6 +165,8 @@
 import { ref, onMounted, computed } from 'vue';
 //@ts-ignore
 import axios from 'axios';
+// import { onScopeDispose } from 'vue';
+
 
 let BMap: any;
 let map: any;
@@ -168,7 +181,7 @@ let cIcon: any;
 // 使用 ref 声明响应式数据
 const all_sensor = ref<any[][]>([]);    // 存放地图上所有的传感器节点
 const all_gateway = ref<any[][]>([]);   // 存放地图上所有的网关节点
-
+const chosenNumber = ref(0); // 初始值为整数 0
 
 let cross: any[] = [];         //存放地图上所有的交叉路口
 let pointArr: any[] = [];      //存放一条路的起点与终点
@@ -181,11 +194,15 @@ const upload_dialogVisible = ref(false);
 const TestData_dialogVisible = ref(false);
 const Dataset_dialogVisible = ref(false);
 const AboutDatasetdialogVisible = ref(false);
+
 // 存放数据集信息
 const setNames = ref<Array<{ name: string; sensorSize: number; gatewaySize: number }>>([]);
 const nodeTypeIsDisabled = computed(() => !ifmark.value);
 const saveDatasetIsDisabled = computed(() => !ifmark.value);
 //const saveDataIsDisabled = computed(() => !ifmark.value);
+
+
+
 
 // 计算所有传感器节点的个数并累加
 const sensorsValue = computed(() => {
@@ -196,6 +213,16 @@ const sensorsValue = computed(() => {
   return totalSensors;
 });
 
+// 计算所有传感器节点的个数并累加
+const chosenNumberStr = computed(() => {
+  if (chosenNumber.value === 0) {
+    return "_ _"
+  }
+  else {
+    return chosenNumber.value
+  }
+});
+
 // 计算所有网关节点的个数并累加
 const gatewaysValue = computed(() => {
   let totalGateways = 0;
@@ -204,6 +231,12 @@ const gatewaysValue = computed(() => {
   }
   return totalGateways;
 });
+
+const isRestrictedDataset = (name: string) => {
+  const restrictedDatasets = ['1052', '1361', '207', '461', 'guo114', 'guo228', 'guo354', 'guo484'];
+  return restrictedDatasets.includes(name);
+};
+
 
 type Option = {
   id: number
@@ -218,6 +251,7 @@ const options = ref([
   { id: 3, label: 'sensor_single', desc: '单点传感器标记' },
   { id: 4, label: 'gateway_single', desc: '单点网关标记' },
   { id: 5, label: 'cross', desc: '路口标记' },
+  { id: 6, label: 'None', desc: '无标记' },
 ])
 
 const createMap = () => {
@@ -284,6 +318,7 @@ const handleLoad = (name: string) => {
       //清空所有存放数据的数组
       all_sensor.value = [];
       all_gateway.value = [];
+      chosenNumber.value = 0;
       cross = [];
       pointArr = [];
       pts = [];
@@ -378,15 +413,15 @@ const undo = () => {
   drawAllMarked();
 };
 
-// 方法：缩小地图一级
-const zoomOut = () => {
-  map.value.zoomOut();
-};
+// // 方法：缩小地图一级
+// const zoomOut = () => {
+//   map.value.zoomOut();
+// };
 
-// 方法：放大地图一级
-const zoomIn = () => {
-  map.value.zoomIn();
-};
+// // 方法：放大地图一级
+// const zoomIn = () => {
+//   map.value.zoomIn();
+// };
 
 // function handleDatasetButtonClick(name: string) {
 //   // 在这里处理按钮点击逻辑
@@ -426,9 +461,23 @@ const handleSwitchChange = () => {
   }
 };
 
+function handleNodeTypeChange() {
+  var the_nodetype = nodeType.value?.label
+  if (the_nodetype === "None") {
+    // 开关关闭时执行的代码
+    map.setDefaultCursor("url(https://api.map.baidu.com/images/openhand.cur) 8 8,default");
+  } else {
+    map.setDefaultCursor("crosshair");
+  }
+}
+
+
 function handleClick(e) {
   var the_nodetype = nodeType.value?.label
-  if (the_nodetype === "cross") {
+  if (the_nodetype === "None") {
+    map.setDefaultCursor("url(https://api.map.baidu.com/images/openhand.cur) 8 8,default");
+  }
+  else if (the_nodetype === "cross") {
     cross.push(e.point);
     guard_undo = 'cross';
     var markerCros = new BMap.Marker(e.point, {
@@ -470,10 +519,14 @@ function handleClick(e) {
     }
     if (pointArr.length === 2) {
       var start = new BMap.Point(pointArr[0].lng, pointArr[0].lat);
-      // map.addOverlay(new GL.Marker(start));
+      // map.addOverlay(new BMap.Marker(start));
       // pts.push(start);   //有bug
       var end = new BMap.Point(pointArr[1].lng, pointArr[1].lat);
-      // map.addOverlay(new GL.Marker(end));
+      // map.addOverlay(new BMap.Marker(end));
+      var GreenMarker = new BMap.Marker(end, {
+        icon: cIcon
+      });
+      map.addOverlay(GreenMarker);
       // pts.push(end);
       pointArr = []
 
@@ -511,8 +564,11 @@ function handleClick(e) {
         // console.log(all_sensor[0][0].lng, all_sensor[0][0].lat);
       }
       // all.push(pts)
-      //绘制所有标注节点
-      drawAllMarked();
+      // 延迟 250 毫秒后执行 drawAllMarked()
+      setTimeout(function () {
+        //绘制所有标注节点
+        drawAllMarked();
+      }, 250);
     }
   }
 }
@@ -520,7 +576,12 @@ function handleClick(e) {
 
 //绘制所有标注节点
 function drawAllMarked() {
-  // 绘制所有节点
+  const loading = ElLoading.service({
+    lock: true,
+    text: 'Loading',
+    background: 'rgba(255, 255, 255, 0.5)',
+  })
+  chosenNumber.value = 0;
   // 删除已经标注的点
   map.clearOverlays()
   // 在地图上标注路口节点
@@ -621,6 +682,7 @@ function drawAllMarked() {
       }
     }
   }
+  loading.close();
 }
 
 // const onSubmit = () => {
@@ -643,6 +705,7 @@ const formatting = () => {
       //清空所有存放数据的数组
       all_sensor.value = [];
       all_gateway.value = [];
+      chosenNumber.value = 0;
       cross = [];
       pointArr = [];
       pts = [];
@@ -824,8 +887,63 @@ const saveDataset = () => {
     })
 }
 
+const renameDataset = (row: any, rowIndex: number) => {
+  // 定义标题字符串
+  const title = `Rename Dataset: ${row.name}`;
+  ElMessageBox.prompt('Please enter the new dataset name', title, {
+    confirmButtonText: 'OK',
+    cancelButtonText: 'Cancel',
+    inputPattern: /^[a-zA-Z0-9]{1,8}$/,
+    inputErrorMessage: 'Name must be 1-8 characters long, letters and numbers only',
+  })
+    .then(({ value }) => {
+      const loading = ElLoading.service({
+        lock: true,
+        text: 'Loading',
+        background: 'rgba(255, 255, 255, 0.5)',
+      });
+
+      // 构建请求体数据
+      const requestData = {
+        oldName: row.name,
+        newName: value,
+      };
+
+      // 发送网络请求进行重命名
+      axios.post('renameDataset', requestData)
+        .then(() => {
+          loading.close();
+          ElMessage({
+            message: 'Dataset renamed successfully',
+            type: 'success',
+          });
+
+          // 更新数据集列表
+          if (rowIndex >= 0 && rowIndex < setNames.value.length) {
+            setNames.value[rowIndex].name = value;
+          }
+        })
+        .catch((error: { response: { data: { message: any; }; }; }) => {
+          loading.close();
+          const mess = error.response.data.message;
+          if (mess != null)
+            ElMessage.error(mess)
+          else
+            ElMessage.error('Rename failed')
+        });
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: 'Rename canceled',
+      });
+    });
+}
+
+
 function drawPoints(response: { data: { gatewayList: any; sensorList: any; }; }) {
   var dataGateway = response.data.gatewayList;//response.data计算出来的最终网关坐标
+  chosenNumber.value = dataGateway[0].length;
   alert(dataGateway[0].length + " gateways have been used! ")
   //在地图上标记网关坐标
   for (var j = 0; j < dataGateway[0].length; j++) {
@@ -1182,7 +1300,7 @@ const sensorupload = () => {
     lock: true,
     text: 'Loading',
     background: 'rgba(255, 255, 255, 0.5)',
-  })
+  });
   axios.post('sup')
     .then((response: { data: { data: any; }; }) => {
       var sensors = response.data.data; // 拿到的sensor列表
@@ -1196,20 +1314,23 @@ const sensorupload = () => {
         var marker1 = new BMap.Marker(point1, { icon: sIcon });
         map.addOverlay(marker1);
       }
-      loading.close();
-      ElMessage({
-        message: '传感器节点绘制完成',
-        type: 'success',
-      })
+      setTimeout(() => {
+        loading.close();
+        ElMessage({
+          message: '传感器节点绘制完成',
+          type: 'success',
+        });
+      }, 1000); // 使用 setTimeout 延迟 0 毫秒
     })
     .catch((error: any) => {
       loading.close();
       ElMessage({
         message: error,
         type: 'error',
-      })
+      });
     });
 };
+
 
 
 

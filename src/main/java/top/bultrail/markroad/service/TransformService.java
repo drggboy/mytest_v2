@@ -64,6 +64,12 @@ public class TransformService {
         return  datasetInfos;
     }
 
+    public void renameDataset(String oldName, String newName) {
+        // 调用数据库层进行重命名操作
+        dbRelation.renameDataset2(oldName, newName);
+    }
+
+
     //清空数据库 新增
     public void clearDB() {
         dbRelation.clear2();

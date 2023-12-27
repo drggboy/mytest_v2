@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import top.bultrail.markroad.pojo.Point;
 import top.bultrail.markroad.pojo.QuickSave;
+import top.bultrail.markroad.pojo.RenameDatasetRequest;
 import top.bultrail.markroad.service.TransformService;
 import top.bultrail.markroad.util.ResultEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,6 +88,19 @@ public class MessageHandler {
             return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @ResponseBody
+    @RequestMapping(value = {"/api/renameDataset"}, method = RequestMethod.POST)
+    public ResponseEntity<ResultEntity<String>> renameDataset(@RequestBody RenameDatasetRequest request) {
+        try {
+            transformService.renameDataset(request.getOldName(), request.getNewName());
+            System.out.println("Dataset renamed successfully");
+            return ResponseEntity.ok(ResultEntity.successWithoutData());
+        } catch (Exception e) {
+            return new ResponseEntity<>(ResultEntity.failedWithMessage(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     // 一键保存
     @ResponseBody

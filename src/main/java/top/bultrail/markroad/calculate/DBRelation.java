@@ -90,6 +90,19 @@ public class DBRelation {
     }
 
     @Transactional
+    public void renameDataset2(String oldName, String newName) {
+        if (datasetNameMapper.existsByName(newName))
+            { throw new IllegalArgumentException("Name already exists."); }
+        // 调用 Mapper/DAO 层的方法来执行数据库更新
+        datasetNameMapper.updateDatasetName(oldName, newName);
+        pointMapper.renameTable("crossing_" + oldName, "crossing_" + newName);
+        pointMapper.renameTable("sensor_" + oldName, "sensor_" + newName);
+        pointMapper.renameTable("gateway_" + oldName, "gateway_" + newName);
+
+
+    }
+
+    @Transactional
     public List<Double> datasetLoad2(String setName) {
         String[] keys = new String[]{"sensor", "gateway", "crossing"};
         for (String key : keys) {

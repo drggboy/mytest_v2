@@ -130,6 +130,7 @@
   <update id="transferData">
     INSERT INTO ${tableName} SELECT * FROM ${tableName}_${name}
   </update>
-
-
+  <update id="renameTable">
+    ALTER TABLE ${oldTableName} RENAME TO ${newTableName}
+  </update>
 </mapper>
