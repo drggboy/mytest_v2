@@ -171,7 +171,7 @@ import axios from 'axios';
 let BMap: any;
 let map: any;
 let gIcon: any;
-let gIcon_rec32: any;
+// let gIcon_rec32: any;
 // let gIcon_rec16: any;
 let sIcon: any;
 // let rIcon: any;
@@ -296,7 +296,7 @@ const createMap = () => {
   });
   // 创建自定义网关图标
   gIcon = new BMap.Icon("./assets/icon/jian.png", new BMap.Size(32, 32));
-  gIcon_rec32 = new BMap.Icon("./assets/icon/rectangle32.png", new BMap.Size(32, 32));
+  // gIcon_rec32 = new BMap.Icon("./assets/icon/rectangle32.png", new BMap.Size(32, 32));
   // gIcon_rec16 = new BMap.Icon("./assets/icon/rectangle16.png", new BMap.Size(16, 16));
   // 传感器图标
   sIcon = new BMap.Icon("./assets/icon/point16.png", new BMap.Size(16, 16));
@@ -472,7 +472,7 @@ function handleNodeTypeChange() {
 }
 
 
-function handleClick(e) {
+function handleClick(e: { point: any; }) {
   var the_nodetype = nodeType.value?.label
   if (the_nodetype === "None") {
     map.setDefaultCursor("url(https://api.map.baidu.com/images/openhand.cur) 8 8,default");
@@ -771,7 +771,7 @@ const saveData = () => {
     background: 'rgba(255, 255, 255, 0.5)',
   })
   axios.post('hhquicksaveNew', quickSaveData)
-    .then((response: { data: any; }) => {
+    .then((_response: { data: any; }) => {
       loading.close();
       // 请求成功时的处理
       // console.log(response.data);
@@ -835,9 +835,9 @@ const deleteDataset = () => {
     })
 }
 
-const handleDataset = () => {
-  AboutDatasetdialogVisible.value = true;
-}
+// const handleDataset = () => {
+//   AboutDatasetdialogVisible.value = true;
+// }
 
 const saveDataset = () => {
   ElMessageBox.prompt('Please set dataset name', 'Tip', {
