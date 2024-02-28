@@ -215,16 +215,10 @@ const createMap = () => {
 
 
 // 添加自定义图标
-const addIcon = (iconSrc: string, size: number[], position: Coordinate, anchorvalue = { x: 0.5, y: 0.5 }) => {
+const addIcon = (iconSrc: string, size: number[], position: Coordinate, zIndex = 1, anchorvalue = { x: 0.5, y: 0.5 }) => {
   const iconFeature = new Feature({
     geometry: new Point(fromLonLat(position)), // 图标位置
   });
-
-  // 计算锚点基于偏移量
-  // 假设偏移量是相对于图标底部中心的向上和向右的像素值
-  // const anchorX = 0.5 + offset.x / size[0];
-  // // 注意：OpenLayers的Y轴是从上往下的，所以向上移动是减小值
-  // const anchorY = 1 - (offset.y / size[1]);
 
   iconFeature.setStyle(new Style({
     image: new Icon({
@@ -241,11 +235,12 @@ const addIcon = (iconSrc: string, size: number[], position: Coordinate, anchorva
 
   const vectorLayer = new VectorLayer({
     source: vectorSource,
+    zIndex: zIndex // 使用函数参数设置自定义图标图层的zIndex
   });
 
   map.addLayer(vectorLayer);
-
 };
+
 
 // 使用自定义图标
 const gIconSrc = "./assets/icon/jian.png";
@@ -534,7 +529,7 @@ function handleClick(e: {
 
     const iconSize = [32, 32]; // 根据图标实际尺寸调整
     // 使用 addIcon 函数添加交叉点标记
-    addIcon(gIconSrc, iconSize, lonLat);
+    addIcon(gIconSrc, iconSize, lonLat, 2);
 
     //绘制所有标注节点
     drawAllMarked();
@@ -564,7 +559,7 @@ function handleClick(e: {
       var y2 = end[1];
 
       if (the_nodetype == "sensor") {     // 如果标注的是sensor节点，则点距为6
-        pointIndex = 6;
+        pointIndex = 1;
       } else {
         pointIndex = 20;
       }
@@ -631,6 +626,7 @@ function createAndAddPolygon(vertex_points: any[]) {
   // 创建矢量图层（如果尚未创建并添加到地图）
   const vectorLayer = new VectorLayer({
     source: vectorSource,
+    zIndex: 1 // 设置自定义图标图层的zIndex，确保其大于多边形图层的zIndex
   });
 
   // 假设有一个地图实例`map`，将矢量图层添加到地图上
@@ -663,7 +659,7 @@ function drawAllMarked() {
       const anchor = { x: 0.5, y: 1 }; // 调整锚点位置
 
       // 使用 addIcon 函数添加标记
-      addIcon(gIconSrc, iconSize, all_gateway.value[j][k], anchor);
+      addIcon(gIconSrc, iconSize, all_gateway.value[j][k], 2, anchor);
     }
   }
   // 在地图上标注传感器节点
@@ -1068,7 +1064,7 @@ function drawPoints(response: { data: { gatewayList: any; sensorList: any; }; })
     // map.addOverlay(circle);
 
     const offset = { x: 0.5, y: 1 }; // X偏移和Y偏移
-    addIcon(gIconSrc, [32, 32], position, offset);
+    addIcon(gIconSrc, [32, 32], position, 2, offset);
   }
 
   // 标记传感器节点
@@ -1397,7 +1393,7 @@ const gatewayupload = () => {
         // var marker2 = new BMap.Marker(point2, { icon: gIcon });
         // var marker2 = new GL.Marker(point2, {icon: gIcon_rec16});
         // map.addOverlay(marker2);
-        addIcon(gIconSrc, [32, 32], position);
+        addIcon(gIconSrc, [32, 32], position, 2);
         // marker2.setTop(true);
       }
       loading.close();
