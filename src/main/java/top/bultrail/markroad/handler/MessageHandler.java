@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import top.bultrail.markroad.pojo.Point;
 import top.bultrail.markroad.pojo.QuickSave;
 import top.bultrail.markroad.pojo.RenameDatasetRequest;
 import top.bultrail.markroad.service.TransformService;
@@ -12,12 +11,11 @@ import top.bultrail.markroad.util.ResultEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import top.bultrail.markroad.pojo.DatasetInfo;
-
+import top.bultrail.markroad.util.GatewayListMatFileSaver;
 
 
 @Controller
@@ -156,6 +154,7 @@ public class MessageHandler {
             ResultEntity<HashMap<String, List<List<String>>>> errorResponse = ResultEntity.failedWithMessage(e.getMessage());
             return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
         return ResponseEntity.ok(ResultEntity.sucessWithData(strings));
     }
 
@@ -167,10 +166,19 @@ public class MessageHandler {
         try {
             strings = transformService.calByLinner_upload(flag);
             System.out.println("Success");
+
+            // 创建 GatewayListMatFileSaver 的实例
+            GatewayListMatFileSaver saver = new GatewayListMatFileSaver();
+            // 设置文件路径
+            String filePath = "src/main/resources/mat/gatewayList.mat";
+            // 保存数据到 .mat 文件
+            saver.saveGatewayListToMatFile(strings, filePath);
+
         } catch (Exception e) {
             ResultEntity<HashMap<String, List<List<String>>>> errorResponse = ResultEntity.failedWithMessage(e.getMessage());
             return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
         return ResponseEntity.ok(ResultEntity.sucessWithData(strings));
     }
 

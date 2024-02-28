@@ -139,6 +139,11 @@
             <version>0.3.0</version>
         </dependency>
         <dependency>
+            <groupId>org.ujmp</groupId>
+            <artifactId>ujmp-jmatio</artifactId>
+            <version>0.3.0</version>
+        </dependency>
+        <dependency>
             <groupId>my</groupId>
             <artifactId>my.aco</artifactId>
             <version>0.0.1</version>
