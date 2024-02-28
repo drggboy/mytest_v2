@@ -60,8 +60,8 @@
 - [Demo](#demo)
 - [Usage](#usage)
 - [Environment Configuration](#environment-configuration)
-    - [runtime environment](#runtime-environment)
-    - [development environment](#development-environment)
+  - [runtime environment](#runtime-environment)
+  - [development environment](#development-environment)
 - [Deployment steps](#deployment-steps)
 - [Directory Structure Description](#directory-structure-description)
 - [Contributors](#contributors)
@@ -120,6 +120,7 @@ Then a static file will be generated in the dist directory, and the spring boot 
 ```python
 python .\move_build_output.py
 ```
+>The move_build_output.py file will automatically replace the compiled static files in your project. Additionally, it modifies a specific line within the [root project]\src\main\resources\static\index.html file to ensure that the latest version of the static files is served by the Spring Boot application. This automation streamlines the process of updating your web application's frontend without manually handling file transfers or edits.
 
 # Directory Structure Description
 ```sh
