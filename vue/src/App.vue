@@ -3,7 +3,7 @@
     <el-container>
       <!-- <el-header>Header</el-header> -->
       <el-main>
-        <!-- 百度地图容器 -->
+        <!-- 地图容器 -->
         <div id="map"></div>
       </el-main>
       <el-footer>
@@ -173,7 +173,7 @@ import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
-import { fromLonLat } from 'ol/proj';
+import { fromLonLat, toLonLat } from 'ol/proj';
 import { Icon, Style } from 'ol/style';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
@@ -185,6 +185,7 @@ import { Coordinate } from 'ol/coordinate';
 import Polygon from 'ol/geom/Polygon';
 import { Fill, Stroke } from 'ol/style';
 import { Circle } from 'ol/geom';
+import { getDistance } from 'ol/sphere';
 
 
 let map: any;
@@ -203,6 +204,8 @@ const createMap = () => {
     view: new View({
       center: fromLonLat([112.8835, 22.9082]), // 将经纬度转换为地图坐标
       zoom: 19,
+      minZoom: 10, // 设置缩放的最小值
+      maxZoom: 22, // 设置缩放的最大值
     }),
     controls: defaultControls().extend([
       new ScaleLine(), // 添加比例尺控件
@@ -212,20 +215,20 @@ const createMap = () => {
 
 
 // 添加自定义图标
-const addIcon = (iconSrc: string, size: number[], position: Coordinate, offset = { x: 0, y: 0 }) => {
+const addIcon = (iconSrc: string, size: number[], position: Coordinate, anchorvalue = { x: 0.5, y: 0.5 }) => {
   const iconFeature = new Feature({
     geometry: new Point(fromLonLat(position)), // 图标位置
   });
 
   // 计算锚点基于偏移量
   // 假设偏移量是相对于图标底部中心的向上和向右的像素值
-  const anchorX = 0.5 + offset.x / size[0];
-  // 注意：OpenLayers的Y轴是从上往下的，所以向上移动是减小值
-  const anchorY = 1 - (offset.y / size[1]);
+  // const anchorX = 0.5 + offset.x / size[0];
+  // // 注意：OpenLayers的Y轴是从上往下的，所以向上移动是减小值
+  // const anchorY = 1 - (offset.y / size[1]);
 
   iconFeature.setStyle(new Style({
     image: new Icon({
-      anchor: [anchorX, anchorY], // 图标锚点
+      anchor: [anchorvalue.x, anchorvalue.y], // 图标锚点
       src: iconSrc,
       size: size,
       scale: [1, 1], // 图标缩放比例
@@ -249,18 +252,6 @@ const gIconSrc = "./assets/icon/jian.png";
 const sIconSrc = "./assets/icon/point16.png";
 const cIconSrc = "./assets/icon/green.png";
 
-// addIcon(gIconSrc, [32, 32], [112.8835, 22.9082]); // 网关图标
-// addIcon(sIconSrc, [16, 16], [112.883, 22.908]); // 传感器图标
-// addIcon(cIconSrc, [32, 32], [112.884, 22.909]); // 路口图标
-
-
-let BMap: any;
-let gIcon: any;
-// let gIcon_rec32: any;
-// let gIcon_rec16: any;
-let sIcon: any;
-// let rIcon: any;
-let cIcon: any;
 
 // 自定义变量
 // 使用 ref 声明响应式数据
@@ -285,9 +276,6 @@ const setNames = ref<Array<{ name: string; sensorSize: number; gatewaySize: numb
 const nodeTypeIsDisabled = computed(() => !ifmark.value);
 const saveDatasetIsDisabled = computed(() => !ifmark.value);
 //const saveDataIsDisabled = computed(() => !ifmark.value);
-
-
-
 
 // 计算所有传感器节点的个数并累加
 const sensorsValue = computed(() => {
@@ -339,7 +327,7 @@ const options = ref([
   { id: 6, label: 'None', desc: '无标记' },
 ])
 
-// 定义一个函数来清除所有矢量图层
+// 清除所有矢量图层
 function clearVectorLayers() {
   map.getLayers().getArray()
     .filter((layer: any) => layer instanceof VectorLayer)
@@ -368,8 +356,13 @@ const handleLoad = (name: string) => {
 
       let location_lng = response.data.data[0]
       let location_lat = response.data.data[1]
-      var data_point = new BMap.Point(location_lng, location_lat);// 标注位置
-      map.centerAndZoom(data_point, 19);
+
+      const view = map.getView();
+      const newCenter = fromLonLat([location_lng, location_lat]);
+      view.setCenter(newCenter);
+      view.setZoom(19);
+      // var data_point = new BMap.Point(location_lng, location_lat);// 标注位置
+      // map.centerAndZoom(data_point, 19);
       sensorupload();
       Dataset_dialogVisible.value = false;
     })
@@ -454,15 +447,6 @@ const undo = () => {
   drawAllMarked();
 };
 
-// // 方法：缩小地图一级
-// const zoomOut = () => {
-//   map.value.zoomOut();
-// };
-
-// // 方法：放大地图一级
-// const zoomIn = () => {
-//   map.value.zoomIn();
-// };
 
 // function handleDatasetButtonClick(name: string) {
 //   // 在这里处理按钮点击逻辑
@@ -490,31 +474,6 @@ const undo = () => {
 //   AboutDatasetdialogVisible.value = false;
 // }
 
-// const handleSwitchChange = () => {
-//   if (ifmark.value) {
-//     // 开关打开时执行的代码
-//     map.setDefaultCursor("crosshair");
-//     map.addEventListener('click', handleClick);
-//   } else {
-//     // 开关关闭时执行的代码
-//     map.setDefaultCursor("url(https://api.map.baidu.com/images/openhand.cur) 8 8,default");
-//     map.removeEventListener('click', handleClick);
-//   }
-// };
-
-
-// const handleSwitchChange = () => {
-//   if (ifmark.value) {
-//     // 开关打开时执行的代码
-//     map.getTargetElement().style.cursor = 'crosshair';
-//     map.on('singleclick', handleClick);
-//   } else {
-//     // 开关关闭时执行的代码
-//     map.getTargetElement().style.cursor = '';
-//     map.un('singleclick', handleClick);
-//   }
-// };
-
 const handleSwitchChange = () => {
   if (ifmark.value) {
     // 当 ifmark 为真（开关打开）时执行的代码
@@ -527,29 +486,6 @@ const handleSwitchChange = () => {
   }
 };
 
-
-// watch(ifmark, (newValue) => {
-//   var mapElement = document.getElementById('map');
-//   if (newValue) {
-//     // 如果 ifmark 为 true
-//     mapElement.style.cursor = 'crosshair';
-//   } else {
-//     // 如果 ifmark 为 false
-//     mapElement.style.cursor = 'default'; // 或者 "url(https://api.map.baidu.com/images/openhand.cur) 8 8, default"，根据您的需求
-//   }
-// });
-
-
-// function handleNodeTypeChange() {
-//   var the_nodetype = nodeType.value?.label
-//   if (the_nodetype === "None") {
-//     // 开关关闭时执行的代码
-//     map.setDefaultCursor("url(https://api.map.baidu.com/images/openhand.cur) 8 8,default");
-//   } else {
-//     map.setDefaultCursor("crosshair");
-//   }
-// }
-
 function handleNodeTypeChange() {
   var the_nodetype = nodeType.value?.label;
   if (the_nodetype === "None") {
@@ -561,86 +497,87 @@ function handleNodeTypeChange() {
   }
 }
 
+function handleClick(e: {
+  coordinate: any;
+}) {
+  var coordinate = e.coordinate;
+  // 如果需要获取经纬度，可以将坐标转换回经纬度
+  var lonLat = toLonLat(coordinate);
 
-
-function handleClick(e: { point: any; }) {
   var the_nodetype = nodeType.value?.label
   if (the_nodetype === "None") {
-    map.setDefaultCursor("url(https://api.map.baidu.com/images/openhand.cur) 8 8,default");
+    map.getTargetElement().style.cursor = "url(https://api.map.baidu.com/images/openhand.cur) 8 8, default";
   }
   else if (the_nodetype === "cross") {
-    cross.push(e.point);
+    cross.push(lonLat);
     guard_undo = 'cross';
-    var markerCros = new BMap.Marker(e.point, {
-      icon: cIcon
-    });
-    map.addOverlay(markerCros);
+    const iconSize = [32, 32]; // 根据您的图标实际尺寸调整
+    // 使用 addIcon 函数添加交叉点标记
+    addIcon(cIconSrc, iconSize, lonLat);
     //绘制所有标注节点
     drawAllMarked();
   } else if (the_nodetype === "sensor_single") {
     let tmp: any = []
-    tmp.push(e.point)
+    tmp.push(lonLat)
     all_sensor.value.push(tmp)
     guard_undo = 'sensor';
-    var markerSingleSessor = new BMap.Marker(e.point, {
-      icon: sIcon
-    });
-    map.addOverlay(markerSingleSessor);
+    const iconSize = [16, 16]; // 根据您的图标实际尺寸调整
+    // 使用 addIcon 函数添加交叉点标记
+    addIcon(sIconSrc, iconSize, lonLat);
     //绘制所有标注节点
     drawAllMarked();
   } else if (the_nodetype === "gateway_single") {
     let tmp2: any = []
-    tmp2.push(e.point)
+    tmp2.push(lonLat)
     all_gateway.value.push(tmp2)
     guard_undo = 'gateway';
-    var markerSingleGateway = new BMap.Marker(e.point, {
-      icon: gIcon
-    });
-    map.addOverlay(markerSingleGateway);
-    let offset = new BMap.Size(0, -15)       // 向上移，使图标点对准指定点
-    markerSingleGateway.setOffset(offset)
+
+    const iconSize = [32, 32]; // 根据图标实际尺寸调整
+    // 使用 addIcon 函数添加交叉点标记
+    addIcon(gIconSrc, iconSize, lonLat);
+
     //绘制所有标注节点
     drawAllMarked();
   } else {
-    pointArr.push(e.point);         // 存放起点与终点
+    pointArr.push(lonLat);         // 存放起点与终点
     if (pointArr.length === 1) {
-      var start = new BMap.Point(pointArr[0].lng, pointArr[0].lat);
-      map.addOverlay(new BMap.Marker(start));
+      const iconSize = [32, 32]; // 根据您的图标实际尺寸调整
+      addIcon(cIconSrc, iconSize, pointArr[0]);
       guard_undo = 'pointArr_first';
     }
     if (pointArr.length === 2) {
-      var start = new BMap.Point(pointArr[0].lng, pointArr[0].lat);
+
+      var start = pointArr[0];
       // map.addOverlay(new BMap.Marker(start));
       // pts.push(start);   //有bug
-      var end = new BMap.Point(pointArr[1].lng, pointArr[1].lat);
-      // map.addOverlay(new BMap.Marker(end));
-      var GreenMarker = new BMap.Marker(end, {
-        icon: cIcon
-      });
-      map.addOverlay(GreenMarker);
+      var end = pointArr[1];
+
+      const iconSize = [32, 32]; // 根据您的图标实际尺寸调整
+      addIcon(cIconSrc, iconSize, end);
+
       // pts.push(end);
       pointArr = []
 
-      var x1 = start.lng;
-      var y1 = start.lat;
-      var x2 = end.lng;
-      var y2 = end.lat;
+      var x1 = start[0];
+      var y1 = start[1];
+      var x2 = end[0];
+      var y2 = end[1];
 
-      if (the_nodetype == "sensor") {     // 如果标注的是sensor节点，则点距为5
+      if (the_nodetype == "sensor") {     // 如果标注的是sensor节点，则点距为6
         pointIndex = 6;
       } else {
         pointIndex = 20;
       }
       //利用相似三角形求出等距离的点的坐标
       // var chang = map.getDistance(start, end).toFixed(2);
-      var chang = map.getDistance(start, end);
+      var chang = getDistance(start, end);
       for (var i = pointIndex; i < chang; i += pointIndex) {
         var x3 = i / chang * (x1 - x2) + x2;
         // x3 = x3.toFixed(6);
         var y3 = i / chang * (y1 - y2) + y2;
         // y3 = y3.toFixed(6);
-        var point = new BMap.Point(x3, y3);
-        pts.push(point);
+        const pointxy = [x3, y3];
+        pts.push(pointxy);
       }
       //二维数组，存放多条街道的坐标点
       if (the_nodetype == "sensor") {
@@ -664,6 +601,42 @@ function handleClick(e: { point: any; }) {
   }
 }
 
+// 创建多边形并添加到地图的函数
+function createAndAddPolygon(vertex_points: any[]) {
+  var transformedVertexPoints = vertex_points.map(function (point) {
+    return fromLonLat([point[0], point[1]]);
+  });
+
+  // 创建多边形几何对象
+  var polygonGeometry = new Polygon([transformedVertexPoints]);
+
+  // 创建样式
+  var polygonStyle = new Style({
+    stroke: new Stroke({
+      color: '#ECD118', // 设置线条颜色
+      width: 3 // 设置线条宽度
+    })
+  });
+
+  // 创建要素并设置样式
+  var polygonFeature = new Feature(polygonGeometry);
+  polygonFeature.setStyle(polygonStyle);
+
+  // 创建矢量源（如果尚未创建）
+  const vectorSource = new VectorSource();
+
+  // 将要素添加到矢量源
+  vectorSource.addFeature(polygonFeature);
+
+  // 创建矢量图层（如果尚未创建并添加到地图）
+  const vectorLayer = new VectorLayer({
+    source: vectorSource,
+  });
+
+  // 假设有一个地图实例`map`，将矢量图层添加到地图上
+  map.addLayer(vectorLayer);
+}
+
 
 //绘制所有标注节点
 function drawAllMarked() {
@@ -677,58 +650,40 @@ function drawAllMarked() {
   clearVectorLayers();
   // 在地图上标注路口节点
   for (let j = 0; j < cross.length; j++) {
-    // 提取交叉点的经度和纬度
-    const longitude = cross[j].lng;
-    const latitude = cross[j].lat;
-    const position = [longitude, latitude]; // OpenLayers 需要先经度后纬度的顺序
-
-    // 假设 cIcon 是您的交叉点图标路径，size 是图标的尺寸，例如 [20, 20]
+    // 图标的尺寸
     const iconSize = [32, 32]; // 根据您的图标实际尺寸调整
-
     // 使用 addIcon 函数添加交叉点标记
-    addIcon(cIconSrc, iconSize, position);
+    addIcon(cIconSrc, iconSize, cross[j]);
   }
   // 在地图上标注网关节点
   for (let j = 0; j < all_gateway.value.length; j++) {
     for (let k = 0; k < all_gateway.value[j].length; k++) {
-      // 提取经度和纬度
-      const longitude = all_gateway.value[j][k].lng;
-      const latitude = all_gateway.value[j][k].lat;
-      const position = [longitude, latitude]; // OpenLayers 需要先经度后纬度的顺序
-
       // 定义图标尺寸和偏移量
       const iconSize = [32, 32]; // 根据您的图标实际尺寸调整
-      const offset = { x: 0, y: -15 }; // 根据需要调整偏移量
+      const anchor = { x: 0.5, y: 1 }; // 调整锚点位置
 
       // 使用 addIcon 函数添加标记
-      addIcon(gIcon, iconSize, position, offset);
+      addIcon(gIconSrc, iconSize, all_gateway.value[j][k], anchor);
     }
   }
   // 在地图上标注传感器节点
   for (var j = 0; j < all_sensor.value.length; j++) {
     if (all_sensor.value[j].length === 1) {
-      // 提取经度和纬度
-      const longitude = all_sensor.value[j][0].lng;
-      const latitude = all_sensor.value[j][0].lat;
-      const position = [longitude, latitude]; // OpenLayers 需要先经度后纬度的顺序
-
-      // 定义图标尺寸，这里需要根据您的图标实际尺寸进行调整
+      // 根据图标实际尺寸进行调整
       const iconSize = [16, 16]; // 假定尺寸，实际可能需要调整
-      // 假设不需要偏移或者您已经在图标设计中考虑了偏移
-      const offset = { x: 0, y: 0 }; // 可以根据需要调整
 
       // 使用 addIcon 函数添加传感器图标
-      addIcon(sIcon, iconSize, position, offset);
+      addIcon(sIconSrc, iconSize, all_sensor.value[j][0]);
       // markerSsessor.addEventListener('click', (e) => {
       //   let lat = e.currentTarget.latLng.lat
       //   let lng = e.currentTarget.latLng.lng
       //   alert(lat + '  ' + lng);
       // });
     } else if (all_sensor.value[j].length !== 0) {
-      var xx1 = all_sensor.value[j][0].lng;
-      var yy1 = all_sensor.value[j][0].lat;
-      var xx2 = all_sensor.value[j][all_sensor.value[j].length - 1].lng;
-      var yy2 = all_sensor.value[j][all_sensor.value[j].length - 1].lat;
+      var xx1 = all_sensor.value[j][0][0];
+      var yy1 = all_sensor.value[j][0][1];
+      var xx2 = all_sensor.value[j][all_sensor.value[j].length - 1][0];
+      var yy2 = all_sensor.value[j][all_sensor.value[j].length - 1][1];
       var rad = Math.atan2((yy2 - yy1), (xx2 - xx1))  //弧度  0.6435011087932844
       // var theta = rad * (180 / Math.PI);  //角度  36.86989764584402
       var width = 0.000044
@@ -739,80 +694,31 @@ function drawAllMarked() {
       var the_alpha = Math.atan2(half_height, half_width)
 
       for (var k = 0; k < all_sensor.value[j].length; k++) {
-        var centerPoint = [all_sensor.value[j][k].lng, all_sensor.value[j][k].lat];
-        var center = fromLonLat(centerPoint); // 转换中心点坐标
+        var centerPoint = [all_sensor.value[j][k][0], all_sensor.value[j][k][1]];
 
         var vertex_points: any[] = []; // 用于存储多边形顶点的数组
 
-        // 计算并添加顶点
-        var angles = [the_alpha, -the_alpha, the_alpha + Math.PI, -the_alpha + Math.PI];
-        angles.forEach(function (angle) {
-          var vertex = [center[0] + distance * Math.cos(rad + angle), center[1] + distance * Math.sin(rad + angle)];
-          vertex_points.push(fromLonLat(vertex)); // 将经纬度坐标转换为地图坐标
-        });
-        vertex_points.push(vertex_points[0]); // 闭合多边形
+        var vertex_1 = [centerPoint[0] + distance * Math.cos(rad + the_alpha), centerPoint[1] + distance * Math.sin(rad + the_alpha)]
+        vertex_points.push(vertex_1);
 
-        // 创建多边形几何对象
-        var polygonGeometry = new Polygon([vertex_points]);
+        var vertex_2 = [centerPoint[0] + distance * Math.cos(rad - the_alpha), centerPoint[1] + distance * Math.sin(rad - the_alpha)];
+        vertex_points.push(vertex_2);
 
-        // 创建样式
-        var polygonStyle = new Style({
-          stroke: new Stroke({
-            color: '#ECD118', // 设置线条颜色
-            width: 3 // 设置线条宽度
-          })
-        });
+        var vertex_3 = [centerPoint[0] + distance * Math.cos(rad + the_alpha + Math.PI), centerPoint[1] + distance * Math.sin(rad + the_alpha + Math.PI)];
+        vertex_points.push(vertex_3);
 
-        // 创建要素并设置样式
-        var polygonFeature = new Feature(polygonGeometry);
-        polygonFeature.setStyle(polygonStyle);
+        var vertex_4 = [centerPoint[0] + distance * Math.cos(rad - the_alpha + Math.PI), centerPoint[1] + distance * Math.sin(rad - the_alpha + Math.PI)];
+        vertex_points.push(vertex_4);
 
-        // 创建矢量源（如果尚未创建）
-        const vectorSource = new VectorSource();
+        var vertex_5 = vertex_1;
+        vertex_points.push(vertex_5);
 
-        // 将要素添加到矢量源
-        vectorSource.addFeature(polygonFeature);
-
-        // 创建矢量图层（如果尚未创建并添加到地图）
-        const vectorLayer = new VectorLayer({
-          source: vectorSource,
-        });
-
-        map.addLayer(vectorLayer);
+        createAndAddPolygon(vertex_points);
 
 
-
-
-
-
-
-
-
-        // var point1 = new BMap.Point(all_sensor.value[j][k].lng, all_sensor.value[j][k].lat);
-        // // 绘制车框
-        // var ros_point = point1
-        // var vertex_points: any = [];
-
-        // var vertex_1 = new BMap.Point(ros_point.lng + distance * Math.cos(rad + the_alpha), ros_point.lat + distance * Math.sin(rad + the_alpha));
-        // vertex_points.push(vertex_1);
-
-        // var vertex_2 = new BMap.Point(ros_point.lng + distance * Math.cos(rad - the_alpha), ros_point.lat + distance * Math.sin(rad - the_alpha))
-        // vertex_points.push(vertex_2);
-
-        // var vertex_3 = new BMap.Point(ros_point.lng + distance * Math.cos(rad + the_alpha + Math.PI), ros_point.lat + distance * Math.sin(rad + the_alpha + Math.PI))
-        // vertex_points.push(vertex_3);
-
-        // var vertex_4 = new BMap.Point(ros_point.lng + distance * Math.cos(rad - the_alpha + Math.PI), ros_point.lat + distance * Math.sin(rad - the_alpha + Math.PI))
-        // vertex_points.push(vertex_4);
-
-        // var vertex_5 = vertex_1;
-        // vertex_points.push(vertex_5);
-
-        // var poly_test = new BMap.Polyline(vertex_points);
-        // poly_test.setStrokeColor('#ECD118');
-        // poly_test.setStrokeWeight(3);
-        // map.addOverlay(poly_test);
-
+        const iconSize = [16, 16]; // 假定尺寸，实际可能需要调整
+        // 使用 addIcon 函数添加传感器图标
+        addIcon(sIconSrc, iconSize, centerPoint);
 
         // 车框
         // var marker0 = new GL.Marker(point1, {
@@ -841,10 +747,6 @@ function drawAllMarked() {
   }
   loading.close();
 }
-
-// const onSubmit = () => {
-//   console.log('submit!');
-// };
 
 const formatting = () => {
   ElMessageBox.confirm(
@@ -887,20 +789,19 @@ const saveData = () => {
   // 交叉路口节点数据
   var cross_points: any = [];
   for (var i = 0; i < cross.length; i++) {
-    var a: any = [];
-    a.push(cross[i].lng);
-    a.push(cross[i].lat);
-    cross_points.push(a);
+    cross_points.push(cross[i]);
   }
   // sensor节点数据
   var sensor_array: any = [];
   for (var i = 0; i < all_sensor.value.length; i++) {
     let sensor_points = [];
     for (var j = 0; j < all_sensor.value[i].length; j++) {
-      let a: any = [];
-      a.push(all_sensor.value[i][j].lng);
-      a.push(all_sensor.value[i][j].lat);
-      sensor_points.push(a);
+      // let a: any = [];
+      // a.push(all_sensor.value[i][j][0]);
+      // a.push(all_sensor.value[i][j][1]);
+      // sensor_points.push(a);
+      sensor_points.push(all_sensor.value[i][j])
+
     }
     sensor_array.push(sensor_points);
   }
@@ -909,10 +810,11 @@ const saveData = () => {
   for (var i = 0; i < all_gateway.value.length; i++) {
     let gateway_points = [];
     for (var j = 0; j < all_gateway.value[i].length; j++) {
-      let a: any = [];
-      a.push(all_gateway.value[i][j].lng);
-      a.push(all_gateway.value[i][j].lat);
-      gateway_points.push(a);
+      // let a: any = [];
+      // a.push(all_gateway.value[i][j][0]);
+      // a.push(all_gateway.value[i][j][1]);
+      // gateway_points.push(a);
+      gateway_points.push(all_gateway.value[i][j]);
     }
     gateway_array.push(gateway_points);
   }
@@ -1011,8 +913,11 @@ const saveDataset = () => {
         background: 'rgba(255, 255, 255, 0.5)',
       })
       let current_location: any = [];
-      current_location.push(map.getCenter().lng);
-      current_location.push(map.getCenter().lat);
+      // 获取地图视图中心点的坐标
+      let center = map.getView().getCenter();
+      // 将中心点坐标从Web Mercator转换为经纬度
+      current_location = toLonLat(center);
+
       // 构建请求体数据
       const requestData = {
         datasetName: value,
@@ -1143,18 +1048,12 @@ function drawPoints(response: { data: { gatewayList: any; sensorList: any; }; })
   for (var j = 0; j < dataGateway[0].length; j++) {
     var temp = dataGateway[0][j].split(",");
     const position = [temp[0], temp[1]]; // 经度和纬度
-    // var point1 = new BMap.Point(temp[0], temp[1]);
-    // var marker1 = new BMap.Marker(point1, {
-    //   icon: gIcon
-    // });
-    // map.addOverlay(marker1);
-    // let offset = new BMap.Size(0, -15)       // 向上移，使图标点对准指定点
-    // marker1.setOffset(offset)
-    // marker1.setTop(true);
-    // 定义偏移量，这里我们将图标向上移15像素
-    // 注意：在 OpenLayers 中，我们通过调整 anchor 实现偏移效果
-    const offset = { x: 0, y: -15 }; // X偏移和Y偏移
-    addIcon(gIconSrc, [32, 32], position, offset);
+
+    var radius = 68; // 半径为68米
+    var strokeColor = 'blue'; // 边框颜色
+    var fillColor = 'rgba(255, 255, 255, 0.4)'; // 填充颜色
+    var strokeWidth = 1; // 边框宽度
+    addCircle(position, radius, strokeColor, fillColor, strokeWidth);
     // 绘制圆
     // var colors = ['blue','red','green','black','blue'];
 
@@ -1168,14 +1067,8 @@ function drawPoints(response: { data: { gatewayList: any; sensorList: any; }; })
     // });
     // map.addOverlay(circle);
 
-    // 假设有一个位置和你想要的样式参数
-    var radius = 70; // 半径为68米
-    var strokeColor = 'blue'; // 边框颜色
-    var fillColor = 'rgba(255, 255, 255, 0.4)'; // 填充颜色
-    var strokeWidth = 1; // 边框宽度
-
-    // 调用函数，在地图上添加圆形
-    addCircle(position, radius, strokeColor, fillColor, strokeWidth);
+    const offset = { x: 0.5, y: 1 }; // X偏移和Y偏移
+    addIcon(gIconSrc, [32, 32], position, offset);
   }
 
   // 标记传感器节点
@@ -1565,9 +1458,6 @@ const sensorupload = () => {
     });
 };
 
-
-
-
 onMounted(() => {
   createMap();
 });
@@ -1579,9 +1469,6 @@ onMounted(() => {
   width: 100%;
   /* height: 1000px; */
   height: 85vh;
-  /* 设置高度为视口高度的 90% */
-  /* cursor: crosshair; */
-  /* cursor: pointer; 使光标呈现为指针形状 */
 }
 
 .yellow-color {
