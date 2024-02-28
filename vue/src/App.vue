@@ -520,7 +520,7 @@ function handleClick(e: {
     // 使用 addIcon 函数添加交叉点标记
     addIcon(sIconSrc, iconSize, lonLat);
     //绘制所有标注节点
-    drawAllMarked();
+    drawAllMarked();    
   } else if (the_nodetype === "gateway_single") {
     let tmp2: any = []
     tmp2.push(lonLat)
@@ -1045,7 +1045,7 @@ function drawPoints(response: { data: { gatewayList: any; sensorList: any; }; })
     var temp = dataGateway[0][j].split(",");
     const position = [temp[0], temp[1]]; // 经度和纬度
 
-    var radius = 68; // 半径为68米
+    var radius = 72; // 半径为68米
     var strokeColor = 'blue'; // 边框颜色
     var fillColor = 'rgba(255, 255, 255, 0.4)'; // 填充颜色
     var strokeWidth = 1; // 边框宽度
