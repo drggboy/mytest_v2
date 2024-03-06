@@ -10,6 +10,9 @@
         <!-- 非标注视图 -->
         <div style="display: flex; justify-content: center;" v-if="!ifmark">
           <el-form :inline="true" class="demo-form-inline">
+            <el-form-item label="Current Zoom">
+              {{ currentZoomLevel }}
+            </el-form-item>
             <el-form-item label="Mark Mode">
               <el-switch v-model="ifmark" @change="handleSwitchChange"></el-switch>
             </el-form-item>
@@ -186,15 +189,19 @@ import Polygon from 'ol/geom/Polygon';
 import { Fill, Stroke } from 'ol/style';
 import { Circle } from 'ol/geom';
 import { getDistance } from 'ol/sphere';
-
+import MouseWheelZoom from 'ol/interaction/MouseWheelZoom';
 
 let map: any;
 const createMap = () => {
   map = new Map({
     target: 'map', // 地图容器的DOM id
+    // interactions: defaultInteractions({
+    //   // mouseWheelZoom: false, // 禁用滚轮缩放
+    //   doubleClickZoom: false, // 禁用双击缩放
+    // }),
     interactions: defaultInteractions({
+      doubleClickZoom: false,
       mouseWheelZoom: false, // 禁用滚轮缩放
-      doubleClickZoom: false, // 禁用双击缩放
     }),
     layers: [
       new TileLayer({
@@ -211,6 +218,14 @@ const createMap = () => {
       new ScaleLine(), // 添加比例尺控件
     ]),
   });
+
+  // 监听地图的moveend事件来更新缩放级别
+  map.on('moveend', () => {
+    currentZoomLevel.value = map.getView().getZoom();
+  });
+
+  // 初始化缩放级别
+  currentZoomLevel.value = map.getView().getZoom();
 }
 
 
@@ -253,6 +268,8 @@ const cIconSrc = "./assets/icon/green.png";
 const all_sensor = ref<any[][]>([]);    // 存放地图上所有的传感器节点
 const all_gateway = ref<any[][]>([]);   // 存放地图上所有的网关节点
 const chosenNumber = ref(0); // 初始值为整数 0
+const currentZoomLevel = ref(19); // 初始值为
+
 
 let cross: any[] = [];         //存放地图上所有的交叉路口
 let pointArr: any[] = [];      //存放一条路的起点与终点
@@ -474,10 +491,27 @@ const handleSwitchChange = () => {
     // 当 ifmark 为真（开关打开）时执行的代码
     map.getTargetElement().style.cursor = 'crosshair'; // 设置地图光标为十字光标
     map.on('singleclick', handleClick); // 添加单击事件监听器
+
+    // 添加鼠标滚轮缩放交互
+    const mouseWheelZoom = new MouseWheelZoom();
+    map.addInteraction(mouseWheelZoom);
+
   } else {
     // 当 ifmark 为假（开关关闭）时执行的代码
     map.getTargetElement().style.cursor = ''; // 重置地图光标为默认样式
     map.un('singleclick', handleClick); // 移除单击事件监听器
+
+    // 移除鼠标滚轮缩放交互
+    const interactionsToRemove: MouseWheelZoom[] = [];
+    map.getInteractions().forEach((interaction: any) => {
+      if (interaction instanceof MouseWheelZoom) {
+        interactionsToRemove.push(interaction);
+      }
+    });
+    interactionsToRemove.forEach(interaction => map.removeInteraction(interaction));
+
+    // 重置缩放级别
+    map.getView().setZoom(19);
   }
 };
 
@@ -520,7 +554,7 @@ function handleClick(e: {
     // 使用 addIcon 函数添加交叉点标记
     addIcon(sIconSrc, iconSize, lonLat);
     //绘制所有标注节点
-    drawAllMarked();    
+    drawAllMarked();
   } else if (the_nodetype === "gateway_single") {
     let tmp2: any = []
     tmp2.push(lonLat)
@@ -676,40 +710,40 @@ function drawAllMarked() {
       //   alert(lat + '  ' + lng);
       // });
     } else if (all_sensor.value[j].length !== 0) {
-      var xx1 = all_sensor.value[j][0][0];
-      var yy1 = all_sensor.value[j][0][1];
-      var xx2 = all_sensor.value[j][all_sensor.value[j].length - 1][0];
-      var yy2 = all_sensor.value[j][all_sensor.value[j].length - 1][1];
-      var rad = Math.atan2((yy2 - yy1), (xx2 - xx1))  //弧度  0.6435011087932844
+      // var xx1 = all_sensor.value[j][0][0];
+      // var yy1 = all_sensor.value[j][0][1];
+      // var xx2 = all_sensor.value[j][all_sensor.value[j].length - 1][0];
+      // var yy2 = all_sensor.value[j][all_sensor.value[j].length - 1][1];
+      // var rad = Math.atan2((yy2 - yy1), (xx2 - xx1))  //弧度  0.6435011087932844
       // var theta = rad * (180 / Math.PI);  //角度  36.86989764584402
-      var width = 0.000044
-      var height = 0.00002
-      var half_width = width / 2
-      var half_height = height / 2
-      var distance = Math.sqrt(Math.pow(half_width, 2) + Math.pow(half_height, 2))
-      var the_alpha = Math.atan2(half_height, half_width)
+      // var width = 0.000044
+      // var height = 0.00002
+      // var half_width = width / 2
+      // var half_height = height / 2
+      // var distance = Math.sqrt(Math.pow(half_width, 2) + Math.pow(half_height, 2))
+      // var the_alpha = Math.atan2(half_height, half_width)
 
       for (var k = 0; k < all_sensor.value[j].length; k++) {
         var centerPoint = [all_sensor.value[j][k][0], all_sensor.value[j][k][1]];
 
-        var vertex_points: any[] = []; // 用于存储多边形顶点的数组
+        // var vertex_points: any[] = []; // 用于存储多边形顶点的数组
 
-        var vertex_1 = [centerPoint[0] + distance * Math.cos(rad + the_alpha), centerPoint[1] + distance * Math.sin(rad + the_alpha)]
-        vertex_points.push(vertex_1);
+        // var vertex_1 = [centerPoint[0] + distance * Math.cos(rad + the_alpha), centerPoint[1] + distance * Math.sin(rad + the_alpha)]
+        // vertex_points.push(vertex_1);
 
-        var vertex_2 = [centerPoint[0] + distance * Math.cos(rad - the_alpha), centerPoint[1] + distance * Math.sin(rad - the_alpha)];
-        vertex_points.push(vertex_2);
+        // var vertex_2 = [centerPoint[0] + distance * Math.cos(rad - the_alpha), centerPoint[1] + distance * Math.sin(rad - the_alpha)];
+        // vertex_points.push(vertex_2);
 
-        var vertex_3 = [centerPoint[0] + distance * Math.cos(rad + the_alpha + Math.PI), centerPoint[1] + distance * Math.sin(rad + the_alpha + Math.PI)];
-        vertex_points.push(vertex_3);
+        // var vertex_3 = [centerPoint[0] + distance * Math.cos(rad + the_alpha + Math.PI), centerPoint[1] + distance * Math.sin(rad + the_alpha + Math.PI)];
+        // vertex_points.push(vertex_3);
 
-        var vertex_4 = [centerPoint[0] + distance * Math.cos(rad - the_alpha + Math.PI), centerPoint[1] + distance * Math.sin(rad - the_alpha + Math.PI)];
-        vertex_points.push(vertex_4);
+        // var vertex_4 = [centerPoint[0] + distance * Math.cos(rad - the_alpha + Math.PI), centerPoint[1] + distance * Math.sin(rad - the_alpha + Math.PI)];
+        // vertex_points.push(vertex_4);
 
-        var vertex_5 = vertex_1;
-        vertex_points.push(vertex_5);
+        // var vertex_5 = vertex_1;
+        // vertex_points.push(vertex_5);
 
-        createAndAddPolygon(vertex_points);
+        // createAndAddPolygon(vertex_points);
 
 
         const iconSize = [16, 16]; // 假定尺寸，实际可能需要调整
@@ -1045,7 +1079,7 @@ function drawPoints(response: { data: { gatewayList: any; sensorList: any; }; })
     var temp = dataGateway[0][j].split(",");
     const position = [temp[0], temp[1]]; // 经度和纬度
 
-    var radius = 72; // 半径为68米
+    var radius = 71; // 半径为68米
     var strokeColor = 'blue'; // 边框颜色
     var fillColor = 'rgba(255, 255, 255, 0.4)'; // 填充颜色
     var strokeWidth = 1; // 边框宽度
@@ -1432,8 +1466,8 @@ const sensorupload = () => {
         let tmp = [];
         // tmp.push(point1);
         tmp.push(position);
-        all_sensor.value.push(position);
-        addIcon(sIconSrc, [32, 32], position);
+        all_sensor.value.push(tmp);
+        addIcon(sIconSrc, [16, 16], position);
         // var marker1 = new BMap.Marker(point1, { icon: sIcon });
         // map.addOverlay(marker1);
       }
