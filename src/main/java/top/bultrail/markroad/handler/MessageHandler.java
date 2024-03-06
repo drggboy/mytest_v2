@@ -167,12 +167,12 @@ public class MessageHandler {
             strings = transformService.calByLinner_upload(flag);
             System.out.println("Success");
 
-            // 创建 GatewayListMatFileSaver 的实例
-            GatewayListMatFileSaver saver = new GatewayListMatFileSaver();
-            // 设置文件路径
-            String filePath = "src/main/resources/mat/gatewayList.mat";
-            // 保存数据到 .mat 文件
-            saver.saveGatewayListToMatFile(strings, filePath);
+//            // 创建 GatewayListMatFileSaver 的实例
+//            GatewayListMatFileSaver saver = new GatewayListMatFileSaver();
+//            // 设置文件路径
+//            String filePath = "src/main/resources/mat/gatewayList.mat";
+//            // 保存数据到 .mat 文件
+//            saver.saveGatewayListToMatFile(strings, filePath);
 
         } catch (Exception e) {
             ResultEntity<HashMap<String, List<List<String>>>> errorResponse = ResultEntity.failedWithMessage(e.getMessage());
@@ -205,6 +205,14 @@ public class MessageHandler {
         try {
             strings = transformService.calAlgorithm("LP");
             System.out.println("Success");
+
+//            // 创建 GatewayListMatFileSaver 的实例
+//            GatewayListMatFileSaver saver = new GatewayListMatFileSaver();
+//            // 设置文件路径
+//            String filePath = "src/main/resources/mat/gatewayList3.mat";
+//            // 保存数据到 .mat 文件
+//            saver.saveGatewayListToMatFile(strings, filePath);
+
         } catch (Exception e) {
             ResultEntity<HashMap<String, List<List<String>>>> errorResponse = ResultEntity.failedWithMessage(e.getMessage());
             return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
