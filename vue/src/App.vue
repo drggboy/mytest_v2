@@ -195,10 +195,6 @@ let map: any;
 const createMap = () => {
   map = new Map({
     target: 'map', // 地图容器的DOM id
-    // interactions: defaultInteractions({
-    //   // mouseWheelZoom: false, // 禁用滚轮缩放
-    //   doubleClickZoom: false, // 禁用双击缩放
-    // }),
     interactions: defaultInteractions({
       doubleClickZoom: false,
       mouseWheelZoom: false, // 禁用滚轮缩放
@@ -209,8 +205,9 @@ const createMap = () => {
       }),
     ],
     view: new View({
-      center: fromLonLat([112.8835, 22.9082]), // 将经纬度转换为地图坐标
-      zoom: 19,
+      // center: fromLonLat([112.8835, 22.9082]), // 将经纬度转换为地图坐标
+      center: fromLonLat([112.86756332262867, 22.914367512190353]), // 将经纬度转换为地图坐标
+      zoom: 18,
       minZoom: 10, // 设置缩放的最小值
       maxZoom: 22, // 设置缩放的最大值
     }),
@@ -268,7 +265,7 @@ const cIconSrc = "./assets/icon/green.png";
 const all_sensor = ref<any[][]>([]);    // 存放地图上所有的传感器节点
 const all_gateway = ref<any[][]>([]);   // 存放地图上所有的网关节点
 const chosenNumber = ref(0); // 初始值为整数 0
-const currentZoomLevel = ref(19); // 初始值为
+const currentZoomLevel = ref(18); // 初始值为
 
 
 let cross: any[] = [];         //存放地图上所有的交叉路口
@@ -372,7 +369,7 @@ const handleLoad = (name: string) => {
       const view = map.getView();
       const newCenter = fromLonLat([location_lng, location_lat]);
       view.setCenter(newCenter);
-      view.setZoom(19);
+      view.setZoom(18);
       // var data_point = new BMap.Point(location_lng, location_lat);// 标注位置
       // map.centerAndZoom(data_point, 19);
       sensorupload();
@@ -511,7 +508,7 @@ const handleSwitchChange = () => {
     interactionsToRemove.forEach(interaction => map.removeInteraction(interaction));
 
     // 重置缩放级别
-    map.getView().setZoom(19);
+    map.getView().setZoom(18);
   }
 };
 
@@ -530,9 +527,11 @@ function handleClick(e: {
   coordinate: any;
 }) {
   var coordinate = e.coordinate;
+
   // 如果需要获取经纬度，可以将坐标转换回经纬度
   var lonLat = toLonLat(coordinate);
-
+  // 打印点击位置经纬度信息
+  console.log(lonLat);
   var the_nodetype = nodeType.value?.label
   if (the_nodetype === "None") {
     map.getTargetElement().style.cursor = "url(https://api.map.baidu.com/images/openhand.cur) 8 8, default";
@@ -1079,7 +1078,7 @@ function drawPoints(response: { data: { gatewayList: any; sensorList: any; }; })
     var temp = dataGateway[0][j].split(",");
     const position = [temp[0], temp[1]]; // 经度和纬度
 
-    var radius = 71; // 半径为68米
+    var radius = 72; // 半径为68米
     var strokeColor = 'blue'; // 边框颜色
     var fillColor = 'rgba(255, 255, 255, 0.4)'; // 填充颜色
     var strokeWidth = 1; // 边框宽度
