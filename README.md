@@ -1,4 +1,4 @@
-# Transportation Gateway Deployment System
+# Relay Node Placement System for Wireless On-Street Parking Sensor Networks
 <!-- Add banner here -->
 ![Banner](./images/1.png)
 
@@ -55,7 +55,7 @@
 
 
 # Table of Contents
-- [Transportation Gateway Deployment System](#transportation-gateway-deployment-system)
+- [Relay Node Placement System for Wireless On-Street Parking Sensor Networks](#relay-node-placement-system-for-wireless-on-street-parking-sensor-networks)
 - [Table of Contents](#table-of-contents)
 - [Demo](#demo)
 - [Usage](#usage)
@@ -75,11 +75,11 @@ This system is an experimental platform for simulating and analyzing roadside tr
 
 ![Banner](./images/test.gif)
 
-Gateway deployment planning consists of two key steps: roadside sensor node coordinate collection and relay node optimal deployment location calculation. This system provides 8 test [datasets](https://github.com/drggboy/mytest_v2/tree/master/Datasets) that can be used for testing. You can also use the mark mode in the system to mark node coordinates for relay node calculations.
+Relay node deployment planning consists of two key steps: roadside sensor node coordinate collection and relay node optimal deployment location calculation. This system provides 8 test [datasets](https://github.com/drggboy/mytest_v2/tree/master/Datasets) that can be used for testing. You can also use the mark mode in the system to mark node coordinates for relay node calculations.
 
 
 # Usage
-If you only need to run this project for traffic gateway deployment, then only need to configure [runtime environment](#runtime-environment)。You can download the version that does not include the matlab algorithm in the release. After downloading, execute the following code to deploy the gateway by accessing `localhost:8081`.
+If you only need to run this project for relay node deployment, then only need to configure [runtime environment](#runtime-environment)。You can download the version that does not include the matlab algorithm in the release. After downloading, execute the following code to deploy the relay node by accessing `localhost:8081`.
 ```sh
 java xxx.jar -ak xxxxx
 ```
