@@ -1,4 +1,4 @@
-# Relay Node Placement System for Wireless On-Street Parking Sensor Networks
+# Transportation Gateway Deployment System
 <!-- Add banner here -->
 ![Banner](./images/1.png)
 
@@ -27,7 +27,7 @@
   <a href="https://github.com/drggboy/mytest_v2/releases" target="_blank">
     <img alt="GitHub release" src="https://img.shields.io/github/v/release/drggboy/mytest_v2?include_prereleases&style=flat-square">
   </a>
-  
+
   <a href="https://github.com/drggboy/mytest_v2/commits/master" target="_blank">
     <img src="https://img.shields.io/github/last-commit/drggboy/mytest_v2?style=flat-square" alt="GitHub last commit">
   </a>
@@ -55,7 +55,7 @@
 
 
 # Table of Contents
-- [Relay Node Placement System for Wireless On-Street Parking Sensor Networks](#relay-node-placement-system-for-wireless-on-street-parking-sensor-networks)
+- [Transportation Gateway Deployment System](#transportation-gateway-deployment-system)
 - [Table of Contents](#table-of-contents)
 - [Demo](#demo)
 - [Usage](#usage)
@@ -75,11 +75,11 @@ This system is an experimental platform for simulating and analyzing roadside tr
 
 ![Banner](./images/test.gif)
 
-Relay node deployment planning consists of two key steps: roadside sensor node coordinate collection and relay node optimal deployment location calculation. This system provides 8 test [datasets](https://github.com/drggboy/mytest_v2/tree/master/Datasets) that can be used for testing. You can also use the mark mode in the system to mark node coordinates for relay node calculations.
+Gateway deployment planning consists of two key steps: roadside sensor node coordinate collection and relay node optimal deployment location calculation. This system provides 8 test [datasets](https://github.com/drggboy/mytest_v2/tree/master/Datasets) that can be used for testing. You can also use the mark mode in the system to mark node coordinates for relay node calculations.
 
 
 # Usage
-If you only need to run this project for relay node deployment, then only need to configure [runtime environment](#runtime-environment)。You can download the version that does not include the matlab algorithm in the release. After downloading, execute the following code to deploy the relay node by accessing `localhost:8081`.
+If you only need to run this project for traffic gateway deployment, then only need to configure [runtime environment](#runtime-environment)。You can download the version that does not include the matlab algorithm in the release. After downloading, execute the following code to deploy the gateway by accessing `localhost:8081`.
 ```sh
 java xxx.jar -ak xxxxx
 ```
@@ -120,6 +120,7 @@ Then a static file will be generated in the dist directory, and the spring boot 
 ```python
 python .\move_build_output.py
 ```
+>The move_build_output.py file will automatically replace the compiled static files in your project. Additionally, it modifies a specific line within the [root project]\src\main\resources\static\index.html file to ensure that the latest version of the static files is served by the Spring Boot application. This automation streamlines the process of updating your web application's frontend without manually handling file transfers or edits.
 
 # Directory Structure Description
 ```sh

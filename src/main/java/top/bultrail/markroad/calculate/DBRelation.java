@@ -90,11 +90,16 @@ public class DBRelation {
     }
 
     @Transactional
-    public void tdata2(String name) {
-        String[] keys = new String[]{"sensor", "gateway", "crossing"};
-        for (String key : keys) {
-            pointMapper.transferData(key, name);
-        }
+    public void renameDataset2(String oldName, String newName) {
+        if (datasetNameMapper.existsByName(newName))
+            { throw new IllegalArgumentException("Name already exists."); }
+        // 调用 Mapper/DAO 层的方法来执行数据库更新
+        datasetNameMapper.updateDatasetName(oldName, newName);
+        pointMapper.renameTable("crossing_" + oldName, "crossing_" + newName);
+        pointMapper.renameTable("sensor_" + oldName, "sensor_" + newName);
+        pointMapper.renameTable("gateway_" + oldName, "gateway_" + newName);
+
+
     }
 
     @Transactional
@@ -110,14 +115,6 @@ public class DBRelation {
             locationList.add(location.getLocationLat());
         }
         return locationList;
-    }
-
-    @Transactional
-    public void tdataG(String num) {
-        String[] keys = new String[]{"sensor", "gateway", "crossing"};
-        for (String key : keys) {
-            pointMapper.transferData(key, "guo" + num);
-        }
     }
 
     // 读取senor

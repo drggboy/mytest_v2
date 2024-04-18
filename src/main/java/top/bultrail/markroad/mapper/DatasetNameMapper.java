@@ -21,4 +21,8 @@ public interface DatasetNameMapper {
     int updateByPrimaryKey(DatasetName record);
     List<DatasetInfo> selectDatasetInfo();
     DatasetLocation selectDatasetLocation(String setName);
+    // 添加一个方法来更新数据集名称
+    void updateDatasetName(String oldName, String newName);
+    // 检查特定名称的数据集是否存在
+    boolean existsByName(String name);
 }

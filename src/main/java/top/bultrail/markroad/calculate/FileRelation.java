@@ -20,33 +20,53 @@ public class FileRelation {
 
 
     /**
-     * 计算各个坐标与中心点的距离，从而算出路口的点
+     * 计算坐标之间的距离
      * @param b1_longitude   坐标1 经度
-     * @param b1_laitude     坐标1 纬度
+     * @param b1_latitude     坐标1 纬度
      * @param b2_longitude   坐标2 经度
-     * @param b2_laitude     坐标2 纬度
+     * @param b2_latitude     坐标2 纬度
      * @return
      */
-    public  double c_distance(double b1_longitude ,double b1_laitude,double b2_longitude ,double b2_laitude ){
+//    public  double c_distance(double b1_longitude ,double b1_latitude,double b2_longitude ,double b2_laitude ){
+//
+//        BigDecimal bigDecimal_1_x =new BigDecimal(Double.valueOf(b1_longitude));
+//        BigDecimal bigDecimal_1_y =new BigDecimal(Double.valueOf( b1_laitude));
+//        BigDecimal bigDecimal_2_x =new BigDecimal(Double.valueOf(b2_longitude));
+//        BigDecimal bigDecimal_2_y =new BigDecimal(Double.valueOf( b2_laitude));
+//
+//        // 计算网关与节点之间的距离
+//        BigDecimal subtract_x = bigDecimal_1_x.subtract(bigDecimal_2_x);
+//        BigDecimal subtract_y = bigDecimal_1_y.subtract(bigDecimal_2_y);
+//        BigDecimal multiply_x = subtract_x.multiply(subtract_x);
+//        BigDecimal multiply_y = subtract_y.multiply(subtract_y);
+//        BigDecimal add = multiply_x.add(multiply_y);
+//
+//        //使用牛顿迭代法计算平方根
+//        BigDecimal sqrt = new CountSet().sqrt(add);
+//        double distance = sqrt.doubleValue();
+//
+//        return distance;
+//    }
 
-        BigDecimal bigDecimal_1_x =new BigDecimal(Double.valueOf(b1_longitude));
-        BigDecimal bigDecimal_1_y =new BigDecimal(Double.valueOf( b1_laitude));
-        BigDecimal bigDecimal_2_x =new BigDecimal(Double.valueOf(b2_longitude));
-        BigDecimal bigDecimal_2_y =new BigDecimal(Double.valueOf( b2_laitude));
+    public double c_distance(double b1_longitude, double b1_latitude, double b2_longitude, double b2_latitude) {
+        double earthRadius = 6371000; // 地球半径，单位：米
+        double lat1 = Math.toRadians(b1_latitude);
+        double lat2 = Math.toRadians(b2_latitude);
+        double lon1 = Math.toRadians(b1_longitude);
+        double lon2 = Math.toRadians(b2_longitude);
 
-        // 计算网关与节点之间的距离
-        BigDecimal subtract_x = bigDecimal_1_x.subtract(bigDecimal_2_x);
-        BigDecimal subtract_y = bigDecimal_1_y.subtract(bigDecimal_2_y);
-        BigDecimal multiply_x = subtract_x.multiply(subtract_x);
-        BigDecimal multiply_y = subtract_y.multiply(subtract_y);
-        BigDecimal add = multiply_x.add(multiply_y);
+        double dLat = lat2 - lat1;
+        double dLon = lon2 - lon1;
 
-        //使用牛顿迭代法计算平方根
-        BigDecimal sqrt = new CountSet().sqrt(add);
-        double distance = sqrt.doubleValue();
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1) * Math.cos(lat2) *
+                        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-        return distance;
+        double result = earthRadius * c;
+        return result; // 返回计算结果，单位：米
     }
+
 
     /**
      * 计算路口的情况下，生成结果，传感器被哪些网关覆盖，网关覆盖了哪些传感器 实现

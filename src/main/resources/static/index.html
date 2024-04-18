@@ -8,40 +8,35 @@
   <title>Map</title>
   <!-- 引入样式 -->
   <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=7yQLH1vsuBmKMSwd5jAKjkK0WkhGdOvy"></script>
   <!-- 引入组件库 -->
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-  <script type="module" crossorigin src="./assets/index-d3207bf1.js"></script>
-  <link rel="stylesheet" href="./assets/index-117f3e62.css">
+  <script type="module" crossorigin src="./assets/index-dde5767d.js"></script>
+  <link rel="stylesheet" href="./assets/index-ddb1894b.css">
 </head>
 
 <body>
   <div id="app"></div>
 
   
+  <style>
+    /*去除百度地图logo*/
+    /* .anchorBL {
+      display: none;
+    } */
+
+    /* el-select 自定义样式（用于选择框）
+    .el-popper {
+      top: -160px !important;
+    } */
+
+    .el-popper .custom-popper {
+      /* 弹出层容器样式修改 */
+      /* top: -146px; */
+      top: auto;
+      bottom: 100%;
+    }
+  </style>
 </body>
-<style>
-/*去除百度地图logo*/
-/* .anchorBL {
-  display: none;
-} */
-
-/* el-select 自定义样式（用于选择框）
-.el-popper {
-  top: -160px !important;
-} */
-
-.BMap_cpyCtrl {
-   display: none;
- }
-/* .anchorBL {
-   display: none;
-} */
-.el-popper .custom-popper {
-  /* 弹出层容器样式修改 */
-  /* top: -146px; */
-  top: auto;
-  bottom: 100%;
-}
-</style>
 
 </html>

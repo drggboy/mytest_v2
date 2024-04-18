@@ -52,3 +52,4 @@ out/
 # src/main/resources/lib/GA_parse.jar
 # src/main/resources/lib/select_linprog.jar
 # src/main/resources/lib/select_random_greedy_zsj.jar
+src/main/resources/mat/

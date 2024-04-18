@@ -29,6 +29,11 @@
   <select id="selectDatasetLocation" resultMap="datasetLocationMap">
     SELECT location_lng, location_lat FROM dataset_name WHERE name = #{setName}
   </select>
+  <select id="existsByName" resultType="java.lang.Boolean">
+    SELECT COUNT(*) > 0
+    FROM dataset_name
+    WHERE name = #{name}
+  </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from dataset_name
@@ -117,5 +122,10 @@
       location_lng = #{locationLng,jdbcType=DOUBLE},
       location_lat = #{locationLat,jdbcType=DOUBLE}
     where `name` = #{name,jdbcType=VARCHAR}
+  </update>
+  <update id="updateDatasetName">
+      UPDATE dataset_name
+      SET name = #{newName}
+      WHERE name = #{oldName}
   </update>
 </mapper>

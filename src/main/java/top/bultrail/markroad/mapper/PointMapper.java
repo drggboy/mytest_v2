@@ -32,4 +32,5 @@ public interface PointMapper {
     List<Point> selectAllSensors();
     List<Point> selectAllGateways();
     List<Point> selectAllCrossings();
+    void renameTable(@Param("oldTableName") String oldTableName, @Param("newTableName") String newTableName);
 }
