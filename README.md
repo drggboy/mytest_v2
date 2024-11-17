@@ -61,12 +61,15 @@
 - [Usage](#usage)
 - [Environment Configuration](#environment-configuration)
   - [Runtime environment](#runtime-environment)
+    - [Docker](#docker)
   - [Development environment](#development-environment)
     - [Database Configuration](#database-configuration)
 - [Deployment steps](#deployment-steps)
 - [Directory Structure Description](#directory-structure-description)
 - [Contributors](#contributors)
 - [License](#license)
+- [Citation](#citation)
+- [Contact Information](#contact-information)
 
 # Demo
 
@@ -93,6 +96,16 @@ This project supports calling matlab algorithm for calculation, but needs to con
 * JRE 1.8
 * MATLAB Runtime R2016b (9.1)
 
+### Docker
+For deploying applications, Docker can be utilized. The Docker configuration should match the following:
+* Docker version: 27.3.1
+
+To deploy the application, navigate to the project's root directory and execute the following command in your terminal:
+``` sh
+docker-compose up
+```
+This command pulls the required images from Docker Hub based on the `docker-compose.yml` file and deploys the application. Please note that due to the size of the data, the deployment process may take approximately 20 minutes. Once the deployment is complete, the service can be accessed through a web browser at`localhost:8081`
+
 ## Development environment
 If you need to modify the back-end code or modify the front-end page, you need to configure the following environment
 * Java Version: Temurin JDK 1.8
@@ -111,9 +124,9 @@ Replace \<db-host>, \<port>, \<database-name>, \<db-username>, and \<db-password
 
 The code currently uses the `Marks2` database in the local database by default, with the following account and password configuration:
 ```properties
-spring.datasource.url=jdbc:mysql://db:3306/Marks2
-spring.datasource.username=mytest2
-spring.datasource.password=12345Qq@
+spring.datasource.url=jdbc:mysql://${DB_HOST:localhost}:3306/Marks2?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+spring.datasource.username=${DB_USERNAME:mytest2}
+spring.datasource.password=${DB_PASSWORD:12345Qq@}
 ```
 You can create a new database locally according to the above configuration, and initialize the tables in the database through the `init.sql` file to complete the database configuration.
 
@@ -186,8 +199,17 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 
 # License
-> **Note**: For longer README files, I usually add a "Back to top" buttton as shown above. It makes it easy to navigate.
+[MIT](./LICENSE) license.
+
+# Citation
+If you integrate or utilize the datasets provided through our web service in your research or projects, we kindly ask that you acknowledge our contribution by citing the following:
+
+> Zhang S, Zhang Z, Yuan H, et al. Relay Node Deployment in Roadside Traffic Detection System Based on Improved Genetic Algorithm[C]//2023 9th International Conference on Computer and Communications (ICCC). IEEE, 2023: 373-378.
+
+
+# Contact Information
+If you have any inquiries or require further assistance regarding the dataset, please feel free to contact us.
 
 <!-- [(Back to top)](#目录) -->
 
-[MIT](./LICENSE) license.
+

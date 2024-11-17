@@ -1,0 +1,21 @@
+services:
+  app:  # 应用服务
+    image: 835547763/relay_node_app:latest  # 使用 Docker Hub 上的镜像
+    ports:
+      - "8081:8081"
+    environment:
+      DB_HOST: db
+      DB_USERNAME: root
+      DB_PASSWORD: 123456789q
+    depends_on:
+      - db
+
+  db:  # 数据库服务
+    image: 835547763/relay_node_app_sql:latest  # 使用 Docker Hub 上的镜像
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456789q
+    ports:
+      - "3307:3306"
+
+volumes:
+  db-data:  # 如果需要数据持久化，请取消注释
