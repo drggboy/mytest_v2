@@ -60,8 +60,9 @@
 - [Demo](#demo)
 - [Usage](#usage)
 - [Environment Configuration](#environment-configuration)
-  - [runtime environment](#runtime-environment)
-  - [development environment](#development-environment)
+  - [Runtime environment](#runtime-environment)
+  - [Development environment](#development-environment)
+    - [Database Configuration](#database-configuration)
 - [Deployment steps](#deployment-steps)
 - [Directory Structure Description](#directory-structure-description)
 - [Contributors](#contributors)
@@ -88,16 +89,33 @@ This project supports calling matlab algorithm for calculation, but needs to con
 
 
 # Environment Configuration
-## runtime environment
+## Runtime environment
 * JRE 1.8
 * MATLAB Runtime R2016b (9.1)
 
-## development environment
+## Development environment
 If you need to modify the back-end code or modify the front-end page, you need to configure the following environment
 * Java Version: Temurin JDK 1.8
 * Node.js Version：v16.15.1
 * npm Version：9.6.5
 * vite Version: 4.4.4
+
+### Database Configuration
+To configure the database for the project, modify the `application.properties` file within the `src/main/resources` directory with the following details:
+```properties
+spring.datasource.url=jdbc:mysql://<db-host>:<port>/<database-name>
+spring.datasource.username=<db-username>
+spring.datasource.password=<db-password>
+```
+Replace \<db-host>, \<port>, \<database-name>, \<db-username>, and \<db-password> with your actual database settings. Ensure that your MySQL server is running and accessible at the provided URL and port. The database should be set up with the necessary tables and permissions for the user specified.
+
+The code currently uses the `Marks2` database in the local database by default, with the following account and password configuration:
+```properties
+spring.datasource.url=jdbc:mysql://db:3306/Marks2
+spring.datasource.username=mytest2
+spring.datasource.password=12345Qq@
+```
+You can create a new database locally according to the above configuration, and initialize the tables in the database through the `init.sql` file to complete the database configuration.
 
 # Deployment steps
 
