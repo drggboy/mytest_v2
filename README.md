@@ -1,4 +1,4 @@
-# Transportation Gateway Deployment System
+# Relay Node Deployment System for Traffic Wireless Sensor Networks
 <!-- Add banner here -->
 ![Banner](./images/1.png)
 
@@ -55,7 +55,7 @@
 
 
 # Table of Contents
-- [Transportation Gateway Deployment System](#transportation-gateway-deployment-system)
+- [Relay Node Deployment System for Traffic Wireless Sensor Networks](#relay-node-deployment-system-for-traffic-wireless-sensor-networks)
 - [Table of Contents](#table-of-contents)
 - [Demo](#demo)
 - [Usage](#usage)
@@ -75,7 +75,9 @@
 
 <!-- Add a demo for your project -->
 
-This system is an experimental platform for simulating and analyzing roadside traffic. It uses the data resources and traffic information provided by Baidu Maps API to simulate the roadside traffic environment and collect relevant data. It can be used to evaluate the implementation effect of the relay node deployment algorithm in actual traffic scenarios.
+This system is an experimental platform for relay node deployment of traffic wireless sensor networks . It can be used to evaluate the implementation effect of the relay node deployment algorithm in actual traffic scenarios. 
+Relay node deployment of traffic wireless sensor networks consists of two key steps: roadside sensor node coordinate collection and relay node optimal deployment location calculation. This system provides 8 test datasets that can be used for testing. You can also use the mark mode in the system to mark node coordinates for relay node calculations.
+
 
 ![Banner](./images/test.gif)
 
@@ -83,7 +85,7 @@ Gateway deployment planning consists of two key steps: roadside sensor node coor
 
 
 # Usage
-If you only need to run this project for traffic gateway deployment, then only need to configure [runtime environment](#runtime-environment)。You can download the version that does not include the matlab algorithm in the release. After downloading, execute the following code to deploy the gateway by accessing `localhost:8081`.
+If you only need to run this project for traffic wireless sensor network relay node deployment, then only need to configure [runtime environment](#runtime-environment)。You can download the version that does not include the matlab algorithm in the release. After downloading, execute the following code to deploy the gateway by accessing `localhost:8081`.
 ```sh
 java xxx.jar -ak xxxxx
 ```

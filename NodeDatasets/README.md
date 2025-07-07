@@ -1,9 +1,9 @@
-# Relay node placement Dataset for wireless on-street parking sensor networks
+# Relay node placement Dataset for traffic wireless sensor networks
 
-Welcome to the Relay Node Placement Dataset for Wireless On-Street Parking Sensor Networks repository! This dataset has been developed for research and analysis in the realm of urban parking management and intelligent transportation systems. It emphasizes the placement of relay nodes in wireless sensor networks for on-street parking. The dataset encompasses two principal sets of data: the parking sensor node set and the relay node set. Each set comprises essential latitude and longitude coordinates, pivotal for evaluating wireless sensor network performance and determining optimal locations for relay nodes.
+Welcome to the Relay Node Placement Dataset for Traffic Wireless Sensor Networks (TWSNs) repository! This dataset has been developed for research and analysis in the realm of urban parking management and intelligent transportation systems. It emphasizes the placement of relay nodes in wireless sensor networks for traffic monitoring. The dataset encompasses two principal sets of data: the sensor node set and the candidate locations of relay node set. Each set comprises essential latitude and longitude coordinates, pivotal for evaluating wireless sensor network performance and determining optimal locations for relay nodes.
 
 ## Description
-**Derived from Urban Parking Scenarios**: The data in this dataset is sourced from diverse urban parking environments, ensuring relevance and representation of varied on-street parking conditions. This focus on real-world urban parking scenarios allows the dataset to offer valuable insights for research in smart parking solutions and intelligent transportation system applications.
+**Derived from Urban TWSNs Scenarios**: The data in this dataset is sourced from diverse urban parking environments, ensuring relevance and representation of varied TWSNs conditions. This focus on real-world urban road network scenarios allows the dataset to offer valuable insights for research in smart parking solutions and intelligent transportation system applications.
 
 ## Usage
 
@@ -12,12 +12,12 @@ This dataset is available for academic, research, or commercial use. If you find
 ## Dataset Details
 | Dataset Name   | Sensor Nodes | Relay Nodes | Data Format | Sensor File         | Relay File          | Coordinate System |
 |----------------|--------------|-------------|-------------|---------------------|---------------------|-------------------|
-| #208 Dataset   | 208          | 70          | CSV         | sensor_208.xls   | relay_208.xls    | WGS 84            |
-| #456 Dataset   | 456          | 148          | CSV         | sensor_456.xls      | relay_456.xls       | WGS 84            |
-| #648 Dataset   | 648          | 223          | CSV         | sensor_648.xls   | relay_648.xls    | WGS 84            |
-| #848 Dataset   | 848          | 290         | CSV         | sensor_848.xls   | relay_848.xls    | WGS 84            |
-| #1136 Dataset   | 1136          | 366         | CSV         | sensor_1136.xls      | relay_1136.xls       | WGS 84            |
-| #1500 Dataset   | 1500          | 497         | CSV         | sensor_1500.xls   | relay_1500.xls    | WGS 84            |
+| #208 Dataset   | 208          | 70          | CSV         | sensor_208.xls   | Candidate_relays_208.xls    | WGS 84            |
+| #456 Dataset   | 456          | 148          | CSV         | sensor_456.xls      | Candidate_relays_456.xls       | WGS 84            |
+| #648 Dataset   | 648          | 223          | CSV         | sensor_648.xls   | Candidate_relays_648.xls    | WGS 84            |
+| #848 Dataset   | 848          | 290         | CSV         | sensor_848.xls   | Candidate_relays_848.xls    | WGS 84            |
+| #1136 Dataset   | 1136          | 366         | CSV         | sensor_1136.xls      | Candidate_relays_1136.xls       | WGS 84            |
+| #1500 Dataset   | 1500          | 497         | CSV         | sensor_1500.xls   | Candidate_relays_1500.xls    | WGS 84            |
 
 ### #208 Dataset
 - Number of sensor nodes: 208
@@ -25,7 +25,7 @@ This dataset is available for academic, research, or commercial use. If you find
 - Data format: CSV (Comma-Separated Values)
 - Files:
   - `sensor_208.xls`: Contains sensor node information with columns "id", "Lng" (longitude), and "Lat" (latitude).
-  - `relay_208.xls`: Contains relay node information with columns "id", "Lng" (longitude), and "Lat" (latitude).
+  - `Candidate_relays_208.xls`: Contains relay node information with columns "id", "Lng" (longitude), and "Lat" (latitude).
 - Coordinate System: WGS 84 (World Geodetic System 1984)
   
 ![RN208](../images/RN208.png)
@@ -37,7 +37,7 @@ This dataset is available for academic, research, or commercial use. If you find
 - Data format: CSV (Comma-Separated Values)
 - Files:
   - `sensor_456.xls`: Contains sensor node information with columns "id", "Lng" (longitude), and "Lat" (latitude).
-  - `relay_456.xls`: Contains relay node information with columns "id", "Lng" (longitude), and "Lat" (latitude).
+  - `Candidate_relays_456.xls`: Contains relay node information with columns "id", "Lng" (longitude), and "Lat" (latitude).
 - Coordinate System: WGS 84 (World Geodetic System 1984)
 
 ![RN456](../images/RN456.png)
@@ -48,7 +48,7 @@ This dataset is available for academic, research, or commercial use. If you find
 - Data format: CSV (Comma-Separated Values)
 - Files:
   - `sensor_648.xls`: Contains sensor node information with columns "id", "Lng" (longitude), and "Lat" (latitude).
-  - `relay_648.xls`: Contains relay node information with columns "id", "Lng" (longitude), and "Lat" (latitude).
+  - `Candidate_relays_648.xls`: Contains relay node information with columns "id", "Lng" (longitude), and "Lat" (latitude).
 - Coordinate System: WGS 84 (World Geodetic System 1984)
 
 ![RN648](../images/RN648.png)
@@ -59,7 +59,7 @@ This dataset is available for academic, research, or commercial use. If you find
 - Data format: CSV (Comma-Separated Values)
 - Files:
   - `sensor_848.xls`: Contains sensor node information with columns "id", "Lng" (longitude), and "Lat" (latitude).
-  - `relay_848.xls`: Contains relay node information with columns "id", "Lng" (longitude), and "Lat" (latitude).
+  - `Candidate_relays_848.xls`: Contains relay node information with columns "id", "Lng" (longitude), and "Lat" (latitude).
 - Coordinate System: WGS 84 (World Geodetic System 1984)
 
 ![RN848](../images/RN848.png)
@@ -70,7 +70,7 @@ This dataset is available for academic, research, or commercial use. If you find
 - Data format: CSV (Comma-Separated Values)
 - Files:
   - `sensor_1136.xls`: Contains sensor node information with columns "id", "Lng" (longitude), and "Lat" (latitude).
-  - `relay_1136.xls`: Contains relay node information with columns "id", "Lng" (longitude), and "Lat" (latitude).
+  - `Candidate_relays_1136.xls`: Contains relay node information with columns "id", "Lng" (longitude), and "Lat" (latitude).
 - Coordinate System: WGS 84 (World Geodetic System 1984)
 
 ![RN1136](../images/RN1136.png)
@@ -83,7 +83,7 @@ This dataset is available for academic, research, or commercial use. If you find
 - Data format: CSV (Comma-Separated Values)
 - Files:
   - `sensor_1500.xls`: Contains sensor node information with columns "id", "Lng" (longitude), and "Lat" (latitude).
-  - `relay_1500.xls`: Contains relay node information with columns "id", "Lng" (longitude), and "Lat" (latitude).
+  - `Candidate_relays_1500.xls`: Contains relay node information with columns "id", "Lng" (longitude), and "Lat" (latitude).
 - Coordinate System: WGS 84 (World Geodetic System 1984)
 
 ![RN1500](../images/RN1500.png)
